@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15120f">
+  <title>Acting Entrance Studio — FTII · NSD · Bengal</title>
+  <meta name="description" content="Offline-first FTII, NSD and Bengal acting entrance preparation tracker.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/studio.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="daily.css">
+</head>
+<body>
+  <a class="skip" href="#workspace">Skip to workspace</a>
+  <div class="shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="brand"><span class="brand-mark">A</span><div><strong>Acting Entrance</strong><small>Studio 2026</small></div></div>
+      <nav id="nav">
+        <button class="nav-item active" data-view="today"><span>01</span>Today</button>
+        <button class="nav-item" data-view="daily"><span>02</span>Daily review</button>
+        <button class="nav-item" data-view="roadmap"><span>03</span>Roadmap</button>
+        <button class="nav-item" data-view="syllabus"><span>04</span>Syllabus</button>
+        <button class="nav-item" data-view="practice"><span>05</span>Practice log</button>
+        <button class="nav-item" data-view="tests"><span>06</span>Tests</button>
+        <button class="nav-item" data-view="resources"><span>07</span>Resources</button>
+        <button class="nav-item" data-view="evidence"><span>08</span>NSD evidence</button>
+      </nav>
+      <div class="sidebar-foot">
+        <button id="cloudAccount" class="quiet" type="button">Sign in to sync</button>
+        <button id="exportBtn" class="quiet">Export backup</button>
+        <label class="quiet file-label">Import backup<input id="importInput" type="file" accept="application/json"></label>
+        <small>Offline-first · private account sync</small>
+      </div>
+    </aside>
+
+    <main id="workspace" tabindex="-1">
+      <header class="topbar">
+        <div><p class="eyebrow">FTII · NSD · BENGAL</p><h1 id="viewTitle">Today’s rehearsal room</h1></div>
+        <div class="top-actions"><span id="saveState" class="save-state">Saved locally</span><button id="installApp" class="quiet install-btn" type="button" hidden>Install app</button><button id="addTaskTop" class="primary">+ Add task</button></div>
+      </header>
+
+      <section class="view active" id="view-today">
+        <div class="hero-grid">
+          <article class="focus-card dark">
+            <p class="eyebrow">TODAY’S FOCUS</p>
+            <h2 id="focusTitle">Build the actor. Pass the gate.</h2>
+            <p id="focusCopy">Balance written knowledge with voice, body, text and camera practice.</p>
+            <div class="progress-wrap"><div><span>Week progress</span><strong id="weekProgressLabel">0%</strong></div><div class="progress"><i id="weekProgressBar"></i></div></div>
+          </article>
+          <article class="stat-card"><span>Knowledge</span><strong id="knowledgeMins">0m</strong><small>This week</small></article>
+          <article class="stat-card"><span>Practice</span><strong id="practiceMins">0m</strong><small>This week</small></article>
+          <article class="stat-card"><span>Current streak</span><strong id="streak">0d</strong><small>Any logged work</small></article>
+        </div>
+        <div class="two-col">
+          <section class="panel">
+            <div class="panel-head"><div><p class="eyebrow">NEXT ACTIONS</p><h2>Plan for the room</h2></div><button id="addTaskInline" class="text-btn">Add</button></div>
+            <div id="todayTasks" class="task-list"></div>
+          </section>
+          <section class="panel accent-panel">
+            <p class="eyebrow">AUDITION PULSE</p><h2>Four signals to keep alive</h2>
+            <div id="pulseGrid" class="pulse-grid"></div>
+          </section>
+        </div>
+        <section class="panel">
+          <div class="panel-head"><div><p class="eyebrow">RECENT WORK</p><h2>What you actually trained</h2></div><button class="text-btn" data-go="practice">Open log</button></div>
+          <div id="recentSessions" class="session-strip"></div>
+        </section>
+      </section>
+
+      <section class="view" id="view-daily">
+        <div class="panel intro-panel"><p class="eyebrow">CLOSED DAILY LOOP</p><h2>Assign → perform → submit → question → score → log</h2><p>Completed coach reviews loaded on this laptop sync to your private account after sign-in. Export a backup before changing accounts or devices.</p></div>
+        <div id="dailySummary" class="hero-grid daily-summary"></div>
+        <div id="dailyReviewList" class="daily-review-list"></div>
+      </section>
+
+      <section class="view" id="view-roadmap">
+        <div class="panel intro-panel"><p class="eyebrow">24-WEEK PLAN</p><h2>Knowledge, craft and evidence move together</h2><p>Set your current week, then treat acting classes and productions as real practice. The plan is a scaffold, not a second full-time course.</p><label>Current week <input id="currentWeek" type="range" min="1" max="24" value="1"><strong id="currentWeekLabel">Week 1</strong></label></div>
+        <div id="roadmapTimeline" class="roadmap"></div>
+        <div class="three-col">
+          <article class="panel"><p class="eyebrow">KNOWLEDGE</p><h3>6 h / week</h3><p>Theatre, cinema, plays, current affairs and written expression.</p></article>
+          <article class="panel"><p class="eyebrow">ACTING CRAFT</p><h3>6 h / week</h3><p>Class, rehearsal, voice, movement, monologue, scene and camera.</p></article>
+          <article class="panel"><p class="eyebrow">REVIEW</p><h3>5 h / week</h3><p>Play/film analysis, mocks, feedback, errors and evidence.</p></article>
+        </div>
+      </section>
+
+      <section class="view" id="view-syllabus">
+        <div class="filter-row"><label>Track<select id="syllabusTrack"><option value="all">All tracks</option><option value="shared">Shared foundation</option><option value="ftii">FTII</option><option value="nsd">NSD</option><option value="bengal">Bengal</option></select></label><label>Search<input id="syllabusSearch" type="search" placeholder="Topic or module"></label></div>
+        <div id="syllabusSummary" class="summary-line"></div>
+        <div id="syllabusGrid" class="syllabus-grid"></div>
+      </section>
+
+      <section class="view" id="view-practice">
+        <div class="two-col practice-layout">
+          <form id="sessionForm" class="panel form-panel">
+            <p class="eyebrow">LOG A SESSION</p><h2>What did you train?</h2>
+            <label>Mode<select name="mode" required><option>Acting class</option><option>Monologue</option><option>Scene work</option><option>Voice & speech</option><option>Movement / yoga / dance</option><option>Improvisation</option><option>Camera practice</option><option>Play analysis</option><option>Film-performance analysis</option><option>Written study</option><option>Mock test</option></select></label>
+            <div class="form-row"><label>Track<select name="track"><option>Shared</option><option>FTII</option><option>NSD</option><option>Bengal</option></select></label><label>Minutes<input name="minutes" type="number" min="1" max="600" value="45" required></label></div>
+            <label>Title<input name="title" required placeholder="e.g. Charulata scene playback"></label>
+            <label>Note<textarea name="note" rows="4" placeholder="Choice, feedback, next adjustment"></textarea></label>
+            <label class="rating-label">Quality <input name="rating" type="range" min="1" max="5" value="3"><span>1–5</span></label>
+            <button class="primary" type="submit">Save session</button>
+          </form>
+          <section class="panel"><div class="panel-head"><div><p class="eyebrow">PRACTICE HISTORY</p><h2>Repetition with reflection</h2></div><button id="clearSessions" class="text-btn danger">Clear</button></div><div id="sessionList" class="history-list"></div></section>
+        </div>
+      </section>
+
+      <section class="view" id="view-tests">
+        <div class="two-col practice-layout">
+          <form id="testForm" class="panel form-panel">
+            <p class="eyebrow">LOG A TEST</p><h2>Turn scores into decisions</h2>
+            <label>Exam<select name="exam"><option>FTII Stage 1</option><option>FTII past paper</option><option>NSD written response</option><option>Theatre / film current affairs</option></select></label>
+            <div class="form-row"><label>Score<input name="score" type="number" min="0" step="0.5" required></label><label>Maximum<input name="max" type="number" min="1" value="100" required></label></div>
+            <label>Main error<select name="error"><option>Knowledge gap</option><option>Misread question</option><option>Guessing / negative marks</option><option>Time pressure</option><option>Weak structure / expression</option><option>Recall failure</option></select></label>
+            <label>Next repair<input name="repair" placeholder="e.g. revise folk forms, retry in 3 days"></label>
+            <button class="primary" type="submit">Save result</button>
+          </form>
+          <section class="panel"><p class="eyebrow">SCORE TREND</p><h2>Accuracy before volume</h2><div id="scoreChart" class="score-chart" aria-label="Test score trend"></div><div id="testList" class="history-list"></div></section>
+        </div>
+      </section>
+
+      <section class="view" id="view-resources">
+        <div class="filter-row"><label>Track<select id="resourceTrack"><option value="all">All tracks</option><option>FTII</option><option>NSD</option><option>Bengal</option><option>Shared</option></select></label><label>Search<input id="resourceSearch" type="search" placeholder="Paper, play, institution"></label><label>Access<select id="resourceAccess"><option value="all">All access</option><option value="open">Open</option><option value="portal">Portal</option><option value="reference">Reference</option><option value="unstable">Unstable</option></select></label></div>
+        <div id="resourceCount" class="summary-line"></div>
+        <div id="resourceList" class="resource-list"></div>
+      </section>
+
+      <section class="view" id="view-evidence">
+        <div class="panel intro-panel"><p class="eyebrow">NSD ELIGIBILITY</p><h2>Make six productions easy to verify</h2><p>Log evidence now. The current official notice remains authoritative for age, category, documents and format.</p></div>
+        <div id="evidenceChecklist" class="evidence-grid"></div>
+        <form id="productionForm" class="panel inline-form"><label>Production<input name="title" required placeholder="Play title"></label><label>Role / function<input name="role" required placeholder="Actor, assistant, design…"></label><label>Proof<select name="proof"><option>Certificate</option><option>Brochure / leaflet</option><option>Press clipping</option><option>Photograph + letter</option><option>Pending</option></select></label><button class="primary" type="submit">Add production</button></form>
+        <div id="productionList" class="production-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="taskDialog">
+    <form id="taskForm" method="dialog">
+      <div class="dialog-head"><div><p class="eyebrow">NEW ACTION</p><h2>Put work on the floor</h2></div><button value="cancel" class="icon-btn" aria-label="Close">×</button></div>
+      <label>Task<input name="title" required autofocus></label>
+      <div class="form-row"><label>Track<select name="track"><option>FTII</option><option>NSD</option><option>Bengal</option><option>Shared</option></select></label><label>Lane<select name="lane"><option>Knowledge</option><option>Practice</option><option>Review</option><option>Evidence</option></select></label></div>
+      <label>Due date<input name="due" type="date"></label>
+      <div class="dialog-actions"><button value="cancel" class="quiet">Cancel</button><button id="saveTask" value="default" class="primary">Save task</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="cloudDialog">
+    <form id="cloudForm">
+      <div class="dialog-head"><div><p class="eyebrow">PRIVATE SYNC</p><h2>Your study account</h2></div><button class="icon-btn" type="button" onclick="document.querySelector('#cloudDialog').close()" aria-label="Close">×</button></div>
+      <p class="cloud-note">Use the same account on laptop and Android. Progress remains available offline and syncs when a connection returns.</p>
+      <label>Email<input id="cloudEmail" type="email" autocomplete="email" required></label>
+      <label>Password<input id="cloudPassword" type="password" autocomplete="current-password" minlength="6" required></label>
+      <p id="cloudMessage" role="status" class="cloud-message"></p>
+      <div class="dialog-actions"><button class="quiet" type="submit" value="create">Create account</button><button class="primary" type="submit" value="signin">Sign in</button></div>
+    </form>
+  </dialog>
+
+  <div id="updateNotice" class="update-notice" role="status" hidden><span>A new app version is ready.</span><button id="refreshApp" class="primary" type="button">Update</button></div>
+
+  <script src="seed-data.js"></script>
+  <script>
+    if (location.protocol === "file:" || ["localhost", "127.0.0.1"].includes(location.hostname)) {
+      document.write('<script src="daily-log.js"><\/script>');
+    }
+  </script>
+  <script src="app.js"></script>
+  <script src="pwa.js"></script>
+  <script>
+    if (location.protocol === "https:" || ["localhost", "127.0.0.1"].includes(location.hostname)) {
+      document.write('<script src="cloud.bundle.js"><\/script>');
+    } else {
+      document.querySelector("#cloudAccount").textContent = "Open online to sync";
+      document.querySelector("#cloudAccount").disabled = true;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# The daily coach writes personal assessment records here. Never publish it.
+daily-log.js
+
+# Private exports and local development artifacts.
+acting-entrance-backup-*.json
+*.local.json
+.env*
+node_modules/
+tools/

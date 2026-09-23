@@ -1,0 +1,17 @@
+{
+  "id": "./index.html",
+  "name": "Acting Entrance Studio",
+  "short_name": "Acting Studio",
+  "description": "FTII, NSD and Bengal acting entrance preparation tracker",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f0e8",
+  "theme_color": "#15120f",
+  "orientation": "any",
+  "icons": [
+    {"src": "icons/studio-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icons/studio-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icons/studio.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}
+  ]
+}
