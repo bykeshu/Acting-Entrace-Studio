@@ -2,7 +2,7 @@
 
 ## Current state
 
-The same responsive HTML app runs on laptop and Android. Its installable PWA shell works offline after first load. Local progress, JSON export/import, FTII/NSD/Bengal resource links, and daily-review display remain available. Firebase Email/Password and event-by-event Firestore sync code are included, but live sync is **not verified or active until `firestore.rules` is validated and published in the Firebase project**. Push reminders are not implemented yet.
+The same responsive HTML app runs on laptop and Android. Its installable PWA shell works offline after first load. Local progress, JSON export/import, FTII/NSD/Bengal resource links, and daily-review display remain available. Firebase Email/Password and event-by-event Firestore sync code are included. Owner-only `firestore.rules` were published to the default database on 23 September 2026, but **live cross-device sync still needs a real sign-in and two-device test**. Push reminders are not implemented yet.
 
 ## Publish the app
 
@@ -15,7 +15,7 @@ Open that HTTPS address in Chrome on Android, use Chrome menu **Add to Home scre
 ## Finish private sync
 
 1. Firebase project Users and permissions confirms `maddyman296@gmail.com` already has the **Owner** role. No additional role grant is needed.
-2. Review, syntax-test and publish `firestore.rules` to the project's default Firestore Standard database. The rules allow owner-only read/create of `users/{uid}/events/{eventId}` and deny update/delete and every other path. They are a prototype and need emulator testing before broad sharing.
+2. The rules are published to the project's default Firestore Standard database. They allow owner-only read/create of `users/{uid}/events/{eventId}` and deny update/delete and every other path. The console's Rules playground allowed an owner read and denied unauthenticated and cross-user reads. They remain a prototype and need emulator testing before broad sharing.
 3. On the published app, use **Sign in to sync** to create a Firebase Email/Password account. This is a new app account, not automatically the Google account used for Firebase Console. Use the same app email/password on Android and laptop. Export a backup before changing accounts.
 4. Test a harmless task on one device and verify it appears on the other within seconds; repeat offline and reconnect. Confirm the status changes from Pending sync to Synced. Do not consider cross-device sync verified until this works.
 
