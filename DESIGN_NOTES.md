@@ -13,7 +13,7 @@ No original font credit was found in the examined references. Do not claim that 
 
 ## Linked inspiration research
 
-- [Your Cinema to Watch board](https://www.pinterest.com/maddyman296/cinema-to-watch/): observed five saved pins; only saved pins contribute to the personal list.
+- [Your Cinema to Watch board](https://www.pinterest.com/maddyman296/cinema-to-watch/): now six saved pins; only saved pins contribute to the personal list. The Van Gogh film/TV carousel was added after the poster redesign; no further theme change accompanies that catalogue import.
 - [New catharsis pin](https://www.pinterest.com/pin/649292471323038063/): heavy type, red star, white space and framed imagery. Its 11 title labels were read from slides 2–12; mood descriptions are personal curation, not verified metadata.
 - [Pinterest search: cinema website bold typography](https://www.pinterest.com/search/pins/?q=cinema%20website%20bold%20typography): visually inspected results, not saved to or imported into your board.
 - [Aarman Roy reference pin](https://www.pinterest.com/pin/492649954619757/): the supplied Nike-style reference appeared in search. Borrow contrast and type hierarchy, not logos or campaign copy.
@@ -44,6 +44,6 @@ All are unmodified, self-hosted Google Fonts WOFF2 builds with SIL Open Font Lic
 
 All ten rooms use the desktop sidebar or labelled mobile selector. Native controls, visible focus, 16px mobile inputs, reduced motion and 44px primary targets remain. Headlines wrap on phones; no flashing marquee, forced splash, sound or autoplay. Decoration is hidden from assistive technology.
 
-50 personal titles remain separate from the supplementary World cinema course. Notes/analysis are optional and collapsed; no viewing quotas, automatic quizzes or practice hours from watching. Existing film IDs, storage keys, backups, sync events and Firestore rules are unchanged. No private progress or memories are published.
+59 personal film/TV titles remain separate from the supplementary World cinema course. Notes/analysis are optional and collapsed; no viewing quotas, automatic quizzes or practice hours from watching. Existing film IDs, storage keys, backups, sync events and Firestore rules are unchanged. No private progress or memories are published.
 
 Website and installed PWA share the responsive app. Reopen online and accept **Update** when offered. Android may refresh launcher icons independently; immediate icon refresh is not guaranteed. `scripts/render-journal-icons.cjs` renders PNGs from `icons/cinema-studio.svg` using installed `sharp` or `ACTING_SHARP_PATH` (development only).

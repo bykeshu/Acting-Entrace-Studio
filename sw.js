@@ -1,4 +1,4 @@
-const CACHE_NAME = "acting-entrance-studio-shell-v7-cinema-poster";
+const CACHE_NAME = "acting-entrance-studio-shell-v8-van-gogh";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -22,11 +22,11 @@ const APP_SHELL = [
   "./fonts/DM-Sans-OFL.txt",
   "./seed-data.js?v=20260927",
   "./cinema-data.js?v=20260927",
-  "./bucket-data.js?v=20260927-cinema",
+  "./bucket-data.js?v=20260927-van-gogh",
   "./INTERNATIONAL_CINEMA_COURSE.md",
   "./MOVIE_BUCKET_LIST.md",
   "./DESIGN_NOTES.md",
-  "./app.js?v=20260927-cinema",
+  "./app.js?v=20260927-van-gogh",
   "./cloud.bundle.js",
   "./pwa.js",
   "./manifest.webmanifest",

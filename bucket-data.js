@@ -1,18 +1,19 @@
 // Public title labels from the user's public board. No personal watch history.
 // Pin captions are list provenance, not authoritative metadata or streaming links.
 window.ACTING_BUCKET = {
-  version: "2026-09-27",
+  version: "2026-09-27-van-gogh",
   boardUrl: "https://www.pinterest.com/maddyman296/cinema-to-watch/",
   checkedOn: "2026-09-27",
   sourceType: "personal",
-  note: "Snapshot of five saved pins, including the new Films for catharsis carousel. Only titles in those pins are included, not Pinterest suggestions or comments. New titles are imported labels, not independently verified edition/year/director metadata. Pin rankings and mood descriptions are the creator's claims, not exam guidance. Lawful India viewing access is not verified. Board changes require another import; this is not a live Pinterest sync.",
+  note: "Snapshot of six saved pins, including Van Gogh on screen (films and TV entries). Only titles and scope notes in those pins are included, not Pinterest suggestions or comments. New entries are imported labels, not independently verified edition/year/director metadata. Pin rankings and mood descriptions are the creator's claims, not exam guidance. Lawful India viewing access is not verified. Board changes require another import; this is not a live Pinterest sync.",
   preference: "Watch and enjoy first. Feelings and memorable moments matter on their own. Notes, analysis, exercises and quizzes are optional afterwards; no viewing quota or penalty for skipping them.",
   collections: [
     {id:"crossroads",title:"At a crossroads in life",pinUrl:"https://www.pinterest.com/pin/649292471323016043/",titleCount:10},
     {id:"iran",title:"Iranian cinema",pinUrl:"https://www.pinterest.com/pin/649292471323016041/",titleCount:10},
     {id:"poets",title:"The Tortured Poets Department mood",pinUrl:"https://www.pinterest.com/pin/649292471323016050/",titleCount:9},
     {id:"2025",title:"Saved 2025-release list",pinUrl:"https://www.pinterest.com/pin/649292471323037458/",titleCount:10},
-    {id:"catharsis",title:"Films for catharsis",pinUrl:"https://www.pinterest.com/pin/649292471323038063/",titleCount:11}
+    {id:"catharsis",title:"Films for catharsis",pinUrl:"https://www.pinterest.com/pin/649292471323038063/",titleCount:11},
+    {id:"van-gogh",title:"Van Gogh on screen · films & TV",pinUrl:"https://www.pinterest.com/pin/649292471323038207/",titleCount:9}
   ],
   // Existing course IDs share a watched tick across the two shelves, not a score.
   films: [
@@ -65,6 +66,15 @@ window.ACTING_BUCKET = {
     ["sons-room","The Son’s Room","catharsis"],
     ["poetry","Poetry","catharsis"],
     ["mommy","Mommy","catharsis"],
-    ["great-beauty","The Great Beauty","catharsis"]
-  ].map(r=>({id:`bucket-${r[0]}`,title:r[1],collectionId:r[2],courseId:r[3]||null,sourceType:"personal",verificationStatus:"pin_title_observed",checkedOn:"2026-09-27"}))
+    ["great-beauty","The Great Beauty","catharsis"],
+    ["lust-life","Lust for Life","van-gogh"],
+    ["vincent-theo","Vincent & Theo","van-gogh"],
+    ["van-gogh-pialat","Van Gogh","van-gogh",null,"The pin specifies Maurice Pialat’s film; edition metadata not independently verified."],
+    ["eternitys-gate","At Eternity’s Gate","van-gogh"],
+    ["loving-vincent","Loving Vincent","van-gogh"],
+    ["dreams-kurosawa","Dreams","van-gogh",null,"The pin highlights the Crows / Van Gogh segment of Akira Kurosawa’s anthology film, not a standalone feature."],
+    ["doctor-who-vincent","Doctor Who — Vincent and the Doctor","van-gogh",null,"TV episode named in the pin, not the entire Doctor Who series."],
+    ["vincent-full-story","Vincent: The Full Story","van-gogh",null,"Described by the pin as a documentary series, not a feature film."],
+    ["painted-words","Van Gogh: Painted with Words","van-gogh",null,"Dramatized programme as listed in the pin; edition metadata not independently verified."]
+  ].map(r=>({id:`bucket-${r[0]}`,title:r[1],collectionId:r[2],courseId:r[3]||null,...(r[4]?{entryNote:r[4]}:{}),sourceType:"personal",verificationStatus:"pin_title_observed",checkedOn:"2026-09-27"}))
 };

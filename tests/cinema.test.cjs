@@ -136,14 +136,14 @@ test('PWA precaches the new files and course, and scripts load in dependency ord
   assert.ok(html.indexOf('src="seed-data.js?')<html.indexOf('src="cinema-data.js?'));
   assert.ok(html.indexOf('src="cinema-data.js?')<html.indexOf('src="bucket-data.js?'));
   assert.ok(html.indexOf('src="bucket-data.js?')<html.indexOf('src="app.js?'));
-  for(const name of ['app.js','bucket-data.js']){assert.ok(html.includes(`${name}?v=20260927-cinema`));assert.ok(sw.includes(`./${name}?v=20260927-cinema`));}
-  assert.ok(sw.includes('v7-cinema-poster'));
+  for(const name of ['app.js','bucket-data.js']){assert.ok(html.includes(`${name}?v=20260927-van-gogh`));assert.ok(sw.includes(`./${name}?v=20260927-van-gogh`));}
+  assert.ok(sw.includes('v8-van-gogh'));
 });
 
-test('personal import has five bounded lists and 50 distinct titles, without claimed film metadata',()=>{
+test('personal import has six bounded lists and 59 distinct titles, without claimed film metadata',()=>{
   const {context}=harness();const b=context.window.ACTING_BUCKET;
-  assert.equal(b.films.length,50);assert.equal(new Set(b.films.map(f=>f.id)).size,50);
-  assert.equal(b.collections.length,5);
+  assert.equal(b.films.length,59);assert.equal(new Set(b.films.map(f=>f.id)).size,59);
+  assert.equal(b.collections.length,6);
   for(const c of b.collections)assert.equal(b.films.filter(f=>f.collectionId===c.id).length,c.titleCount);
   for(const f of b.films){assert.equal(f.sourceType,'personal');assert.equal(f.verificationStatus,'pin_title_observed');assert.equal(f.year,undefined);}
   assert.equal(b.films.filter(f=>f.courseId).length,3);
@@ -158,13 +158,13 @@ test('new memory date follows the user India calendar rather than UTC',()=>{
 });
 
 test('bucket filters search and watching state, including no matches',()=>{
-  const h=harness();assert.match(h.get('#bucketCount').textContent,/50 of 50/);
+  const h=harness();assert.match(h.get('#bucketCount').textContent,/59 of 59/);
   h.get('#bucketCollection').value='poets';h.fire('#bucketCollection','change',{});
-  assert.match(h.get('#bucketCount').textContent,/9 of 50/);
+  assert.match(h.get('#bucketCount').textContent,/9 of 59/);
   h.get('#bucketSearch').value='happy';h.fire('#bucketSearch','input',{});
-  assert.match(h.get('#bucketCount').textContent,/1 of 50/);
+  assert.match(h.get('#bucketCount').textContent,/1 of 59/);
   h.get('#bucketSearch').value='not a film';h.fire('#bucketSearch','input',{});
-  assert.match(h.get('#bucketFilms').innerHTML,/No films match/);
+  assert.match(h.get('#bucketFilms').innerHTML,/No titles match/);
 });
 
 test('enjoyment tick alone adds no task, memory, assessment, syllabus mastery or practice hours',()=>{
@@ -177,7 +177,7 @@ test('enjoyment tick alone adds no task, memory, assessment, syllabus mastery or
   assert.equal(h.get('#knowledgeMins').textContent,'0m');assert.equal(h.get('#practiceMins').textContent,'0m');
   assert.ok(h.context.window.ACTING_SYNC.outbox('test-user').some(e=>e.kind==='topic'&&e.entityId==='bucket-watched:bucket-ghost-world'));
   h.get('#bucketProgress').value='watched';h.fire('#bucketProgress','change',{});
-  assert.match(h.get('#bucketCount').textContent,/1 of 50/);
+  assert.match(h.get('#bucketCount').textContent,/1 of 59/);
   h.fire('#bucketFilms','change',{target:{dataset:{bucketWatched:'bucket-ghost-world'},checked:false}});
   assert.equal(h.state().completedTopics['bucket-watched:bucket-ghost-world'],false);
 });
@@ -264,7 +264,7 @@ test('theme ships offline fonts, attribution and original graphic treatments wit
 test('new catharsis shelf is isolated from old progress and has only observed title labels',()=>{
   const h=harness({completedTopics:{'bucket-watched:bucket-ghost-world':true},sessions:[{id:'old-memory',mode:'Film memory',minutes:0,note:'Keep me'}]});
   h.get('#bucketCollection').value='catharsis';h.fire('#bucketCollection','change',{});
-  assert.match(h.get('#bucketCount').textContent,/11 of 50/);assert.match(h.get('#bucketFilms').innerHTML,/Ikiru/);assert.match(h.get('#bucketFilms').innerHTML,/The Great Beauty/);
+  assert.match(h.get('#bucketCount').textContent,/11 of 59/);assert.match(h.get('#bucketFilms').innerHTML,/Ikiru/);assert.match(h.get('#bucketFilms').innerHTML,/The Great Beauty/);
   h.fire('#bucketFilms','change',{target:{dataset:{bucketWatched:'bucket-ikiru'},checked:true}});
   assert.equal(h.state().completedTopics['bucket-watched:bucket-ghost-world'],true);assert.equal(h.state().completedTopics['bucket-watched:bucket-ikiru'],true);
   assert.equal(h.state().sessions.length,1);assert.equal(h.state().sessions[0].note,'Keep me');assert.equal(h.state().dailyReviews.length,0);assert.equal(h.get('#practiceMins').textContent,'0m');
@@ -274,4 +274,15 @@ test('every precached asset exists and visual research never bundles reference p
   for(const [,url] of source('sw.js').matchAll(/"\.\/([^"?]+)(?:\?[^" ]*)?"/g))assert.ok(fs.existsSync(path.join(root,url)),`Missing cached asset ${url}`);
   const html=source('index.html');assert.match(html,/icons\/rehearsal-frame\.svg/);assert.match(html,/LIVE FOR/);assert.ok(!html.includes('Aarman Roy.jpg'));
   assert.match(source('DESIGN_NOTES.md'),/not a verified original font/);assert.match(source('poster-theme.css'),/font-family:"Archivo Black"/);
+});
+
+test('Van Gogh import preserves old ticks and memories and distinguishes episode, series and segment',async()=>{
+  const h=harness({completedTopics:{'bucket-watched:bucket-ikiru':true,'ftii-papers:2024-25':true},sessions:[{id:'old-memory',filmId:'bucket-ikiru',mode:'Film memory',minutes:0,note:'Unchanged'}]});
+  h.get('#bucketCollection').value='van-gogh';h.fire('#bucketCollection','change',{});
+  assert.match(h.get('#bucketCount').textContent,/9 of 59/);assert.match(h.get('#bucketFilms').innerHTML,/Vincent and the Doctor/);assert.match(h.get('#bucketFilms').innerHTML,/not the entire Doctor Who series/);assert.match(h.get('#bucketFilms').innerHTML,/documentary series/);assert.match(h.get('#bucketFilms').innerHTML,/Crows \/ Van Gogh segment/);
+  const films=h.context.window.ACTING_BUCKET.films.filter(f=>f.collectionId==='van-gogh');assert.equal(films.length,9);assert.ok(films.every(f=>!f.courseId&&f.year===undefined));
+  h.context.window.ACTING_SYNC.activate('test-user');h.fire('#bucketFilms','change',{target:{dataset:{bucketWatched:'bucket-doctor-who-vincent'},checked:true}});
+  const state=h.state();assert.equal(state.completedTopics['bucket-watched:bucket-ikiru'],true);assert.equal(state.completedTopics['ftii-papers:2024-25'],true);assert.equal(state.sessions.length,1);assert.equal(state.sessions[0].note,'Unchanged');assert.equal(state.dailyReviews.length,0);assert.equal(h.get('#practiceMins').textContent,'0m');
+  assert.ok(h.context.window.ACTING_SYNC.outbox('test-user').some(e=>e.entityId==='bucket-watched:bucket-doctor-who-vincent'));
+  const second=harness();await second.get('#importInput').onchange({target:{files:[{text:async()=>JSON.stringify({state})}]}});assert.equal(second.state().completedTopics['bucket-watched:bucket-doctor-who-vincent'],true);assert.equal(second.state().sessions[0].note,'Unchanged');
 });
