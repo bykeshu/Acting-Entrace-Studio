@@ -1,0 +1,20 @@
+{
+  "proposalId": "ink-room-20260927-cloud-3c63f9a7",
+  "design": {
+    "presetId": "ink-room",
+    "mode": "fresh-ai",
+    "rationale": "Original cinema type-specimen variation based on the Ink Room saved pin in the verified 2026-09-27 snapshot; board access was unavailable for a new observation. A midnight-blue ink stage, warm projector-cream lettering, and copper marks frame the film-led interface without reproducing the pin's artwork or lettering.",
+    "tokens": {
+      "stage": "#171c22",
+      "accent": "#f2dbad",
+      "paper": "#efe8da",
+      "panel": "#fffaf0",
+      "ink": "#1d282c",
+      "line": "#beb6a8",
+      "mark": "#8b3b1c",
+      "soft": "#ddd3bf",
+      "display": "archivo",
+      "layout": "specimen"
+    }
+  }
+}
