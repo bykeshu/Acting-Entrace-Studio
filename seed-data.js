@@ -1,11 +1,11 @@
 window.ACTING_SEED = {
-  version: "2026-09-26",
+  version: "2026-09-27",
   phases: [
-    {name:"Foundation",start:1,end:4,items:["Baseline mock + audition","Voice/body routine","Choose monologues","World cinema starters 1–4 (adjustable)"]},
-    {name:"Build",start:5,end:10,items:["Core theory","NSD play dossiers","Weekly camera scenes","World cinema starters 5–10 + reflections"]},
-    {name:"Integrate",start:11,end:16,items:["Timed FTII papers","NSD writing","Bengal adaptations","Finish starters; optional movement films"]},
-    {name:"Perform",start:17,end:20,items:["Audition simulations","Two polished pieces","Movement/song readiness","Apply one observed film choice"]},
-    {name:"Pressure test",start:21,end:23,items:["Full mock days","Error repair","Evidence audit","Supported film comparison / interview answer"]},
+    {name:"Foundation",start:1,end:4,items:["Baseline mock + audition","Voice/body routine","Choose monologues","Optional cinema starters or a mood-led bucket film"]},
+    {name:"Build",start:5,end:10,items:["Core theory","NSD play dossiers","Weekly camera scenes","Enjoy a film; reflect only if you want"]},
+    {name:"Integrate",start:11,end:16,items:["Timed FTII papers","NSD writing","Bengal adaptations","Explore world cinema at your own pace (optional)"]},
+    {name:"Perform",start:17,end:20,items:["Audition simulations","Two polished pieces","Movement/song readiness","Optional: try a choice from a film after viewing"]},
+    {name:"Pressure test",start:21,end:23,items:["Full mock days","Error repair","Evidence audit","Optional film example for an interview answer"]},
     {name:"Taper",start:24,end:24,items:["Light revision","Document check","Sleep + travel","Review film notes; no required new viewing"]}
   ],
   evidence:[

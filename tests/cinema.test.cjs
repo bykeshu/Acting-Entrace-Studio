@@ -27,7 +27,7 @@ function harness(initial = {}) {
     FormData:class {constructor(form){this.values=form.values;}[Symbol.iterator](){return Object.entries(this.values)[Symbol.iterator]();}},
     structuredClone,Date,console,scrollTo(){},confirm:()=>true,alert(){}};
   vm.createContext(context);
-  for(const name of ['seed-data.js','cinema-data.js','app.js'])vm.runInContext(source(name),context,{filename:name});
+  for(const name of ['seed-data.js','cinema-data.js','bucket-data.js','app.js'])vm.runInContext(source(name),context,{filename:name});
   return {get,context,storage,state:()=>JSON.parse(storage.get('acting-entrance-studio-v1')),
     fire(selector,type,event){return get(selector).listeners[type](event);}};
 }
@@ -126,14 +126,110 @@ test('older JSON backups still import and film progress survives a backup round 
 
 test('PWA precaches the new files and course, and scripts load in dependency order',()=>{
   const sw=source('sw.js'),html=source('index.html');
-  for(const name of ['cinema.css','cinema-data.js','INTERNATIONAL_CINEMA_COURSE.md']){
+  for(const name of ['cinema.css','cinema-data.js','bucket-data.js','INTERNATIONAL_CINEMA_COURSE.md','MOVIE_BUCKET_LIST.md']){
     assert.ok(sw.includes(`./${name}`));assert.ok(fs.existsSync(path.join(root,name)));
   }
-  for(const name of ['seed-data.js','cinema-data.js','app.js','cinema.css']){
-    assert.ok(html.includes(`${name}?v=20260926`));
-    assert.ok(sw.includes(`./${name}?v=20260926`));
+  for(const name of ['seed-data.js','cinema-data.js','bucket-data.js','app.js','cinema.css']){
+    assert.ok(html.includes(`${name}?v=20260927`));
+    assert.ok(sw.includes(`./${name}?v=20260927`));
   }
   assert.ok(html.indexOf('src="seed-data.js?')<html.indexOf('src="cinema-data.js?'));
-  assert.ok(html.indexOf('src="cinema-data.js?')<html.indexOf('src="app.js?'));
-  assert.ok(sw.includes('v4-world-cinema'));
+  assert.ok(html.indexOf('src="cinema-data.js?')<html.indexOf('src="bucket-data.js?'));
+  assert.ok(html.indexOf('src="bucket-data.js?')<html.indexOf('src="app.js?'));
+  assert.ok(sw.includes('v5-enjoyment-first'));
+});
+
+test('personal import has four bounded lists and 39 distinct titles, without claimed film metadata',()=>{
+  const {context}=harness();const b=context.window.ACTING_BUCKET;
+  assert.equal(b.films.length,39);assert.equal(new Set(b.films.map(f=>f.id)).size,39);
+  assert.equal(b.collections.length,4);
+  for(const c of b.collections)assert.equal(b.films.filter(f=>f.collectionId===c.id).length,c.titleCount);
+  for(const f of b.films){assert.equal(f.sourceType,'personal');assert.equal(f.verificationStatus,'pin_title_observed');assert.equal(f.year,undefined);}
+  assert.equal(b.films.filter(f=>f.courseId).length,3);
+  assert.equal(b.films.filter(f=>f.title==='Hamnet').length,1);
+  assert.match(b.preference,/optional afterwards/);
+});
+
+test('new memory date follows the user India calendar rather than UTC',()=>{
+  const h=harness();const parts=new Intl.DateTimeFormat('en',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  const value=type=>parts.find(p=>p.type===type).value;
+  assert.equal(h.get('#bucketMemoryDate').value,`${value('year')}-${value('month')}-${value('day')}`);
+});
+
+test('bucket filters search and watching state, including no matches',()=>{
+  const h=harness();assert.match(h.get('#bucketCount').textContent,/39 of 39/);
+  h.get('#bucketCollection').value='poets';h.fire('#bucketCollection','change',{});
+  assert.match(h.get('#bucketCount').textContent,/9 of 39/);
+  h.get('#bucketSearch').value='happy';h.fire('#bucketSearch','input',{});
+  assert.match(h.get('#bucketCount').textContent,/1 of 39/);
+  h.get('#bucketSearch').value='not a film';h.fire('#bucketSearch','input',{});
+  assert.match(h.get('#bucketFilms').innerHTML,/No films match/);
+});
+
+test('enjoyment tick alone adds no task, memory, assessment, syllabus mastery or practice hours',()=>{
+  const h=harness({tasks:[{id:'existing',done:false}],dailyReviews:[{id:'existing-review'}]});
+  h.context.window.ACTING_SYNC.activate('test-user');
+  h.fire('#bucketFilms','change',{target:{dataset:{bucketWatched:'bucket-ghost-world'},checked:true}});
+  assert.equal(h.state().completedTopics['bucket-watched:bucket-ghost-world'],true);
+  assert.equal(h.state().tasks.length,1);assert.equal(h.state().tasks[0].done,false);
+  assert.equal(h.state().sessions.length,0);assert.equal(h.state().dailyReviews.length,1);
+  assert.equal(h.get('#knowledgeMins').textContent,'0m');assert.equal(h.get('#practiceMins').textContent,'0m');
+  assert.ok(h.context.window.ACTING_SYNC.outbox('test-user').some(e=>e.kind==='topic'&&e.entityId==='bucket-watched:bucket-ghost-world'));
+  h.get('#bucketProgress').value='watched';h.fire('#bucketProgress','change',{});
+  assert.match(h.get('#bucketCount').textContent,/1 of 39/);
+  h.fire('#bucketFilms','change',{target:{dataset:{bucketWatched:'bucket-ghost-world'},checked:false}});
+  assert.equal(h.state().completedTopics['bucket-watched:bucket-ghost-world'],false);
+});
+
+test('three course overlaps share watched ticks both ways and preserve old syllabus keys',()=>{
+  const h=harness({completedTopics:{'ftii-papers:2024-25':true}});
+  h.fire('#bucketFilms','change',{target:{dataset:{bucketWatched:'bucket-wings'},checked:true}});
+  assert.equal(h.state().completedTopics['cinema-watched:wings'],true);
+  assert.equal(h.state().completedTopics['ftii-papers:2024-25'],true);
+  h.fire('#cinemaFilms','change',{target:{dataset:{filmWatched:'wings'},checked:false}});
+  assert.equal(h.state().completedTopics['cinema-watched:wings'],false);
+  assert.match(h.get('#bucketCount').textContent,/0 marked watched/);
+});
+
+test('one optional feeling saves ungraded, escaped, with no watched tick, hours or learning streak',()=>{
+  const h=harness();h.context.window.ACTING_SYNC.activate('test-user');
+  const form=h.get('#bucketMemoryForm');form.values={filmId:'bucket-ghost-world',date:new Date().toISOString().slice(0,10),feeling:'It felt <script>tender</script>',moment:''};
+  h.fire('#bucketMemoryForm','submit',{target:form,preventDefault(){}});
+  const s=h.state().sessions[0];assert.equal(s.mode,'Film memory');assert.equal(s.minutes,0);assert.equal(s.rating,null);
+  assert.equal(h.state().completedTopics['bucket-watched:bucket-ghost-world'],undefined);
+  assert.match(h.get('#bucketMemories').innerHTML,/&lt;script&gt;/);assert.ok(!h.get('#bucketMemories').innerHTML.includes('<script>'));
+  assert.equal(h.get('#knowledgeMins').textContent,'0m');assert.equal(h.get('#practiceMins').textContent,'0m');assert.equal(h.get('#streak').textContent,'0d');
+  assert.equal(h.state().dailyReviews.length,0);assert.match(h.get('#recentSessions').innerHTML,/first logged rehearsal/);
+  assert.ok(h.context.window.ACTING_SYNC.outbox('test-user').some(e=>e.kind==='session'&&JSON.parse(e.payload).mode==='Film memory'));
+  h.get('#clearSessions').onclick();assert.equal(h.state().sessions.length,1);
+  h.fire('#bucketMemories','click',{target:{dataset:{memoryRemove:s.id}}});assert.equal(h.state().sessions.length,0);
+});
+
+test('empty memory is safely skipped and a study reflection needs only one field',()=>{
+  const h=harness({sessions:[]});const memory=h.get('#bucketMemoryForm');memory.values={filmId:'bucket-ghost-world',date:'2026-09-27',feeling:' ',moment:''};
+  h.fire('#bucketMemoryForm','submit',{target:memory,preventDefault(){}});assert.equal(h.state().sessions.length,0);
+  const study=h.get('#cinemaReviewForm');study.values={filmId:'wings',date:'2026-09-27',minutes:'10',rating:'3',scope:'Rewatch / analysis',context:'',observation:'I noticed a pause.',interpretation:'',repair:''};
+  h.fire('#cinemaReviewForm','submit',{target:study,preventDefault(){}});assert.equal(h.state().sessions.length,1);
+  assert.equal(h.state().completedTopics['cinema-watched:wings'],undefined);
+});
+
+test('personal ticks and memories survive remote replay and JSON backup import',async()=>{
+  const h=harness();const bridge=h.context.window.ACTING_SYNC;bridge.activate('test-user');
+  const memory={id:'memory-1',filmId:'bucket-ghost-world',date:'2026-09-27',title:'Ghost World',mode:'Film memory',track:'Personal',minutes:0,rating:null,note:'A quiet feeling'};
+  bridge.applyRemote('test-user',[
+    {kind:'topic',entityId:'bucket-watched:bucket-ghost-world',action:'put',payload:'true'},
+    {kind:'session',entityId:memory.id,action:'put',payload:JSON.stringify(memory)}
+  ]);
+  assert.match(h.get('#bucketCount').textContent,/1 marked watched/);assert.match(h.get('#bucketMemories').innerHTML,/quiet feeling/);
+  const second=harness();await second.get('#importInput').onchange({target:{files:[{text:async()=>JSON.stringify({state:h.state()})}]}});
+  assert.equal(second.state().completedTopics['bucket-watched:bucket-ghost-world'],true);
+  assert.equal(second.state().sessions[0].mode,'Film memory');assert.match(second.get('#bucketMemories').innerHTML,/quiet feeling/);
+});
+
+test('optional forms are collapsed and imported titles do not carry automatic assignments',()=>{
+  const html=source('index.html'),data=source('bucket-data.js');
+  assert.match(html,/<details[^>]*id="cinemaStudy"[^>]*>/);assert.match(html,/<details[^>]*id="bucketMemory"[^>]*>/);
+  assert.ok(!/<details[^>]*id="(?:cinemaStudy|bucketMemory)"[^>]*\sopen/.test(html));
+  assert.ok(!/name="(?:context|observation|interpretation|repair)"[^>]*required/.test(html));
+  assert.ok(!data.includes('invite_code'));assert.match(html,/Watched/);
 });

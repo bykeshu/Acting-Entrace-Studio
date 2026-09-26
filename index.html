@@ -10,7 +10,7 @@
   <link rel="icon" href="icons/studio.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="daily.css">
-  <link rel="stylesheet" href="cinema.css?v=20260926">
+  <link rel="stylesheet" href="cinema.css?v=20260927">
 </head>
 <body>
   <a class="skip" href="#workspace">Skip to workspace</a>
@@ -27,6 +27,7 @@
         <button class="nav-item" data-view="resources"><span>07</span>Resources</button>
         <button class="nav-item" data-view="evidence"><span>08</span>NSD evidence</button>
         <button class="nav-item" data-view="cinema"><span>09</span>World cinema</button>
+        <button class="nav-item" data-view="bucket"><span>10</span>Movie bucket list</button>
       </nav>
       <div class="sidebar-foot">
         <button id="cloudAccount" class="quiet" type="button">Sign in to sync</button>
@@ -136,18 +137,19 @@
 
       <section class="view" id="view-cinema" aria-label="International cinema course">
         <article class="panel intro-panel cinema-intro">
-          <p class="eyebrow">INTERNATIONAL CINEMA · SUPPLEMENTARY · 26 SEP 2026</p>
-          <h2>Learn to read a performance across cultures</h2>
+          <p class="eyebrow">INTERNATIONAL CINEMA · SUPPLEMENTARY · ENJOYMENT FIRST</p>
+          <h2>Watch first. Let the film stay with you.</h2>
           <p id="cinemaScope"></p>
-          <p>Start with twelve foundation films. Aim for one film plus a short reflection in a normal week; reduce to a lawful excerpt or fortnightly viewing during heavy acting-class weeks. Substitute this for existing cinema-study time, not extra workload.</p>
+          <p>No viewing quota, compulsory notes or quiz. Enjoy the story, feelings and moments first. The twelve-film route is a suggestion; analysis and acting practice are optional afterwards, when you want them.</p>
+          <button class="quiet" type="button" data-go="bucket">Open my Pinterest bucket list</button>
           <p>“Cult &amp; experiments” is a study shelf: Trainspotting, Stalker and Mulholland Dr. have sourced cult-reception references; the other titles there are formal experiments, not automatically cult classics.</p>
-          <div class="cinema-route"><span>Context</span><span>Watch</span><span>Observe</span><span>Practise</span><span>Reflect</span></div>
+          <div class="cinema-route"><span>Watch &amp; enjoy</span><span>Let it settle</span><span>Optional: explore or practise</span></div>
           <div id="cinemaMapping" class="cinema-mapping"></div>
           <p id="cinemaAccess" class="cinema-access"></p>
           <p><a href="INTERNATIONAL_CINEMA_COURSE.md" target="_blank" rel="noopener">Full course &amp; director list ↗</a> · <a href="https://vimeo.com/57357485" target="_blank" rel="noopener">Producer-linked Charulata excerpt for a short comparison ↗</a></p>
         </article>
         <div id="cinemaStats" class="cinema-stats" aria-live="polite"></div>
-        <article class="panel intro-panel"><p class="eyebrow">STARTER ROUTE</p><h2 id="cinemaNext"></h2><p>Order is adjustable for access and content comfort. Watched is self-reported; a saved reflection is evidence, not an automatic mastery score.</p><button id="cinemaStarter" class="quiet" type="button">Show twelve foundation films</button></article>
+        <article class="panel intro-panel"><p class="eyebrow">OPTIONAL STARTER ROUTE</p><h2 id="cinemaNext"></h2><p>Pick by curiosity, mood, access and content comfort. A watched tick needs no reflection and carries no exam score.</p><button id="cinemaStarter" class="quiet" type="button">Show twelve foundation films</button></article>
         <div class="filter-row cinema-filters">
           <label>Study region<select id="cinemaRegion"><option value="all">All regions</option></select></label>
           <label>Director<select id="cinemaDirector"><option value="all">All directors</option></select></label>
@@ -158,23 +160,55 @@
         </div>
         <div id="cinemaCount" class="summary-line" aria-live="polite"></div>
         <div id="cinemaFilms" class="cinema-grid"></div>
+        <details class="panel cinema-directory" id="cinemaStudy"><summary>Optional: explore the performance after watching</summary>
         <div class="two-col cinema-review-layout">
           <form id="cinemaReviewForm" class="panel form-panel">
-            <p class="eyebrow">YOUR PERFORMANCE DOSSIER</p><h2>Evidence, not just a tick</h2>
+            <p class="eyebrow">OPTIONAL ACTING PRACTICE</p><h2>Explore only if you want to</h2>
+            <p>Fill any one note field. This is separate from enjoying or marking a film watched.</p>
             <label>Film<select name="filmId" id="cinemaReviewFilm" required></select></label>
             <div class="form-row"><label>Date<input name="date" id="cinemaReviewDate" type="date" required></label><label>Study minutes<input name="minutes" type="number" min="1" max="600" value="30" required></label></div>
             <label>Study scope<select name="scope"><option>Full film</option><option>Lawful excerpt only</option><option>Rewatch / analysis</option></select></label>
-            <label>Cultural context<textarea name="context" maxlength="600" rows="2" required placeholder="One contextual fact; name its source. Do not generalise a whole country."></textarea></label>
-            <label>Observed actor choice<textarea name="observation" maxlength="900" rows="3" required placeholder="A visible or audible action; include the scene description, not an invented timestamp."></textarea></label>
-            <label>Your interpretation<textarea name="interpretation" maxlength="600" rows="2" required placeholder="What objective or subtext do you infer? How do framing or editing contribute?"></textarea></label>
-            <label>Next practice / correction<textarea name="repair" maxlength="600" rows="2" required placeholder="One safe original scene or acting adjustment; do not reenact trauma."></textarea></label>
+            <label>Cultural context (optional)<textarea name="context" maxlength="600" rows="2" placeholder="One contextual fact; name its source. Do not generalise a whole country."></textarea></label>
+            <label>Observed actor choice (optional)<textarea name="observation" maxlength="900" rows="3" placeholder="A visible or audible action; include the scene description, not an invented timestamp."></textarea></label>
+            <label>Your interpretation (optional)<textarea name="interpretation" maxlength="600" rows="2" placeholder="What objective or subtext do you infer? How do framing or editing contribute?"></textarea></label>
+            <label>Next practice / correction (optional)<textarea name="repair" maxlength="600" rows="2" placeholder="One safe original scene or acting adjustment; do not reenact trauma."></textarea></label>
             <label>Self-rated session quality (not an assessment score)<input name="rating" type="range" min="1" max="5" value="3"></label>
             <button class="primary" type="submit">Save reflection to practice log</button>
             <p id="cinemaReviewStatus" class="cinema-feedback" role="status">Saving a reflection does not mark the full film watched or score your daily assessment.</p>
           </form>
           <section class="panel"><p class="eyebrow">YOUR CINEMA EVIDENCE</p><h2>Recent reflections</h2><div id="cinemaReviews" class="history-list"></div></section>
         </div>
+        </details>
         <details class="panel cinema-directory"><summary>Director &amp; cultural-context directory</summary><div id="cinemaDirectors"></div></details>
+      </section>
+
+      <section class="view" id="view-bucket" aria-label="Personal movie bucket list">
+        <article class="panel intro-panel cinema-intro">
+          <p class="eyebrow">MY MOVIES · PERSONAL · NOT HOMEWORK</p>
+          <h2>For the joy of watching</h2>
+          <p id="bucketPreference"></p>
+          <p><a id="bucketBoard" target="_blank" rel="noopener">Open my Pinterest board ↗</a> · <a href="MOVIE_BUCKET_LIST.md" target="_blank" rel="noopener">Imported lists &amp; viewing preference ↗</a></p>
+          <details><summary>About this import</summary><p id="bucketSourceNote"></p></details>
+        </article>
+        <div class="filter-row">
+          <label>Collection<select id="bucketCollection"><option value="all">All four lists</option></select></label>
+          <label>Watching<select id="bucketProgress"><option value="all">All films</option><option value="unwatched">Yet to watch</option><option value="watched">Watched</option></select></label>
+          <label>Search<input id="bucketSearch" type="search" placeholder="A film I feel like watching"></label>
+        </div>
+        <p id="bucketCount" class="summary-line" aria-live="polite"></p>
+        <div id="bucketFilms" class="cinema-grid"></div>
+        <details class="panel cinema-directory" id="bucketMemory"><summary>Optional: a feeling or moment to keep</summary>
+          <p>No analysis, rating, quiz or practice minutes. A memory does not mark a film watched or complete an exam task.</p>
+          <form id="bucketMemoryForm" class="form-panel">
+            <label>Film<select id="bucketMemoryFilm" name="filmId" required></select></label>
+            <label>Date<input id="bucketMemoryDate" name="date" type="date" required></label>
+            <label>How it felt (optional)<textarea name="feeling" rows="2" maxlength="1200" placeholder="No right answer. What stayed with you?"></textarea></label>
+            <label>A moment to remember (optional)<textarea name="moment" rows="3" maxlength="1800" placeholder="An image, sound, exchange, silence, or simply a feeling."></textarea></label>
+            <button class="primary" type="submit">Keep this memory</button>
+            <p id="bucketMemoryStatus" role="status">Saved memories stay with your progress, not in the public app code.</p>
+          </form>
+        </details>
+        <section class="panel cinema-directory"><p class="eyebrow">ONLY IF YOU WANTED TO KEEP ONE</p><h2>My movie memories</h2><div id="bucketMemories" class="history-list"></div></section>
       </section>
     </main>
   </div>
@@ -202,14 +236,15 @@
 
   <div id="updateNotice" class="update-notice" role="status" hidden><span>A new app version is ready.</span><button id="refreshApp" class="primary" type="button">Update</button></div>
 
-  <script src="seed-data.js?v=20260926"></script>
-  <script src="cinema-data.js?v=20260926"></script>
+  <script src="seed-data.js?v=20260927"></script>
+  <script src="cinema-data.js?v=20260927"></script>
+  <script src="bucket-data.js?v=20260927"></script>
   <script>
     if (location.protocol === "file:" || ["localhost", "127.0.0.1"].includes(location.hostname)) {
       document.write('<script src="daily-log.js"><\/script>');
     }
   </script>
-  <script src="app.js?v=20260926"></script>
+  <script src="app.js?v=20260927"></script>
   <script src="pwa.js"></script>
   <script>
     if (location.protocol === "https:" || ["localhost", "127.0.0.1"].includes(location.hostname)) {

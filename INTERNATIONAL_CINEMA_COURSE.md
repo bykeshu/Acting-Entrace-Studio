@@ -2,15 +2,21 @@
 
 Added 26 September 2026. **Supplementary preparation**, not an official FTII or NSD prescribed film list. Programme targets remain FTII MFA in Cinema, Screen Acting, and NSD New Delhi's three-year Diploma in Dramatics.
 
-## How to use this course
+## Enjoyment comes first — preference updated 27 September 2026
 
-Start with the twelve foundation films below. Plan roughly one film and one short reflection in a normal week, or one every fortnight during intensive classes. This replaces some existing cinema-study time; it is not a second full-time course. Three-hour films may be split across two sittings. No viewing history or learning weakness has been assumed.
+Watch a film to enjoy it, feel it and live with its moments. Not every viewing is a learning opportunity, and it never has to become one. No viewing quota, compulsory dossier, rehearsal output or quiz follows a film. Choose by curiosity, mood, access and content comfort; pause or switch freely. Personal viewing is not marked as syllabus mastery or added to practice hours.
 
-1. Read one institutional source for context before viewing. Use original-language audio and reliable subtitles where available. Do not assume subtitles preserve every vocal nuance.
-2. Watch for the story first. Revisit one exchange for objective, obstacle, action, listening and tempo-rhythm.
+The separate [Pinterest bucket list](MOVIE_BUCKET_LIST.md) preserves your four saved lists. In the app, **Movie bucket list** is a personal shelf: a watched tick is enough. Keeping a feeling or moment is optional and ungraded. **World cinema** retains the cultural/acting references for when you actively want to explore them, after viewing.
+
+## How to use this course — only when you choose to study
+
+The twelve foundation films below are an optional starting map, not a timetable. There is no requirement to finish them or write notes. If you choose a study session, fit it around classes and use existing cinema-study time. Longer films may be split across sittings. No viewing history or learning weakness has been assumed.
+
+1. Watch for the story and your own experience first. Original-language audio and reliable subtitles can help; do not assume subtitles preserve every vocal nuance.
+2. Afterwards, if curious, read an institutional source or revisit an exchange for objective, obstacle, action, listening and tempo-rhythm.
 3. Separate observable actor choices from your interpretation and from effects of framing, editing, music and offscreen sound.
-4. Write a 150–250-word note, then try an optional safe 60–90-second **original** scene at stage and phone close-up scale. No copyrighted dialogue is supplied. Do not recreate violence, drug use or sexual coercion.
-5. Save a reflection in **World cinema**. Mark **Watched full film** separately only if true. Excerpt study is valuable but does not count as viewing the feature or mastering the topic. Daily-coach assessment remains a separate conversation.
+4. Optional practice ideas: a short note **or** a safe 60–90-second **original** scene at stage and phone close-up scale. Neither is compulsory. No copyrighted dialogue is supplied. Do not recreate violence, drug use or sexual coercion.
+5. If wanted, save a reflection in **World cinema**, or a feeling/moment in **Movie bucket list**. Mark **Watched** separately only if true. Excerpt study is valuable but does not count as viewing the feature or mastering the topic. Daily-coach assessment is separate and is not triggered by viewing.
 
 Every film card supplies its edition year, director, primary language(s), approximate runtime, cultural context, actor lens, Bengal comparison, observation question, reference and a preliminary content heads-up. Content notes are not exhaustive certifications; consult detailed advice and substitute a title freely.
 
@@ -86,14 +92,14 @@ The app's **Cult & experiments** shelf combines those three sourced cult selecti
 
 | Existing phase | Cinema contribution within current study time |
 |---|---|
-| Foundation, weeks 1–4 | First four starter films; four short behaviour/shot-size notes |
-| Build, weeks 5–10 | Next six starter films; two safe original-scene comparisons |
-| Integrate, weeks 11–16 | Finish the remaining two starters; choose up to four deeper films by gap and access |
-| Perform, weeks 17–20 | Revisit an observed choice and apply it to class/monologue work; practise one interview answer |
-| Pressure test, weeks 21–23 | Compare movements, write a supported 200-word response, repair factual or analytical errors |
-| Taper, week 24 | Review your own notes and examples; no compulsory new full films |
+| Foundation, weeks 1–4 | Optional starter or mood-led bucket film; no notes needed |
+| Build, weeks 5–10 | Enjoy a film if you want; explore a scene later only by choice |
+| Integrate, weeks 11–16 | Optional world-cinema exploration at your own pace |
+| Perform, weeks 17–20 | Optional: try an observed choice in class/monologue work |
+| Pressure test, weeks 21–23 | Optional: use a film example for an interview answer |
+| Taper, week 24 | No required viewing or film output |
 
-These are adjustable suggestions, not exam deadlines. Reuse relevant class work. Do not make completion of all thirty films a prerequisite for exam readiness.
+All rows are optional suggestions, not quotas or exam deadlines. Reuse relevant class work. Film completion and reflections are never a prerequisite for exam readiness.
 
 ## Legal access, editions and limitations
 
@@ -109,4 +115,4 @@ Gaps remain: documentary, animation, Indigenous cinemas, silent-film performance
 
 Film ticks reuse the existing `completedTopics` event path; reflections reuse the existing practice-session path. They are included in JSON backups and queued through existing authenticated sync when signed in. This update does not change Firestore rules or prove live two-device sync, which still needs the existing real-account test. None of your viewing or reflection data belongs in the public repository.
 
-The public machine-readable library is [cinema-data.js](cinema-data.js). The app's checkboxes are self-reported progress, not assessment marks. Use `$acting-film-guide` for a tailored next viewing card and `$acting-daily-coach` for a requested assessment after submitting your notes.
+The public machine-readable libraries are [cinema-data.js](cinema-data.js) and [bucket-data.js](bucket-data.js). The app's checkboxes are self-reported viewing, not assessment marks. Use `$acting-film-guide` for an exam-focused suggestion only when wanted; observation prompts and outputs should respect the enjoyment-first preference. `$acting-daily-coach` assessments remain separately requested, never an automatic consequence of watching a film.

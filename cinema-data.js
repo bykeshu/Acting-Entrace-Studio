@@ -1,6 +1,6 @@
 // Public bibliography only. Personal viewing/reflection records live in app state.
 window.ACTING_CINEMA = {
-  version: "2026-09-26",
+  version: "2026-09-27",
   sourceType: "supplementary",
   accessNote: "India: lawful full-film availability not verified. Links are institutional/distributor references, not promises of streaming access. Check regional rights, subtitles and content advice before each assignment.",
   scopeNote: "A curated starting map, not a complete canon or an official FTII/NSD watchlist. Study regions are cultural contexts, not claims of exclusive nationality. Films and filmmakers do not represent an entire country. Runtime refers to the linked edition and can vary.",
@@ -13,7 +13,7 @@ window.ACTING_CINEMA = {
   modules: [
     {id:"world-foundation",title:"International cinema: foundation",topics:["Subtitles and performance observation", "Objective, obstacle and listening across languages", "Framing, editing and actor contribution", "Separate observation from interpretation"]},
     {id:"world-movements",title:"International cinema: movements and context",topics:["Italian neorealism", "French New Wave and Left Bank", "Japanese postwar family and testimony", "Hong Kong and New Taiwan Cinema", "Iranian realism and documentary-fiction", "New Korean Cinema and class", "African postcolonial and transnational cinema", "Latin American class, memory and urban life", "Feminist cinema and domestic labour", "European modernism and Romanian New Wave", "Cult reception, soundtracks and formal experimentation"]},
-    {id:"world-evidence",title:"International cinema: actor evidence",topics:["Twelve foundation film dossiers", "One stage/close-up original-scene comparison", "One Bengal/international comparison", "One supported 200-word critical response", "One recorded interview answer using a film example"]}
+    {id:"world-evidence",title:"International cinema: optional actor exploration",optional:true,topics:["Twelve foundation film dossiers", "One stage/close-up original-scene comparison", "One Bengal/international comparison", "One supported 200-word critical response", "One recorded interview answer using a film example"]}
   ],
   // Fields: id, title, year, directors, study region, production countries (catalogue),
   // language(s), edition minutes, movement/context, path, cultural note, actor focus,

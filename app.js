@@ -2,6 +2,7 @@
   const KEY = "acting-entrance-studio-v1";
   const seed = window.ACTING_SEED;
   const cinema = window.ACTING_CINEMA;
+  const bucket = window.ACTING_BUCKET;
   const defaults = {
     currentWeek: 1, completedTopics: {}, evidence: {}, dailyReviews: [],
     tasks: [
@@ -104,8 +105,14 @@
     $("#saveState").textContent=queueUid?"Pending sync":"Saved locally";
     renderToday();
   };
-  const todayISO = () => new Date().toISOString().slice(0,10);
-  const viewNames = {today:"Today’s rehearsal room",daily:"Daily assessment ledger",roadmap:"Your 24-week route",syllabus:"Syllabus studio",practice:"Practice log",tests:"Test and error lab",resources:"Linked resource library",evidence:"NSD evidence file",cinema:"World cinema studio"};
+  // This user's preparation day follows India time, including after midnight.
+  // Keep previously stored dates intact; only new defaults use this calendar.
+  const todayISO = (date=new Date()) => {
+    const parts=new Intl.DateTimeFormat('en',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(date);
+    const value=type=>parts.find(p=>p.type===type).value;
+    return `${value('year')}-${value('month')}-${value('day')}`;
+  };
+  const viewNames = {today:"Today’s rehearsal room",daily:"Daily assessment ledger",roadmap:"Your 24-week route",syllabus:"Syllabus studio",practice:"Practice log",tests:"Test and error lab",resources:"Linked resource library",evidence:"NSD evidence file",cinema:"World cinema studio",bucket:"My movie bucket list"};
 
   function switchView(id){
     $$(".view").forEach(v=>v.classList.toggle("active",v.id===`view-${id}`));
@@ -113,6 +120,7 @@
     $("#viewTitle").textContent=viewNames[id];
     if(id==="daily") renderDaily(); if(id==="resources") renderResources(); if(id==="syllabus") renderSyllabus(); if(id==="practice") renderSessions(); if(id==="tests") renderTests(); if(id==="evidence") renderEvidence();
     if(id==="cinema") renderCinema();
+    if(id==="bucket") renderBucket();
     scrollTo({top:0,behavior:"smooth"});
   }
   $("#nav").addEventListener("click",e=>{const b=e.target.closest("[data-view]");if(b)switchView(b.dataset.view)});
@@ -123,16 +131,17 @@
     $("#weekProgressLabel").textContent=`${Math.round(done/total*100)}%`;
     $("#weekProgressBar").style.width=`${done/total*100}%`;
     const weekAgo=Date.now()-7*86400000;
-    const recent=state.sessions.filter(s=>new Date(s.date).getTime()>=weekAgo);
+    const learningSessions=state.sessions.filter(s=>s.mode!=="Film memory");
+    const recent=learningSessions.filter(s=>new Date(s.date).getTime()>=weekAgo);
     const knowledge=recent.filter(s=>["Written study","Play analysis","Film-performance analysis","Mock test"].includes(s.mode)).reduce((a,s)=>a+Number(s.minutes),0);
     const practice=recent.reduce((a,s)=>a+Number(s.minutes),0)-knowledge;
     $("#knowledgeMins").textContent=`${knowledge}m`; $("#practiceMins").textContent=`${practice}m`;
-    const days=new Set(state.sessions.map(s=>s.date)); let streak=0,d=new Date(); while(days.has(d.toISOString().slice(0,10))){streak++;d.setDate(d.getDate()-1)} $("#streak").textContent=`${streak}d`;
+    const days=new Set(learningSessions.map(s=>s.date)); let streak=0,d=new Date(); while(days.has(todayISO(d))){streak++;d.setDate(d.getDate()-1)} $("#streak").textContent=`${streak}d`;
     $("#todayTasks").innerHTML=state.tasks.length?state.tasks.map(t=>`<div class="task ${t.done?'done':''}"><input type="checkbox" data-task="${t.id}" ${t.done?'checked':''} aria-label="Complete ${esc(t.title)}"><div><div class="task-name">${esc(t.title)}</div><div class="meta"><span class="tag">${esc(t.track)}</span><span>${esc(t.lane)}</span>${t.due?`<span>${esc(t.due)}</span>`:''}</div></div><button class="delete" data-delete-task="${t.id}" aria-label="Delete task">×</button></div>`).join(""):`<p class="empty">No tasks yet. Add the next physical action.</p>`;
     const doneTopics=seed.tracks.flatMap(t=>t.modules).reduce((n,m)=>n+m.topics.filter(x=>state.completedTopics[`${m.id}:${x}`]).length,0);
     const pulse=[['FTII papers',seed.tracks.find(t=>t.id==='ftii').modules.find(m=>m.id==='ftii-papers').topics.filter(x=>state.completedTopics[`ftii-papers:${x}`]).length+'/10'],['NSD plays',seed.tracks.find(t=>t.id==='nsd').modules.find(m=>m.id==='nsd-plays').topics.filter(x=>state.completedTopics[`nsd-plays:${x}`]).length+'/27'],['Syllabus',doneTopics+' topics'],['Productions',state.productions.length+'/6']];
     $("#pulseGrid").innerHTML=pulse.map(([a,b])=>`<div class="pulse"><strong>${b}</strong><small>${a}</small></div>`).join("");
-    $("#recentSessions").innerHTML=state.sessions.length?state.sessions.slice(-4).reverse().map(s=>`<div class="session-mini"><strong>${esc(s.title)}</strong><small>${esc(s.mode)} · ${s.minutes}m · ${esc(s.track)}</small></div>`).join(""):`<p class="empty">Your first logged rehearsal will appear here.</p>`;
+    $("#recentSessions").innerHTML=learningSessions.length?learningSessions.slice(-4).reverse().map(s=>`<div class="session-mini"><strong>${esc(s.title)}</strong><small>${esc(s.mode)} · ${s.minutes}m · ${esc(s.track)}</small></div>`).join(""):`<p class="empty">Your first logged rehearsal will appear here.</p>`;
   }
   $("#todayTasks").addEventListener("change",e=>{if(e.target.dataset.task){const t=state.tasks.find(x=>x.id===e.target.dataset.task);t.done=e.target.checked;save()}});
   $("#todayTasks").addEventListener("click",e=>{const id=e.target.dataset.deleteTask;if(id){state.tasks=state.tasks.filter(t=>t.id!==id);save()}});
@@ -173,8 +182,8 @@
   $("#syllabusGrid").addEventListener("change",e=>{if(e.target.dataset.topic){state.completedTopics[e.target.dataset.topic]=e.target.checked;save();renderSyllabus()}});
 
   $("#sessionForm").addEventListener("submit",e=>{e.preventDefault();const o=Object.fromEntries(new FormData(e.target));state.sessions.push({id:crypto.randomUUID(),date:todayISO(),...o,minutes:Number(o.minutes),rating:Number(o.rating)});e.target.reset();e.target.minutes.value=45;save();renderSessions()});
-  function renderSessions(){ $("#sessionList").innerHTML=state.sessions.length?state.sessions.slice().reverse().map(s=>`<article class="history-item"><div class="history-item-head"><strong>${esc(s.title)}</strong><span class="tag">${s.minutes}m</span></div><div class="meta"><span>${esc(s.date)}</span><span>${esc(s.mode)}</span><span>${esc(s.track)}</span><span>Quality ${s.rating}/5</span></div>${s.note?`<p>${esc(s.note)}</p>`:''}</article>`).join(''):`<p class="empty">No sessions logged yet.</p>`; }
-  $("#clearSessions").onclick=()=>{if(confirm("Clear all practice sessions?")){state.sessions=[];save();renderSessions()}};
+  function renderSessions(){ const sessions=state.sessions.filter(s=>s.mode!=="Film memory"); $("#sessionList").innerHTML=sessions.length?sessions.slice().reverse().map(s=>`<article class="history-item"><div class="history-item-head"><strong>${esc(s.title)}</strong><span class="tag">${s.minutes}m</span></div><div class="meta"><span>${esc(s.date)}</span><span>${esc(s.mode)}</span><span>${esc(s.track)}</span><span>Quality ${s.rating}/5</span></div>${s.note?`<p>${esc(s.note)}</p>`:''}</article>`).join(''):`<p class="empty">No sessions logged yet.</p>`; }
+  $("#clearSessions").onclick=()=>{if(confirm("Clear all practice sessions? Movie memories will be kept.")){state.sessions=state.sessions.filter(s=>s.mode==="Film memory");save();renderSessions();renderCinema()}};
 
   $("#testForm").addEventListener("submit",e=>{e.preventDefault();const o=Object.fromEntries(new FormData(e.target));state.tests.push({id:crypto.randomUUID(),date:todayISO(),...o,score:Number(o.score),max:Number(o.max)});e.target.reset();e.target.max.value=100;save();renderTests()});
   function renderTests(){
@@ -211,12 +220,12 @@
     const stats=[[cinema.films.length,"linked films"],[new Set(cinema.films.flatMap(f=>f.directors)).size,"directors"],[watched,"marked watched"],[reflected,"with reflection"]];
     $("#cinemaStats").innerHTML=stats.map(([n,label])=>`<div><strong>${n}</strong><span>${esc(label)}</span></div>`).join("");
     const next=cinema.starterIds.map(id=>cinema.films.find(f=>f.id===id)).find(f=>!filmWatched(f.id));
-    $("#cinemaNext").textContent=next?`Next unmarked foundation film: ${next.title}`:"Foundation viewing ticks complete — revisit a reflection and repair one choice";
+    $("#cinemaNext").textContent=next?`Optional starter suggestion: ${next.title}`:"All foundation films marked watched — enjoy a rewatch or choose something else";
     $("#cinemaCount").textContent=`${rows.length} of ${cinema.films.length} films · metadata checked ${cinema.version} · all preparation mappings are supplementary`;
     $("#cinemaFilms").innerHTML=rows.map(f=>{
       const reviews=filmReviews(f.id), planned=state.tasks.some(t=>t.id===`cinema-task-${f.id}`);
       const position=cinema.starterIds.indexOf(f.id);
-      return `<article class="panel cinema-film"><div class="meta"><span class="tag">${esc(f.region)}</span><span class="tag">${esc(f.path)}</span>${position>=0?`<span class="tag">Starter ${position+1}/12</span>`:""}</div><h3>${esc(f.title)} <small>(${f.year})</small></h3><p class="cinema-credits">${esc(f.directors.join(" / "))}<br>${esc(f.language)} · about ${f.minutes}m · ${esc(f.countries)}</p><p><strong>${esc(f.movement)}</strong><br>${esc(f.context)}</p><p class="cinema-focus">Actor lens: ${esc(f.focus)}</p><details><summary>Study prompts &amp; Bengal bridge</summary><p>${esc(f.question)}</p><p>${esc(f.bengalBridge)}</p><p>Output: 150–250 words separating observation from interpretation, then an optional safe 60–90-second original scene at stage and close-up scale. Use consent and a partner where needed.</p><p>Reflection: what can you support with visible or audible evidence?</p></details><p class="cinema-advisory">Content heads-up (not a rating): ${esc(f.advisory)}</p><a class="cinema-source" href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.publisher)} reference ↗</a><small class="cinema-source-note">Supplementary · metadata checked ${esc(f.verifiedOn)} · ${esc(f.availability)}.</small><div class="cinema-controls"><label><input type="checkbox" data-film-watched="${esc(f.id)}" ${filmWatched(f.id)?"checked":""}> Watched full film</label><span>${reviews.length} reflection${reviews.length===1?"":"s"}</span><button type="button" class="text-btn" data-film-plan="${esc(f.id)}" ${planned?"disabled":""}>${planned?"In task list":"Add study task"}</button><button type="button" class="text-btn" data-film-reflect="${esc(f.id)}">Write reflection</button></div></article>`;
+      return `<article class="panel cinema-film"><div class="meta"><span class="tag">${esc(f.region)}</span><span class="tag">${esc(f.path)}</span>${position>=0?`<span class="tag">Starter ${position+1}/12</span>`:""}</div><h3>${esc(f.title)} <small>(${f.year})</small></h3><p class="cinema-credits">${esc(f.directors.join(" / "))}<br>${esc(f.language)} · about ${f.minutes}m · ${esc(f.countries)}</p><p><strong>${esc(f.movement)}</strong><br>${esc(f.context)}</p><details><summary>Optional after watching: acting ideas &amp; Bengal bridge</summary><p class="cinema-focus">Actor lens: ${esc(f.focus)}</p><p>${esc(f.question)}</p><p>${esc(f.bengalBridge)}</p><p>If you feel like practising: write a note, or try a safe original scene at stage and close-up scale. Neither is needed to enjoy or mark the film watched.</p><button type="button" class="text-btn" data-film-plan="${esc(f.id)}" ${planned?"disabled":""}>${planned?"In task list":"Choose an optional study task"}</button><button type="button" class="text-btn" data-film-reflect="${esc(f.id)}">Optional reflection</button><span> · ${reviews.length} saved reflection${reviews.length===1?"":"s"}</span></details><p class="cinema-advisory">Content heads-up (not a rating): ${esc(f.advisory)}</p><a class="cinema-source" href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.publisher)} reference ↗</a><small class="cinema-source-note">Supplementary · metadata checked ${esc(f.verifiedOn)} · ${esc(f.availability)}.</small><div class="cinema-controls"><label><input type="checkbox" data-film-watched="${esc(f.id)}" ${filmWatched(f.id)?"checked":""}> Watched full film — no notes needed</label></div></article>`;
     }).join("")||'<p class="empty">No films match these filters. Try Whole library or another region.</p>';
     const recent=state.sessions.filter(s=>cinema.films.some(f=>f.id===s.filmId)).slice().reverse().slice(0,8);
     $("#cinemaReviews").innerHTML=recent.length?recent.map(s=>`<article class="history-item"><strong>${esc(s.title)}</strong><div class="meta">${esc(s.date)} · ${esc(s.minutes)}m · ${esc(s.scope||"Analysis")}</div><p class="cinema-note">${esc(s.note)}</p></article>`).join(""):'<p class="empty">Your saved reflections will appear here and in Practice log. No viewing history has been assumed.</p>';
@@ -228,25 +237,70 @@
   $("#cinemaFilms").addEventListener("change",e=>{
     const id=e.target.dataset.filmWatched;
     if(!id||!cinema.films.some(f=>f.id===id))return;
-    state.completedTopics[`cinema-watched:${id}`]=e.target.checked;save();renderCinema();
+    state.completedTopics[`cinema-watched:${id}`]=e.target.checked;save();renderCinema();renderBucket();
   });
   $("#cinemaFilms").addEventListener("click",e=>{
     const button=e.target.closest("button");if(!button)return;
     const id=button.dataset.filmPlan||button.dataset.filmReflect,film=cinema.films.find(f=>f.id===id);if(!film)return;
     if(button.dataset.filmPlan){
-      if(!state.tasks.some(t=>t.id===`cinema-task-${id}`))state.tasks.push({id:`cinema-task-${id}`,title:`Study ${film.title}: verify India access, observe ${film.focus.toLowerCase()}, write a reflection`,track:"Shared",lane:"Review",done:false});
+      if(!state.tasks.some(t=>t.id===`cinema-task-${id}`))state.tasks.push({id:`cinema-task-${id}`,title:`Optional study of ${film.title}: explore ${film.focus.toLowerCase()} after watching; notes if wanted`,track:"Shared",lane:"Review",done:false});
       save();renderCinema();
     }else{
-      $("#cinemaReviewFilm").value=id;$("#cinemaReviewForm").scrollIntoView({behavior:"smooth",block:"start"});$("#cinemaReviewFilm").focus();
+      $("#cinemaStudy").open=true;$("#cinemaReviewFilm").value=id;$("#cinemaReviewForm").scrollIntoView({behavior:"smooth",block:"start"});$("#cinemaReviewFilm").focus();
     }
   });
   $("#cinemaReviewForm").addEventListener("submit",e=>{
     e.preventDefault();if(!e.target.reportValidity())return;
     const values=Object.fromEntries(new FormData(e.target)),film=cinema.films.find(f=>f.id===values.filmId);if(!film)return;
-    if(["context","observation","interpretation","repair"].some(k=>!values[k].trim())){$("#cinemaReviewStatus").textContent="Please enter meaningful text in each reflection field.";return;}
+    if(!["context","observation","interpretation","repair"].some(k=>values[k]?.trim())){$("#cinemaReviewStatus").textContent="Add any one note to save a reflection, or skip this optional form.";return;}
     state.sessions.push({id:crypto.randomUUID(),date:values.date,mode:"Film-performance analysis",track:"Shared",minutes:Number(values.minutes),rating:Number(values.rating),title:`${film.title} (${film.year}) — performance dossier`,filmId:film.id,scope:values.scope,note:`Context/source: ${values.context.trim()}\nObserved: ${values.observation.trim()}\nInterpretation: ${values.interpretation.trim()}\nNext practice/repair: ${values.repair.trim()}`});
     save();renderCinema();renderSessions();e.target.reset();$("#cinemaReviewFilm").value=film.id;$("#cinemaReviewDate").value=todayISO();
     $("#cinemaReviewStatus").textContent="Reflection saved locally and queued through existing sync if signed in. No full-film tick or assessment score was added.";
+  });
+
+  // Personal viewing is separate from study time, streaks and assessments. It uses
+  // existing topic/session events so older backups and owner-only sync still work.
+  const bucketWatchKey = film => film.courseId?`cinema-watched:${film.courseId}`:`bucket-watched:${film.id}`;
+  const bucketWatched = film => Boolean(state.completedTopics[bucketWatchKey(film)]);
+  $("#bucketPreference").textContent=bucket.preference;
+  $("#bucketBoard").href=bucket.boardUrl;
+  $("#bucketSourceNote").textContent=`Checked ${bucket.checkedOn}. ${bucket.note}`;
+  $("#bucketCollection").insertAdjacentHTML("beforeend",bucket.collections.map(c=>`<option value="${esc(c.id)}">${esc(c.title)}</option>`).join(""));
+  $("#bucketMemoryFilm").innerHTML=bucket.films.map(f=>`<option value="${esc(f.id)}">${esc(f.title)}</option>`).join("");
+  $("#bucketMemoryDate").value=todayISO();
+  function renderBucket(){
+    const collection=$("#bucketCollection").value,progress=$("#bucketProgress").value,q=$("#bucketSearch").value.trim().toLowerCase();
+    const films=bucket.films.filter(f=>(collection==="all"||f.collectionId===collection)&&(!q||f.title.toLowerCase().includes(q))&&(progress==="all"||progress==="watched"&&bucketWatched(f)||progress==="unwatched"&&!bucketWatched(f)));
+    $("#bucketCount").textContent=`${films.length} of ${bucket.films.length} titles · ${bucket.films.filter(bucketWatched).length} marked watched · no quotas, scores or compulsory notes`;
+    $("#bucketFilms").innerHTML=films.length?films.map(f=>{
+      const c=bucket.collections.find(c=>c.id===f.collectionId);
+      return `<article class="panel cinema-film bucket-film"><span class="tag">${esc(c.title)}</span><h3>${esc(f.title)}</h3><p>Personal bucket list · enjoy it however you like.</p><a class="cinema-source" href="${esc(c.pinUrl)}" target="_blank" rel="noopener">Saved Pinterest list ↗</a><small class="cinema-source-note">Title imported from pin · not a streaming link${f.courseId?" · also in World cinema":" · edition details not independently verified"}.</small><div class="cinema-controls"><label><input type="checkbox" data-bucket-watched="${esc(f.id)}" ${bucketWatched(f)?"checked":""}> Watched — no notes needed</label><button class="text-btn" type="button" data-bucket-memory="${esc(f.id)}">Optional: keep a moment</button></div></article>`;
+    }).join(""):'<p class="empty">No films match. Try another collection or search.</p>';
+    const memories=state.sessions.filter(s=>s.mode==="Film memory"&&bucket.films.some(f=>f.id===s.filmId)).slice().reverse();
+    $("#bucketMemories").innerHTML=memories.length?memories.map(s=>`<article class="history-item"><strong>${esc(s.title)}</strong><p class="meta">${esc(s.date)} · personal, ungraded</p><p class="cinema-note">${esc(s.note)}</p><button type="button" class="text-btn" data-memory-remove="${esc(s.id)}">Remove this memory</button></article>`).join(""):'<p class="empty">No memories saved — and that is completely fine.</p>';
+  }
+  for(const id of ["Collection","Progress","Search"])$("#bucket"+id).addEventListener(id==="Search"?"input":"change",renderBucket);
+  $("#bucketFilms").addEventListener("change",e=>{
+    const film=bucket.films.find(f=>f.id===e.target.dataset.bucketWatched);if(!film)return;
+    state.completedTopics[bucketWatchKey(film)]=e.target.checked;save();renderBucket();renderCinema();
+  });
+  $("#bucketFilms").addEventListener("click",e=>{
+    const button=e.target.closest("[data-bucket-memory]");if(!button)return;
+    const film=bucket.films.find(f=>f.id===button.dataset.bucketMemory);if(!film)return;
+    $("#bucketMemory").open=true;$("#bucketMemoryFilm").value=film.id;$("#bucketMemory").scrollIntoView({behavior:"smooth",block:"start"});$("#bucketMemoryFilm").focus();
+  });
+  $("#bucketMemoryForm").addEventListener("submit",e=>{
+    e.preventDefault();if(!e.target.reportValidity())return;
+    const v=Object.fromEntries(new FormData(e.target)),film=bucket.films.find(f=>f.id===v.filmId);if(!film)return;
+    if(!v.feeling?.trim()&&!v.moment?.trim()){$("#bucketMemoryStatus").textContent="Add a feeling or moment to keep a memory, or simply skip this optional form.";return;}
+    state.sessions.push({id:crypto.randomUUID(),filmId:film.id,date:v.date,title:film.title,mode:"Film memory",track:"Personal",minutes:0,rating:null,note:[v.feeling?.trim()?`How it felt: ${v.feeling.trim()}`:"",v.moment?.trim()?`A moment: ${v.moment.trim()}`:""].filter(Boolean).join("\n")});
+    save();renderBucket();e.target.reset();$("#bucketMemoryFilm").value=film.id;$("#bucketMemoryDate").value=todayISO();
+    $("#bucketMemoryStatus").textContent="Memory saved locally and queued through existing sync if signed in. No watched tick, practice minutes or assessment score was added.";
+  });
+  $("#bucketMemories").addEventListener("click",e=>{
+    const id=e.target.dataset.memoryRemove;if(!id)return;
+    if(!confirm("Remove this movie memory? Export a backup first if you want to keep a copy."))return;
+    state.sessions=state.sessions.filter(s=>!(s.id===id&&s.mode==="Film memory"));save();renderBucket();
   });
 
   function renderEvidence(){
@@ -259,6 +313,6 @@
 
   $("#exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify({app:"Acting Entrance Studio",version:seed.version,exportedAt:new Date().toISOString(),state},null,2)],{type:"application/json"});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`acting-entrance-backup-${todayISO()}.json`;a.click();URL.revokeObjectURL(a.href)};
   $("#importInput").onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const payload=JSON.parse(await file.text());state={...defaults,...(payload.state||payload)};save();renderAll();alert("Backup imported.")}catch{alert("That file is not a valid backup.")}};
-  function renderAll(){renderToday();renderDaily();renderRoadmap();renderSyllabus();renderSessions();renderTests();renderResources();renderEvidence();renderCinema()}
+  function renderAll(){renderToday();renderDaily();renderRoadmap();renderSyllabus();renderSessions();renderTests();renderResources();renderEvidence();renderCinema();renderBucket()}
   renderAll();
 })();

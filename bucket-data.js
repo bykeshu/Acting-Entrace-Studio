@@ -1,0 +1,58 @@
+// Public title labels from the user's public board. No personal watch history.
+// Pin captions are list provenance, not authoritative metadata or streaming links.
+window.ACTING_BUCKET = {
+  version: "2026-09-27",
+  boardUrl: "https://www.pinterest.com/maddyman296/cinema-to-watch/",
+  checkedOn: "2026-09-27",
+  sourceType: "personal",
+  note: "Snapshot of four saved pins. Only titles in those pins are included, not Pinterest suggestions or comments. New titles are imported labels, not independently verified edition/year/director metadata. Pin rankings and mood descriptions are the creator's claims, not exam guidance. Lawful India viewing access is not verified. Board changes require another import; this is not a live Pinterest sync.",
+  preference: "Watch and enjoy first. Feelings and memorable moments matter on their own. Notes, analysis, exercises and quizzes are optional afterwards; no viewing quota or penalty for skipping them.",
+  collections: [
+    {id:"crossroads",title:"At a crossroads in life",pinUrl:"https://www.pinterest.com/pin/649292471323016043/",titleCount:10},
+    {id:"iran",title:"Iranian cinema",pinUrl:"https://www.pinterest.com/pin/649292471323016041/",titleCount:10},
+    {id:"poets",title:"The Tortured Poets Department mood",pinUrl:"https://www.pinterest.com/pin/649292471323016050/",titleCount:9},
+    {id:"2025",title:"Saved 2025-release list",pinUrl:"https://www.pinterest.com/pin/649292471323037458/",titleCount:10}
+  ],
+  // Existing course IDs share a watched tick across the two shelves, not a score.
+  films: [
+    ["ghost-world","Ghost World","crossroads"],
+    ["lunchbox","The Lunchbox","crossroads"],
+    ["wings","Wings of Desire","crossroads","wings"],
+    ["double-life-veronique","The Double Life of Véronique","crossroads"],
+    ["peanut-butter-falcon","The Peanut Butter Falcon","crossroads"],
+    ["walter-mitty","The Secret Life of Walter Mitty","crossroads"],
+    ["things-lost-fire","Things We Lost in the Fire","crossroads"],
+    ["20th-century-women","20th Century Women","crossroads"],
+    ["sound-metal","Sound of Metal","crossroads"],
+    ["harold-maude","Harold and Maude","crossroads"],
+    ["children-heaven","Children of Heaven","iran"],
+    ["hit-road","Hit the Road","iran"],
+    ["close-up","Close-up","iran","close-up"],
+    ["friend-house","Where Is the Friend’s House?","iran"],
+    ["taste-cherry","Taste of Cherry","iran"],
+    ["separation","A Separation","iran","separation"],
+    ["wind-carry","The Wind Will Carry Us","iran"],
+    ["cow","The Cow","iran"],
+    ["house-black","The House Is Black","iran"],
+    ["salesman","The Salesman","iran"],
+    ["atonement","Atonement","poets"],
+    ["bright-star","Bright Star","poets"],
+    ["phantom-thread","Phantom Thread","poets"],
+    ["age-innocence","The Age of Innocence","poets"],
+    ["marie-antoinette","Marie Antoinette","poets"],
+    ["worst-person","The Worst Person in the World","poets"],
+    ["past-lives","Past Lives","poets"],
+    ["wuthering-heights","Wuthering Heights","poets"],
+    ["happy-together","Happy Together","poets"],
+    ["one-battle","One Battle After Another","2025"],
+    ["hamnet","Hamnet","2025"],
+    ["marty-supreme","Marty Supreme","2025"],
+    ["chainsaw-reze","Chainsaw Man – The Movie: Reze Arc","2025"],
+    ["hind-rajab","The Voice of Hind Rajab","2025"],
+    ["i-swear","I Swear","2025"],
+    ["sentimental-value","Sentimental Value","2025"],
+    ["no-other-choice","No Other Choice","2025"],
+    ["sinners","Sinners","2025"],
+    ["train-dreams","Train Dreams","2025"]
+  ].map(r=>({id:`bucket-${r[0]}`,title:r[1],collectionId:r[2],courseId:r[3]||null,sourceType:"personal",verificationStatus:"pin_title_observed",checkedOn:"2026-09-27"}))
+};
