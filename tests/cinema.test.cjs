@@ -129,7 +129,11 @@ test('PWA precaches the new files and course, and scripts load in dependency ord
   for(const name of ['cinema.css','cinema-data.js','INTERNATIONAL_CINEMA_COURSE.md']){
     assert.ok(sw.includes(`./${name}`));assert.ok(fs.existsSync(path.join(root,name)));
   }
-  assert.ok(html.indexOf('src="seed-data.js"')<html.indexOf('src="cinema-data.js"'));
-  assert.ok(html.indexOf('src="cinema-data.js"')<html.indexOf('src="app.js"'));
-  assert.ok(sw.includes('v3-world-cinema'));
+  for(const name of ['seed-data.js','cinema-data.js','app.js','cinema.css']){
+    assert.ok(html.includes(`${name}?v=20260926`));
+    assert.ok(sw.includes(`./${name}?v=20260926`));
+  }
+  assert.ok(html.indexOf('src="seed-data.js?')<html.indexOf('src="cinema-data.js?'));
+  assert.ok(html.indexOf('src="cinema-data.js?')<html.indexOf('src="app.js?'));
+  assert.ok(sw.includes('v4-world-cinema'));
 });

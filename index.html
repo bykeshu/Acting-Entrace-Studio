@@ -10,7 +10,7 @@
   <link rel="icon" href="icons/studio.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="daily.css">
-  <link rel="stylesheet" href="cinema.css">
+  <link rel="stylesheet" href="cinema.css?v=20260926">
 </head>
 <body>
   <a class="skip" href="#workspace">Skip to workspace</a>
@@ -202,14 +202,14 @@
 
   <div id="updateNotice" class="update-notice" role="status" hidden><span>A new app version is ready.</span><button id="refreshApp" class="primary" type="button">Update</button></div>
 
-  <script src="seed-data.js"></script>
-  <script src="cinema-data.js"></script>
+  <script src="seed-data.js?v=20260926"></script>
+  <script src="cinema-data.js?v=20260926"></script>
   <script>
     if (location.protocol === "file:" || ["localhost", "127.0.0.1"].includes(location.hostname)) {
       document.write('<script src="daily-log.js"><\/script>');
     }
   </script>
-  <script src="app.js"></script>
+  <script src="app.js?v=20260926"></script>
   <script src="pwa.js"></script>
   <script>
     if (location.protocol === "https:" || ["localhost", "127.0.0.1"].includes(location.hostname)) {
