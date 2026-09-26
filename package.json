@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
+    "test": "node --test tests/cinema.test.cjs",
     "build:cloud": "esbuild cloud/cloud.js --bundle --minify --format=iife --target=es2020 --outfile=cloud.bundle.js"
   },
   "dependencies": {

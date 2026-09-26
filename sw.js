@@ -1,10 +1,13 @@
-const CACHE_NAME = "acting-entrance-studio-shell-v2";
+const CACHE_NAME = "acting-entrance-studio-shell-v3-world-cinema";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./daily.css",
+  "./cinema.css",
   "./seed-data.js",
+  "./cinema-data.js",
+  "./INTERNATIONAL_CINEMA_COURSE.md",
   "./app.js",
   "./cloud.bundle.js",
   "./pwa.js",

@@ -1,6 +1,7 @@
 (() => {
   const KEY = "acting-entrance-studio-v1";
   const seed = window.ACTING_SEED;
+  const cinema = window.ACTING_CINEMA;
   const defaults = {
     currentWeek: 1, completedTopics: {}, evidence: {}, dailyReviews: [],
     tasks: [
@@ -104,13 +105,14 @@
     renderToday();
   };
   const todayISO = () => new Date().toISOString().slice(0,10);
-  const viewNames = {today:"Today’s rehearsal room",daily:"Daily assessment ledger",roadmap:"Your 24-week route",syllabus:"Syllabus studio",practice:"Practice log",tests:"Test and error lab",resources:"Linked resource library",evidence:"NSD evidence file"};
+  const viewNames = {today:"Today’s rehearsal room",daily:"Daily assessment ledger",roadmap:"Your 24-week route",syllabus:"Syllabus studio",practice:"Practice log",tests:"Test and error lab",resources:"Linked resource library",evidence:"NSD evidence file",cinema:"World cinema studio"};
 
   function switchView(id){
     $$(".view").forEach(v=>v.classList.toggle("active",v.id===`view-${id}`));
     $$(".nav-item").forEach(b=>b.classList.toggle("active",b.dataset.view===id));
     $("#viewTitle").textContent=viewNames[id];
     if(id==="daily") renderDaily(); if(id==="resources") renderResources(); if(id==="syllabus") renderSyllabus(); if(id==="practice") renderSessions(); if(id==="tests") renderTests(); if(id==="evidence") renderEvidence();
+    if(id==="cinema") renderCinema();
     scrollTo({top:0,behavior:"smooth"});
   }
   $("#nav").addEventListener("click",e=>{const b=e.target.closest("[data-view]");if(b)switchView(b.dataset.view)});
@@ -127,7 +129,7 @@
     $("#knowledgeMins").textContent=`${knowledge}m`; $("#practiceMins").textContent=`${practice}m`;
     const days=new Set(state.sessions.map(s=>s.date)); let streak=0,d=new Date(); while(days.has(d.toISOString().slice(0,10))){streak++;d.setDate(d.getDate()-1)} $("#streak").textContent=`${streak}d`;
     $("#todayTasks").innerHTML=state.tasks.length?state.tasks.map(t=>`<div class="task ${t.done?'done':''}"><input type="checkbox" data-task="${t.id}" ${t.done?'checked':''} aria-label="Complete ${esc(t.title)}"><div><div class="task-name">${esc(t.title)}</div><div class="meta"><span class="tag">${esc(t.track)}</span><span>${esc(t.lane)}</span>${t.due?`<span>${esc(t.due)}</span>`:''}</div></div><button class="delete" data-delete-task="${t.id}" aria-label="Delete task">×</button></div>`).join(""):`<p class="empty">No tasks yet. Add the next physical action.</p>`;
-    const doneTopics=Object.values(state.completedTopics).filter(Boolean).length;
+    const doneTopics=seed.tracks.flatMap(t=>t.modules).reduce((n,m)=>n+m.topics.filter(x=>state.completedTopics[`${m.id}:${x}`]).length,0);
     const pulse=[['FTII papers',seed.tracks.find(t=>t.id==='ftii').modules.find(m=>m.id==='ftii-papers').topics.filter(x=>state.completedTopics[`ftii-papers:${x}`]).length+'/10'],['NSD plays',seed.tracks.find(t=>t.id==='nsd').modules.find(m=>m.id==='nsd-plays').topics.filter(x=>state.completedTopics[`nsd-plays:${x}`]).length+'/27'],['Syllabus',doneTopics+' topics'],['Productions',state.productions.length+'/6']];
     $("#pulseGrid").innerHTML=pulse.map(([a,b])=>`<div class="pulse"><strong>${b}</strong><small>${a}</small></div>`).join("");
     $("#recentSessions").innerHTML=state.sessions.length?state.sessions.slice(-4).reverse().map(s=>`<div class="session-mini"><strong>${esc(s.title)}</strong><small>${esc(s.mode)} · ${s.minutes}m · ${esc(s.track)}</small></div>`).join(""):`<p class="empty">Your first logged rehearsal will appear here.</p>`;
@@ -183,10 +185,69 @@
   function renderResources(){
     const track=$("#resourceTrack").value, access=$("#resourceAccess").value, q=$("#resourceSearch").value.trim().toLowerCase();
     const rows=seed.resources.filter(r=>(track==='all'||r.track.includes(track))&&(access==='all'||r.access===access)&&(!q||`${r.title} ${r.category} ${r.publisher}`.toLowerCase().includes(q)));
-    $("#resourceCount").textContent=`${rows.length} resources · verified or checked 22 September 2026`;
-    $("#resourceList").innerHTML=rows.map(r=>`<article class="resource"><div><h3>${esc(r.title)}</h3><p>${esc(r.publisher)} · ${esc(r.category)}</p></div><span class="status">${esc(r.track)} · ${esc(r.access)}</span><a href="${esc(r.url)}" target="_blank" rel="noopener">Open ↗</a></article>`).join('')||`<p class="empty">No resources match.</p>`;
+    $("#resourceCount").textContent=`${rows.length} resources · check dates shown per source; reference links do not guarantee streaming access`;
+    $("#resourceList").innerHTML=rows.map(r=>`<article class="resource"><div><h3>${esc(r.title)}</h3><p>${esc(r.publisher)} · ${esc(r.category)} · checked ${esc(r.verifiedOn)}</p></div><span class="status">${esc(r.track)} · ${esc(r.access)}</span><a href="${esc(r.url)}" target="_blank" rel="noopener">Open ↗</a></article>`).join('')||`<p class="empty">No resources match.</p>`;
   }
   $("#resourceTrack").onchange=renderResources; $("#resourceAccess").onchange=renderResources; $("#resourceSearch").oninput=renderResources;
+
+  const filmWatched = id => Boolean(state.completedTopics[`cinema-watched:${id}`]);
+  const filmReviews = id => state.sessions.filter(s=>s.filmId===id && s.mode==="Film-performance analysis");
+  const cinemaFilters = ["Region","Director","Focus","Path","Progress","Search"];
+  for (const [suffix,values] of [["Region",cinema.films.map(f=>f.region)],["Director",cinema.films.flatMap(f=>f.directors)],["Focus",cinema.films.map(f=>f.focus)]]) {
+    $("#cinema"+suffix).insertAdjacentHTML("beforeend",[...new Set(values)].sort((a,b)=>a.localeCompare(b)).map(x=>`<option>${esc(x)}</option>`).join(""));
+  }
+  $("#cinemaReviewFilm").innerHTML=cinema.films.map(f=>`<option value="${esc(f.id)}">${esc(f.title)} (${f.year})</option>`).join("");
+  $("#cinemaReviewDate").value=todayISO();
+  $("#cinemaScope").textContent=cinema.scopeNote;
+  $("#cinemaAccess").textContent=cinema.accessNote;
+  $("#cinemaMapping").innerHTML=Object.entries(cinema.mapping).map(([track,note])=>`<div><strong>${esc(track.toUpperCase())}</strong><p>${esc(note)}</p></div>`).join("");
+
+  function renderCinema(){
+    const get=suffix=>$("#cinema"+suffix).value;
+    const q=get("Search").trim().toLowerCase();
+    const rows=cinema.films.filter(f=>(get("Region")==="all"||f.region===get("Region")) && (get("Director")==="all"||f.directors.includes(get("Director"))) && (get("Focus")==="all"||f.focus===get("Focus")) && (get("Path")==="all"||f.path===get("Path")) && (get("Progress")==="all"||get("Progress")==="watched"&&filmWatched(f.id)||get("Progress")==="unwatched"&&!filmWatched(f.id)||get("Progress")==="reflected"&&filmReviews(f.id).length>0) && (!q||`${f.title} ${f.directors.join(" ")} ${f.region} ${f.countries} ${f.movement} ${f.context}`.toLowerCase().includes(q)));
+    const watched=cinema.films.filter(f=>filmWatched(f.id)).length;
+    const reflected=cinema.films.filter(f=>filmReviews(f.id).length).length;
+    const stats=[[cinema.films.length,"linked films"],[new Set(cinema.films.flatMap(f=>f.directors)).size,"directors"],[watched,"marked watched"],[reflected,"with reflection"]];
+    $("#cinemaStats").innerHTML=stats.map(([n,label])=>`<div><strong>${n}</strong><span>${esc(label)}</span></div>`).join("");
+    const next=cinema.starterIds.map(id=>cinema.films.find(f=>f.id===id)).find(f=>!filmWatched(f.id));
+    $("#cinemaNext").textContent=next?`Next unmarked foundation film: ${next.title}`:"Foundation viewing ticks complete — revisit a reflection and repair one choice";
+    $("#cinemaCount").textContent=`${rows.length} of ${cinema.films.length} films · metadata checked ${cinema.version} · all preparation mappings are supplementary`;
+    $("#cinemaFilms").innerHTML=rows.map(f=>{
+      const reviews=filmReviews(f.id), planned=state.tasks.some(t=>t.id===`cinema-task-${f.id}`);
+      const position=cinema.starterIds.indexOf(f.id);
+      return `<article class="panel cinema-film"><div class="meta"><span class="tag">${esc(f.region)}</span><span class="tag">${esc(f.path)}</span>${position>=0?`<span class="tag">Starter ${position+1}/12</span>`:""}</div><h3>${esc(f.title)} <small>(${f.year})</small></h3><p class="cinema-credits">${esc(f.directors.join(" / "))}<br>${esc(f.language)} · about ${f.minutes}m · ${esc(f.countries)}</p><p><strong>${esc(f.movement)}</strong><br>${esc(f.context)}</p><p class="cinema-focus">Actor lens: ${esc(f.focus)}</p><details><summary>Study prompts &amp; Bengal bridge</summary><p>${esc(f.question)}</p><p>${esc(f.bengalBridge)}</p><p>Output: 150–250 words separating observation from interpretation, then an optional safe 60–90-second original scene at stage and close-up scale. Use consent and a partner where needed.</p><p>Reflection: what can you support with visible or audible evidence?</p></details><p class="cinema-advisory">Content heads-up (not a rating): ${esc(f.advisory)}</p><a class="cinema-source" href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.publisher)} reference ↗</a><small class="cinema-source-note">Supplementary · metadata checked ${esc(f.verifiedOn)} · ${esc(f.availability)}.</small><div class="cinema-controls"><label><input type="checkbox" data-film-watched="${esc(f.id)}" ${filmWatched(f.id)?"checked":""}> Watched full film</label><span>${reviews.length} reflection${reviews.length===1?"":"s"}</span><button type="button" class="text-btn" data-film-plan="${esc(f.id)}" ${planned?"disabled":""}>${planned?"In task list":"Add study task"}</button><button type="button" class="text-btn" data-film-reflect="${esc(f.id)}">Write reflection</button></div></article>`;
+    }).join("")||'<p class="empty">No films match these filters. Try Whole library or another region.</p>';
+    const recent=state.sessions.filter(s=>cinema.films.some(f=>f.id===s.filmId)).slice().reverse().slice(0,8);
+    $("#cinemaReviews").innerHTML=recent.length?recent.map(s=>`<article class="history-item"><strong>${esc(s.title)}</strong><div class="meta">${esc(s.date)} · ${esc(s.minutes)}m · ${esc(s.scope||"Analysis")}</div><p class="cinema-note">${esc(s.note)}</p></article>`).join(""):'<p class="empty">Your saved reflections will appear here and in Practice log. No viewing history has been assumed.</p>';
+    const directors=[...new Set(cinema.films.flatMap(f=>f.directors))].sort((a,b)=>a.localeCompare(b));
+    $("#cinemaDirectors").innerHTML=directors.map(d=>{const films=cinema.films.filter(f=>f.directors.includes(d));return `<article><h3>${esc(d)}</h3><p>${films.map(f=>`${esc(f.region)} · <a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.title)} (${f.year})</a> · ${esc(f.movement)}`).join("<br>")}</p></article>`}).join("");
+  }
+  cinemaFilters.forEach(suffix=>$("#cinema"+suffix).addEventListener(suffix==="Search"?"input":"change",renderCinema));
+  $("#cinemaStarter").onclick=()=>{cinemaFilters.forEach(s=>$("#cinema"+s).value=s==="Search"?"":s==="Path"?"Foundation":"all");renderCinema();};
+  $("#cinemaFilms").addEventListener("change",e=>{
+    const id=e.target.dataset.filmWatched;
+    if(!id||!cinema.films.some(f=>f.id===id))return;
+    state.completedTopics[`cinema-watched:${id}`]=e.target.checked;save();renderCinema();
+  });
+  $("#cinemaFilms").addEventListener("click",e=>{
+    const button=e.target.closest("button");if(!button)return;
+    const id=button.dataset.filmPlan||button.dataset.filmReflect,film=cinema.films.find(f=>f.id===id);if(!film)return;
+    if(button.dataset.filmPlan){
+      if(!state.tasks.some(t=>t.id===`cinema-task-${id}`))state.tasks.push({id:`cinema-task-${id}`,title:`Study ${film.title}: verify India access, observe ${film.focus.toLowerCase()}, write a reflection`,track:"Shared",lane:"Review",done:false});
+      save();renderCinema();
+    }else{
+      $("#cinemaReviewFilm").value=id;$("#cinemaReviewForm").scrollIntoView({behavior:"smooth",block:"start"});$("#cinemaReviewFilm").focus();
+    }
+  });
+  $("#cinemaReviewForm").addEventListener("submit",e=>{
+    e.preventDefault();if(!e.target.reportValidity())return;
+    const values=Object.fromEntries(new FormData(e.target)),film=cinema.films.find(f=>f.id===values.filmId);if(!film)return;
+    if(["context","observation","interpretation","repair"].some(k=>!values[k].trim())){$("#cinemaReviewStatus").textContent="Please enter meaningful text in each reflection field.";return;}
+    state.sessions.push({id:crypto.randomUUID(),date:values.date,mode:"Film-performance analysis",track:"Shared",minutes:Number(values.minutes),rating:Number(values.rating),title:`${film.title} (${film.year}) — performance dossier`,filmId:film.id,scope:values.scope,note:`Context/source: ${values.context.trim()}\nObserved: ${values.observation.trim()}\nInterpretation: ${values.interpretation.trim()}\nNext practice/repair: ${values.repair.trim()}`});
+    save();renderCinema();renderSessions();e.target.reset();$("#cinemaReviewFilm").value=film.id;$("#cinemaReviewDate").value=todayISO();
+    $("#cinemaReviewStatus").textContent="Reflection saved locally and queued through existing sync if signed in. No full-film tick or assessment score was added.";
+  });
 
   function renderEvidence(){
     $("#evidenceChecklist").innerHTML=seed.evidence.map(x=>`<article class="evidence-card"><label><input type="checkbox" data-evidence="${x.id}" ${state.evidence[x.id]?'checked':''}><span>${esc(x.title)}</span></label><p>${esc(x.note)}</p></article>`).join('');
@@ -198,6 +259,6 @@
 
   $("#exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify({app:"Acting Entrance Studio",version:seed.version,exportedAt:new Date().toISOString(),state},null,2)],{type:"application/json"});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`acting-entrance-backup-${todayISO()}.json`;a.click();URL.revokeObjectURL(a.href)};
   $("#importInput").onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const payload=JSON.parse(await file.text());state={...defaults,...(payload.state||payload)};save();renderAll();alert("Backup imported.")}catch{alert("That file is not a valid backup.")}};
-  function renderAll(){renderToday();renderDaily();renderRoadmap();renderSyllabus();renderSessions();renderTests();renderResources();renderEvidence()}
+  function renderAll(){renderToday();renderDaily();renderRoadmap();renderSyllabus();renderSessions();renderTests();renderResources();renderEvidence();renderCinema()}
   renderAll();
 })();
