@@ -41,5 +41,13 @@ test('Build changes only public outputs and preserves tracker, cache alignment a
   assert.equal(fresh.mode,'fresh-ai');assert.equal(fresh.runner,'chatgpt-cloud');
   assert.equal(JSON.parse(fs.readFileSync(path.join(repo,'design/history.json'))).length,2);
   assert.throws(()=>refresh({repo,runner:'unverified'}));
+  const {consume}=require('../scripts/consume-design-proposal.cjs');
+  const proposal={proposalId:'ink-room-ci-test-20260927',design:{presetId:'ink-room',mode:'fresh-ai',rationale:'Original cinematic specimen variation.',tokens:catalogue.presets[3].tokens}};
+  fs.writeFileSync(path.join(repo,'design/proposal.json'),JSON.stringify(proposal));
+  const applied=consume(repo);assert.equal(applied.proposalId,proposal.proposalId);assert.equal(applied.designAuthor,'chatgpt-cloud');
+  assert.equal(consume(repo).alreadyProcessed,true);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(repo,'design/history.json'))).length,3);
+  fs.writeFileSync(path.join(repo,'design/proposal.json'),JSON.stringify({...proposal,proposalId:'ink-room-repeat-20260927'}));
+  assert.throws(()=>consume(repo),/eligible unused/);
  }finally{fs.rmSync(repo,{recursive:true,force:true});}
 });

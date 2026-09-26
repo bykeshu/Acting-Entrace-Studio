@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   refresh:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       contents: write
@@ -34,18 +34,31 @@ jobs:
       - name: Rotate verified saved-pin snapshot
         if: github.event_name != 'push' || contains(github.event.head_commit.message, '[run-weekly-design]')
         run: node scripts/refresh-design.cjs --runner github-actions
+      - name: Build fresh cloud-AI proposal
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, '[fresh-ai-proposal]')
+        run: node scripts/consume-design-proposal.cjs
       - name: Identify release
         id: build
         run: |
           echo "revision=$(node -p 'require("./design/active.json").revision')" >> "$GITHUB_OUTPUT"
       - name: Verify generated release
         run: node --test tests/*.test.cjs
+      - name: Check all rooms in installed CI Chrome
+        run: node scripts/check-design-layout.cjs
+      - name: Save layout evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-layout-checks
+          path: _design-checks
+          retention-days: 7
       - name: Commit public design files only
-        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[run-weekly-design]')
+        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[run-weekly-design]') || contains(github.event.head_commit.message, '[fresh-ai-proposal]')
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add weekly-theme.css design/active.json design/history.json index.html sw.js
+          if git diff --cached --quiet; then exit 0; fi
           git commit -m "design: weekly saved-pin theme rotation"
           git push origin HEAD:main
       - name: Assemble tracked public site
@@ -61,7 +74,7 @@ jobs:
           node -e 'const r=require("./design/active.json"); console.log(`Revision: ${r.revision}\n\nMode: ${r.mode}; runner: ${r.runner}; paid API: ${r.paidApiUsed}\n\nInspiration: ${r.pinUrl}\n\nSource snapshot: ${r.sourceObservedOn}; this is not a live Pinterest sync.`)' >> "$GITHUB_STEP_SUMMARY"
   deploy:
     needs: refresh
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       pages: write

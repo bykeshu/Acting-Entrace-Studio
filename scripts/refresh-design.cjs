@@ -29,7 +29,7 @@ function selectPreset(presets,history,random=crypto.randomInt) {
   let pool=presets.filter(p=>!used.has(p.id));
   if(!count || !pool.length)pool=presets.filter(p=>!used.has(p.id)&&p.id!==previous);
   if(!pool.length)pool=presets;
-  return {preset:pool[random(pool.length)],poolSize:pool.length};
+  return {preset:pool[random(pool.length)],poolSize:pool.length,eligibleIds:pool.map(p=>p.id)};
 }
 function renderCss(t) {
   validateTokens(t);
@@ -64,17 +64,19 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   };
   return css+treatments[t.layout]+'\n@media(max-width:460px){.hero-star{width:25px;height:25px}.poster-focus>h2{font-size:clamp(52px,16vw,74px)}.cinema-film .film-cover h3{font-size:33px}}\n';
 }
-function refresh({repo=root,date=new Date(),random,design=null,runner='local'}={}) {
+function refresh({repo=root,date=new Date(),random,design=null,runner='local',proposalId=null}={}) {
   if(!['local','github-actions','chatgpt-cloud'].includes(runner))throw Error('Unknown runner');
   const read=name=>JSON.parse(fs.readFileSync(path.join(repo,name),'utf8'));
   const catalogue=read('design/presets.json'),history=read('design/history.json');
   const selected=selectPreset(catalogue.presets,history,random);
   const preset=design?catalogue.presets.find(p=>p.id===design.presetId):selected.preset;
   if(!preset)throw Error('Design must reference an observed saved-pin preset');
+  if(design && !selected.eligibleIds.includes(preset.id))throw Error('Design must use an eligible unused saved pin');
   if(design && (typeof design.rationale!=='string'||design.rationale.length>1000||!['rotation','fresh-ai'].includes(design.mode)))throw Error('Invalid design provenance');
   const tokens=validateTokens(design?.tokens||preset.tokens),css=renderCss(tokens);
   const at=date.toISOString(),revision=`weekly-${at.replace(/\D/g,'').slice(0,14)}-${crypto.createHash('sha256').update(css).digest('hex').slice(0,8)}`;
   const release={revision,createdAt:at,runner,presetId:preset.id,name:preset.name,pinUrl:preset.pinUrl,boardUrl:catalogue.boardUrl,sourceObservedOn:catalogue.observedOn,eligiblePoolSize:design?1:selected.poolSize,mode:design?.mode||'rotation',rationale:design?.rationale||preset.observation,tokens,paidApiUsed:false};
+  if(proposalId){release.proposalId=proposalId;release.designAuthor='chatgpt-cloud';}
   let html=fs.readFileSync(path.join(repo,'index.html'),'utf8');
   let sw=fs.readFileSync(path.join(repo,'sw.js'),'utf8');
   const url=`weekly-theme.css?v=${revision}`;

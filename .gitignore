@@ -7,3 +7,5 @@ acting-entrance-backup-*.json
 .env*
 node_modules/
 tools/
+_design-checks/
+_site/

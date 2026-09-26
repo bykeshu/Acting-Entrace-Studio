@@ -1,65 +1,80 @@
 # Weekly cinema design: subscription-only cloud workflow
 
-The user has ChatGPT Plus and has explicitly declined paid API calls. The weekly
-agent must use included cloud Work/Codex usage. Google Drive is not an execution
-engine and is not needed: this public GitHub repo is the source of truth.
+Use included ChatGPT Plus cloud Work reasoning and the connected GitHub plugin.
+No paid AI/API calls, API keys, purchases or extra subscription is authorized.
+GitHub is the source of truth; neither the laptop nor Google Drive runs the task.
 
-## Same workflow locally and in the cloud
+## Cloud stages
 
-1. Read AGENTS.md and DESIGN_NOTES.md. Check Git status and preserve user edits.
-2. Revisit https://in.pinterest.com/maddyman296/graphic-design/. Only actual saves
-   belong to the pool. `design/presets.json` is a dated four-pin snapshot, not a
-   live sync. If newly saved pins can be inspected, add an original licensed-font
-   interpretation and record its observation date. Do not import suggestions.
-3. Select an unused saved-pin style with the exported selectPreset function. Build
-   only the final chosen design once, so one run records exactly one history entry.
-   For rotation-only runs use `node scripts/refresh-design.cjs --runner chatgpt-cloud`.
-4. For a fresh AI variation, inspect that pin and create a small JSON design file
-   with `presetId`, `mode: "fresh-ai"`, `rationale` and `tokens`. Tokens must include
+GitHub Actions rotates a verified fallback Monday 09:00 Asia/Kolkata. Cloud Work
+proposes a fresh original variation Monday 09:15. Schedules can be delayed.
+The cloud Work local browser preview was unavailable in the acceptance test.
+Therefore Work proposes public token JSON; GitHub's installed Chrome checks the
+layout before generated files are committed or deployed. Do not require a browser
+download, localhost permission, laptop path or local skills each week.
+
+## Fresh-AI task
+
+1. Read AGENTS.md, DESIGN_NOTES.md, this file, design/presets.json and
+   design/history.json from current main. Preserve concurrent edits; never force
+   push. Keep course/bucket/seed data, app.js, Firebase/security, storage keys,
+   manifest identity and private records unchanged.
+2. Reinspect https://in.pinterest.com/maddyman296/graphic-design/ when accessible.
+   Count only actual saves, not related pins or suggestions. The catalogue is a
+   dated four-pin snapshot, not live sync. If inaccessible, use that snapshot
+   honestly. A fresh interpretation of an old observed pin is allowed; claiming
+   a new observation is not. Select an eligible unused pin with selectPreset's
+   logic; avoid repeats until the pool is exhausted and immediate repetition.
+3. Create an original cinematic palette/type/composition variation of a reviewed
+   layout using included agent reasoning and existing licensed fonts. No copied
+   Pinterest art or logos. This is not an unbounded ground-up UX rebuild.
+4. Atomically write only design/proposal.json to main. Its exact top-level fields
+   are proposalId (unique, 8–80 lowercase letters/digits/hyphens) and design.
+   Design has exactly presetId, mode "fresh-ai", rationale and tokens. Tokens have
    exactly stage, accent, paper, panel, ink, line, mark, soft (six-digit hex colours),
-   display (archivo, anton or serif) and layout (collage, editorial, ribbon or
-   specimen). This is an original variation of a reviewed layout, not a claim of
-   a ground-up UX replacement or exact font identification. Use included agent
-   reasoning, never an API key. Run
-   `node scripts/refresh-design.cjs --design PATH --runner chatgpt-cloud`.
-   For local tests use `--runner local`. The runner label is provenance, not proof:
-   independently record the actual cloud task, tests and GitHub deployment.
-5. If the board is inaccessible, rotate the verified snapshot and label the
-   source stale; do not claim a newly observed/fresh pin interpretation. If the
-   fresh variation is invalid, use the tested fallback and explain why.
-6. Run `node --test tests/*.test.cjs`. Check desktop and approximately 360px phone
-   layouts, keyboard focus, all ten rooms, no horizontal overflow, offline assets
-   and existing tracker behaviour. A failing check must block publication.
-7. Publish the five generated outputs together: weekly-theme.css, design/active.json,
-   design/history.json, index.html and sw.js. Optional catalogue/design-note updates
-   must contain only public references. Prefer an atomic GitHub commit or a tested
-   pull request; reread main before writing to avoid overwriting concurrent edits.
-   Use the existing Pages publication. Do not change security settings or purchase
-   anything. If an approval is necessary, report it rather than bypassing it.
-8. Confirm the Pages run succeeded and the live CSS/active.json match the new
-   revision at https://bykeshu.github.io/Acting-Entrace-Studio/. Record actual test
-   and deployment evidence. Report inspiration, mode (rotation/fresh-ai), commit,
-   live link and any blocker. The phone receives releases after reopening online
-   and accepting Update, not through a forced reinstall.
+   display (archivo, anton or serif), and layout (collage, editorial, ribbon or
+   specimen). Use a commit message containing [fresh-ai-proposal]. A proposal
+   commit is NOT a published theme. No local builder/browser is needed in Work.
+5. Wait for the resulting Weekly cinema theme Actions run. It validates and
+   consumes each proposalId once, runs the builder once, then tests all existing
+   progress/course behaviours. Installed CI Chrome checks all ten rooms at 1280px
+   and 360px, horizontal overflow, dark-header contrast, keyboard access and
+   uncaught app errors. It saves 20 screenshots plus metrics.json in the
+   design-layout-checks artifact. Review that evidence when available.
+   Failure blocks generated-file commit and deployment; leave the last verified
+   live theme unchanged and report the exact blocker.
+6. On a pass, Actions atomically commits exactly weekly-theme.css,
+   design/active.json, design/history.json, index.html and sw.js, deploys the tested
+   tracked public site and verifies the live revision. Independently confirm the
+   run and https://bykeshu.github.io/Acting-Entrace-Studio/design/active.json before
+   reporting publication. Report pin/source date, actual mode, proposal/generated
+   commits, tests and live link. Actual builder runner is github-actions;
+   designAuthor records chatgpt-cloud. A runner label is not proof by itself.
+7. Keep the recurring task enabled. A failing run is evidence to report, not
+   permission to silently disable the user's schedule. Notify on completed
+   updates, failures or required user action, not unchanged-state checks.
 
-The builder performs no network request and touches no personal storage. It
-validates text contrast and constrains all fonts/layouts/colours. It writes only
-five public design files and bumps the stylesheet URL and service-worker cache.
-`design/history.json` contains design releases, not personal learning logs.
+Preserve all ten rooms, cinema/enjoyment-first controls, accessibility, offline
+assets and private progress. Watching adds no automatic homework, quizzes,
+mastery, hours or learning streak. Never publish watched history, movie memories,
+daily logs, backups, credentials, private pins, .env or ignored files.
 
-## Cloud schedule acceptance
+## Rotation, local tests and acceptance
 
-Run weekly on Mondays at 09:00 Asia/Kolkata using ChatGPT Work cloud with the
-GitHub plugin. The local weekly task is not considered migrated until an actual
-cloud run and a cloud schedule have been verified. A repository commit made by
-the desktop agent is NOT proof of cloud execution. Do not require this laptop's
-Windows path, signed-in browser or installed local skills in the cloud prompt.
-No paid API workflow is configured or authorized.
+Use node scripts/refresh-design.cjs --runner local and
+node --test tests/*.test.cjs locally, then inspect desktop/360px in the normal
+browser. The CI browser script is CI-only and never attaches to a user's browser.
+The builder makes no network/API call and writes only five public design outputs.
+It validates text contrast/fonts/layouts and refreshes stylesheet/PWA cache URLs.
 
-GitHub Actions provides the independent no-API rotation at Monday 09:00 IST.
-Run workflow dispatches it manually; an authorized main-branch commit containing
-`[run-weekly-design]` also runs the full rotation for an end-to-end cloud test.
-Other main pushes test and deploy the current design without rotating it again.
-The separate fresh-AI cloud Work schedule should run Monday 09:15 IST, after the
-fallback rotation. GitHub schedule execution may be delayed; no exact-time SLA
-is implied. Both paths use main as the source of truth, not this laptop.
+Run workflow dispatches a rotation manually. An authorized main commit containing
+[run-weekly-design] also runs a complete cloud rotation. Normal pushes test and
+deploy without re-rotating. [fresh-ai-proposal] consumes a new AI proposal instead.
+Never combine both trigger markers in one commit. Reopen the phone online and
+accept Update; no reinstall or progress reset is needed.
+
+Pause the old local heartbeat only after a cloud run and cloud schedule have been
+verified. Initial rotation acceptance succeeded with 29 tests before and after,
+a bot-generated five-file commit and verified live revision:
+https://github.com/bykeshu/Acting-Entrace-Studio/actions/runs/36278390485
+Fresh-AI acceptance is separate and must not be inferred from that rotation.
