@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#edefdf">
+  <meta name="theme-color" content="#101110">
   <title>Acting Entrance Studio — FTII · NSD · Bengal</title>
   <meta name="description" content="Offline-first FTII, NSD and Bengal acting entrance preparation tracker.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icons/studio-journal.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/cinema-studio.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="daily.css">
   <link rel="stylesheet" href="cinema.css?v=20260927">
-  <link rel="preload" href="fonts/cormorant-roman-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="poster-theme.css?v=20260927-poster">
+  <link rel="stylesheet" href="poster-theme.css?v=20260927-cinema">
 </head>
 <body data-room="today">
   <a class="skip" href="#workspace">Skip to workspace</a>
@@ -56,17 +57,20 @@
       <section class="view active" id="view-today">
         <div class="hero-grid">
           <article class="focus-card poster-focus">
-            <p class="eyebrow">THE ACTOR’S NOTEBOOK · A LITTLE, EVERY DAY</p>
-            <h2 id="focusTitle">A little craft.<em>A lot of feeling.</em></h2>
+            <p class="eyebrow">ACTING ENTRANCE STUDIO PRESENTS</p>
+            <p class="hero-script">Watch. Feel. Become.</p>
+            <h2 id="focusTitle">LIVE FOR<span>THE FRAME.</span></h2>
             <p id="focusCopy">Show up for your craft. Make room for films, feelings and moments that stay. Your practice and your pleasure belong here.</p>
             <div class="hero-choices"><button class="primary" type="button" data-go="practice">Open my practice log ↗</button><button class="quiet" type="button" data-go="bucket">Find a film to enjoy ↗</button></div>
-            <div class="studio-art" aria-hidden="true"><span class="art-ticket">feel.<br>play.<br>become.<small>A personal studio</small></span><span class="art-orbit"></span></div>
+            <div class="cinema-scene" aria-hidden="true"><img src="icons/rehearsal-frame.svg" alt="" width="540" height="600"><span class="scene-caption">AN OPEN DOOR.<br>YOUR NEXT SCENE.</span></div>
+            <span class="hero-star" aria-hidden="true"></span>
             <div class="progress-wrap"><div><span>Week progress</span><strong id="weekProgressLabel">0%</strong></div><div class="progress"><i id="weekProgressBar"></i></div></div>
           </article>
           <article class="stat-card"><span>Knowledge</span><strong id="knowledgeMins">0m</strong><small>This week</small></article>
           <article class="stat-card"><span>Practice</span><strong id="practiceMins">0m</strong><small>This week</small></article>
           <article class="stat-card"><span>Current streak</span><strong id="streak">0d</strong><small>Any logged work</small></article>
         </div>
+        <div class="studio-programme" aria-label="Studio shortcuts"><button type="button" data-go="practice"><span>01 / REHEARSE</span>Make a choice. Try a take. ↗</button><button type="button" data-go="bucket"><span>02 / WATCH &amp; FEEL</span>A film, not an assignment. ↗</button><button type="button" data-go="bucket"><span>03 / KEEP A MOMENT</span>Only if it stays with you. ↗</button></div>
         <div class="two-col">
           <section class="panel">
             <div class="panel-head"><div><p class="eyebrow">NEXT ACTIONS</p><h2>Plan for the room</h2></div><button id="addTaskInline" class="text-btn">Add</button></div>
@@ -203,7 +207,7 @@
           <details><summary>About this import</summary><p id="bucketSourceNote"></p></details>
         </article>
         <div class="filter-row">
-          <label>Collection<select id="bucketCollection"><option value="all">All four lists</option></select></label>
+          <label>Collection<select id="bucketCollection"><option value="all">All saved lists</option></select></label>
           <label>Watching<select id="bucketProgress"><option value="all">All films</option><option value="unwatched">Yet to watch</option><option value="watched">Watched</option></select></label>
           <label>Search<input id="bucketSearch" type="search" placeholder="A film I feel like watching"></label>
         </div>
@@ -251,13 +255,13 @@
 
   <script src="seed-data.js?v=20260927"></script>
   <script src="cinema-data.js?v=20260927"></script>
-  <script src="bucket-data.js?v=20260927"></script>
+  <script src="bucket-data.js?v=20260927-cinema"></script>
   <script>
     if (location.protocol === "file:" || ["localhost", "127.0.0.1"].includes(location.hostname)) {
       document.write('<script src="daily-log.js"><\/script>');
     }
   </script>
-  <script src="app.js?v=20260927-poster"></script>
+  <script src="app.js?v=20260927-cinema"></script>
   <script src="pwa.js"></script>
   <script>
     if (location.protocol === "https:" || ["localhost", "127.0.0.1"].includes(location.hostname)) {

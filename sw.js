@@ -1,11 +1,17 @@
-const CACHE_NAME = "acting-entrance-studio-shell-v6-poster-journal";
+const CACHE_NAME = "acting-entrance-studio-shell-v7-cinema-poster";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./daily.css",
   "./cinema.css?v=20260927",
-  "./poster-theme.css?v=20260927-poster",
+  "./poster-theme.css?v=20260927-cinema",
+  "./fonts/anton-latin.woff2",
+  "./fonts/anton-latin-ext.woff2",
+  "./fonts/archivo-black-latin.woff2",
+  "./fonts/archivo-black-latin-ext.woff2",
+  "./fonts/Anton-OFL.txt",
+  "./fonts/Archivo-Black-OFL.txt",
   "./fonts/cormorant-roman-latin.woff2",
   "./fonts/cormorant-roman-latin-ext.woff2",
   "./fonts/cormorant-italic-latin.woff2",
@@ -16,17 +22,18 @@ const APP_SHELL = [
   "./fonts/DM-Sans-OFL.txt",
   "./seed-data.js?v=20260927",
   "./cinema-data.js?v=20260927",
-  "./bucket-data.js?v=20260927",
+  "./bucket-data.js?v=20260927-cinema",
   "./INTERNATIONAL_CINEMA_COURSE.md",
   "./MOVIE_BUCKET_LIST.md",
   "./DESIGN_NOTES.md",
-  "./app.js?v=20260927-poster",
+  "./app.js?v=20260927-cinema",
   "./cloud.bundle.js",
   "./pwa.js",
   "./manifest.webmanifest",
-  "./icons/studio-journal.svg",
-  "./icons/studio-journal-192.png",
-  "./icons/studio-journal-512.png"
+  "./icons/rehearsal-frame.svg",
+  "./icons/cinema-studio.svg",
+  "./icons/cinema-studio-192.png",
+  "./icons/cinema-studio-512.png"
 ];
 
 self.addEventListener("install", event => {

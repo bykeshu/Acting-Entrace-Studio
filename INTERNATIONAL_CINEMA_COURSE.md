@@ -6,7 +6,7 @@ Added 26 September 2026. **Supplementary preparation**, not an official FTII or 
 
 Watch a film to enjoy it, feel it and live with its moments. Not every viewing is a learning opportunity, and it never has to become one. No viewing quota, compulsory dossier, rehearsal output or quiz follows a film. Choose by curiosity, mood, access and content comfort; pause or switch freely. Personal viewing is not marked as syllabus mastery or added to practice hours.
 
-The separate [Pinterest bucket list](MOVIE_BUCKET_LIST.md) preserves your four saved lists. In the app, **Movie bucket list** is a personal shelf: a watched tick is enough. Keeping a feeling or moment is optional and ungraded. **World cinema** retains the cultural/acting references for when you actively want to explore them, after viewing.
+The separate [Pinterest bucket list](MOVIE_BUCKET_LIST.md) preserves your five saved lists, including Films for catharsis (50 title labels in total). In the app, **Movie bucket list** is a personal shelf: a watched tick is enough. Keeping a feeling or moment is optional and ungraded. **World cinema** retains the cultural/acting references for when you actively want to explore them, after viewing.
 
 ## How to use this course — only when you choose to study
 

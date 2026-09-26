@@ -129,21 +129,21 @@ test('PWA precaches the new files and course, and scripts load in dependency ord
   for(const name of ['cinema.css','cinema-data.js','bucket-data.js','INTERNATIONAL_CINEMA_COURSE.md','MOVIE_BUCKET_LIST.md']){
     assert.ok(sw.includes(`./${name}`));assert.ok(fs.existsSync(path.join(root,name)));
   }
-  for(const name of ['seed-data.js','cinema-data.js','bucket-data.js','cinema.css']){
+  for(const name of ['seed-data.js','cinema-data.js','cinema.css']){
     assert.ok(html.includes(`${name}?v=20260927`));
     assert.ok(sw.includes(`./${name}?v=20260927`));
   }
   assert.ok(html.indexOf('src="seed-data.js?')<html.indexOf('src="cinema-data.js?'));
   assert.ok(html.indexOf('src="cinema-data.js?')<html.indexOf('src="bucket-data.js?'));
   assert.ok(html.indexOf('src="bucket-data.js?')<html.indexOf('src="app.js?'));
-  assert.ok(html.includes('app.js?v=20260927-poster'));assert.ok(sw.includes('./app.js?v=20260927-poster'));
-  assert.ok(sw.includes('v6-poster-journal'));
+  for(const name of ['app.js','bucket-data.js']){assert.ok(html.includes(`${name}?v=20260927-cinema`));assert.ok(sw.includes(`./${name}?v=20260927-cinema`));}
+  assert.ok(sw.includes('v7-cinema-poster'));
 });
 
-test('personal import has four bounded lists and 39 distinct titles, without claimed film metadata',()=>{
+test('personal import has five bounded lists and 50 distinct titles, without claimed film metadata',()=>{
   const {context}=harness();const b=context.window.ACTING_BUCKET;
-  assert.equal(b.films.length,39);assert.equal(new Set(b.films.map(f=>f.id)).size,39);
-  assert.equal(b.collections.length,4);
+  assert.equal(b.films.length,50);assert.equal(new Set(b.films.map(f=>f.id)).size,50);
+  assert.equal(b.collections.length,5);
   for(const c of b.collections)assert.equal(b.films.filter(f=>f.collectionId===c.id).length,c.titleCount);
   for(const f of b.films){assert.equal(f.sourceType,'personal');assert.equal(f.verificationStatus,'pin_title_observed');assert.equal(f.year,undefined);}
   assert.equal(b.films.filter(f=>f.courseId).length,3);
@@ -158,11 +158,11 @@ test('new memory date follows the user India calendar rather than UTC',()=>{
 });
 
 test('bucket filters search and watching state, including no matches',()=>{
-  const h=harness();assert.match(h.get('#bucketCount').textContent,/39 of 39/);
+  const h=harness();assert.match(h.get('#bucketCount').textContent,/50 of 50/);
   h.get('#bucketCollection').value='poets';h.fire('#bucketCollection','change',{});
-  assert.match(h.get('#bucketCount').textContent,/9 of 39/);
+  assert.match(h.get('#bucketCount').textContent,/9 of 50/);
   h.get('#bucketSearch').value='happy';h.fire('#bucketSearch','input',{});
-  assert.match(h.get('#bucketCount').textContent,/1 of 39/);
+  assert.match(h.get('#bucketCount').textContent,/1 of 50/);
   h.get('#bucketSearch').value='not a film';h.fire('#bucketSearch','input',{});
   assert.match(h.get('#bucketFilms').innerHTML,/No films match/);
 });
@@ -177,7 +177,7 @@ test('enjoyment tick alone adds no task, memory, assessment, syllabus mastery or
   assert.equal(h.get('#knowledgeMins').textContent,'0m');assert.equal(h.get('#practiceMins').textContent,'0m');
   assert.ok(h.context.window.ACTING_SYNC.outbox('test-user').some(e=>e.kind==='topic'&&e.entityId==='bucket-watched:bucket-ghost-world'));
   h.get('#bucketProgress').value='watched';h.fire('#bucketProgress','change',{});
-  assert.match(h.get('#bucketCount').textContent,/1 of 39/);
+  assert.match(h.get('#bucketCount').textContent,/1 of 50/);
   h.fire('#bucketFilms','change',{target:{dataset:{bucketWatched:'bucket-ghost-world'},checked:false}});
   assert.equal(h.state().completedTopics['bucket-watched:bucket-ghost-world'],false);
 });
@@ -245,18 +245,33 @@ test('mobile room selector reaches every existing view and ignores unknown rooms
 
 test('theme ships offline fonts, attribution and original graphic treatments without remote dependencies',()=>{
   const css=source('poster-theme.css'),sw=source('sw.js'),html=source('index.html');
-  assert.ok(html.includes('poster-theme.css?v=20260927-poster'));assert.ok(sw.includes('./poster-theme.css?v=20260927-poster'));
+  assert.ok(html.includes('poster-theme.css?v=20260927-cinema'));assert.ok(sw.includes('./poster-theme.css?v=20260927-cinema'));
   assert.match(css,/prefers-reduced-motion/);assert.match(css,/:focus-visible/);assert.ok(!/url\(["']?https?:/.test(css));
-  for(const name of ['cormorant-roman-latin.woff2','cormorant-roman-latin-ext.woff2','cormorant-italic-latin.woff2','cormorant-italic-latin-ext.woff2','dm-sans-latin.woff2','dm-sans-latin-ext.woff2']){
+  for(const name of ['anton-latin.woff2','anton-latin-ext.woff2','archivo-black-latin.woff2','archivo-black-latin-ext.woff2','cormorant-roman-latin.woff2','cormorant-roman-latin-ext.woff2','cormorant-italic-latin.woff2','cormorant-italic-latin-ext.woff2','dm-sans-latin.woff2','dm-sans-latin-ext.woff2']){
     const buffer=fs.readFileSync(path.join(root,'fonts',name));assert.equal(buffer.toString('ascii',0,4),'wOF2');assert.ok(css.includes(name));assert.ok(sw.includes(`./fonts/${name}`));
   }
-  for(const name of ['Cormorant-OFL.txt','DM-Sans-OFL.txt'])assert.match(source(`fonts/${name}`),/SIL OPEN FONT LICENSE/);
+  for(const name of ['Anton-OFL.txt','Archivo-Black-OFL.txt','Cormorant-OFL.txt','DM-Sans-OFL.txt'])assert.match(source(`fonts/${name}`),/SIL OPEN FONT LICENSE/);
   assert.ok(fs.existsSync(path.join(root,'DESIGN_NOTES.md')));assert.match(harness().get('#bucketFilms').innerHTML,/data-collection="crossroads"/);
   const manifest=JSON.parse(source('manifest.webmanifest'));
-  assert.equal(manifest.theme_color,'#edefdf');assert.equal(manifest.background_color,'#faf8f0');
+  assert.equal(manifest.theme_color,'#101110');assert.equal(manifest.background_color,'#f4f2e9');
   for(const size of [192,512]){
-    const filename=`icons/studio-journal-${size}.png`,buffer=fs.readFileSync(path.join(root,filename));
+    const filename=`icons/cinema-studio-${size}.png`,buffer=fs.readFileSync(path.join(root,filename));
     assert.equal(buffer.toString('hex',0,8),'89504e470d0a1a0a');assert.equal(buffer.readUInt32BE(16),size);assert.equal(buffer.readUInt32BE(20),size);
     assert.ok(manifest.icons.some(i=>i.src===filename));assert.ok(sw.includes(`./${filename}`));
   }
+});
+
+test('new catharsis shelf is isolated from old progress and has only observed title labels',()=>{
+  const h=harness({completedTopics:{'bucket-watched:bucket-ghost-world':true},sessions:[{id:'old-memory',mode:'Film memory',minutes:0,note:'Keep me'}]});
+  h.get('#bucketCollection').value='catharsis';h.fire('#bucketCollection','change',{});
+  assert.match(h.get('#bucketCount').textContent,/11 of 50/);assert.match(h.get('#bucketFilms').innerHTML,/Ikiru/);assert.match(h.get('#bucketFilms').innerHTML,/The Great Beauty/);
+  h.fire('#bucketFilms','change',{target:{dataset:{bucketWatched:'bucket-ikiru'},checked:true}});
+  assert.equal(h.state().completedTopics['bucket-watched:bucket-ghost-world'],true);assert.equal(h.state().completedTopics['bucket-watched:bucket-ikiru'],true);
+  assert.equal(h.state().sessions.length,1);assert.equal(h.state().sessions[0].note,'Keep me');assert.equal(h.state().dailyReviews.length,0);assert.equal(h.get('#practiceMins').textContent,'0m');
+});
+
+test('every precached asset exists and visual research never bundles reference photographs',()=>{
+  for(const [,url] of source('sw.js').matchAll(/"\.\/([^"?]+)(?:\?[^" ]*)?"/g))assert.ok(fs.existsSync(path.join(root,url)),`Missing cached asset ${url}`);
+  const html=source('index.html');assert.match(html,/icons\/rehearsal-frame\.svg/);assert.match(html,/LIVE FOR/);assert.ok(!html.includes('Aarman Roy.jpg'));
+  assert.match(source('DESIGN_NOTES.md'),/not a verified original font/);assert.match(source('poster-theme.css'),/font-family:"Archivo Black"/);
 });

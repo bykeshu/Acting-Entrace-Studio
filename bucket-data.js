@@ -5,13 +5,14 @@ window.ACTING_BUCKET = {
   boardUrl: "https://www.pinterest.com/maddyman296/cinema-to-watch/",
   checkedOn: "2026-09-27",
   sourceType: "personal",
-  note: "Snapshot of four saved pins. Only titles in those pins are included, not Pinterest suggestions or comments. New titles are imported labels, not independently verified edition/year/director metadata. Pin rankings and mood descriptions are the creator's claims, not exam guidance. Lawful India viewing access is not verified. Board changes require another import; this is not a live Pinterest sync.",
+  note: "Snapshot of five saved pins, including the new Films for catharsis carousel. Only titles in those pins are included, not Pinterest suggestions or comments. New titles are imported labels, not independently verified edition/year/director metadata. Pin rankings and mood descriptions are the creator's claims, not exam guidance. Lawful India viewing access is not verified. Board changes require another import; this is not a live Pinterest sync.",
   preference: "Watch and enjoy first. Feelings and memorable moments matter on their own. Notes, analysis, exercises and quizzes are optional afterwards; no viewing quota or penalty for skipping them.",
   collections: [
     {id:"crossroads",title:"At a crossroads in life",pinUrl:"https://www.pinterest.com/pin/649292471323016043/",titleCount:10},
     {id:"iran",title:"Iranian cinema",pinUrl:"https://www.pinterest.com/pin/649292471323016041/",titleCount:10},
     {id:"poets",title:"The Tortured Poets Department mood",pinUrl:"https://www.pinterest.com/pin/649292471323016050/",titleCount:9},
-    {id:"2025",title:"Saved 2025-release list",pinUrl:"https://www.pinterest.com/pin/649292471323037458/",titleCount:10}
+    {id:"2025",title:"Saved 2025-release list",pinUrl:"https://www.pinterest.com/pin/649292471323037458/",titleCount:10},
+    {id:"catharsis",title:"Films for catharsis",pinUrl:"https://www.pinterest.com/pin/649292471323038063/",titleCount:11}
   ],
   // Existing course IDs share a watched tick across the two shelves, not a score.
   films: [
@@ -53,6 +54,17 @@ window.ACTING_BUCKET = {
     ["sentimental-value","Sentimental Value","2025"],
     ["no-other-choice","No Other Choice","2025"],
     ["sinners","Sinners","2025"],
-    ["train-dreams","Train Dreams","2025"]
+    ["train-dreams","Train Dreams","2025"],
+    ["ikiru","Ikiru","catharsis"],
+    ["demolition","Demolition","catharsis"],
+    ["tamasha","Tamasha","catharsis"],
+    ["another-round","Another Round","catharsis"],
+    ["drive-my-car","Drive My Car","catharsis"],
+    ["secret-sunshine","Secret Sunshine","catharsis"],
+    ["three-colors-blue","Three Colors: Blue","catharsis"],
+    ["sons-room","The Son’s Room","catharsis"],
+    ["poetry","Poetry","catharsis"],
+    ["mommy","Mommy","catharsis"],
+    ["great-beauty","The Great Beauty","catharsis"]
   ].map(r=>({id:`bucket-${r[0]}`,title:r[1],collectionId:r[2],courseId:r[3]||null,sourceType:"personal",verificationStatus:"pin_title_observed",checkedOn:"2026-09-27"}))
 };

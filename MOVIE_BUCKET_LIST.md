@@ -1,6 +1,6 @@
 # Cinema to Watch — personal bucket list
 
-Imported 27 September 2026 from the user's public [Pinterest board](https://www.pinterest.com/maddyman296/cinema-to-watch/): four saved carousel pins, 39 distinct title labels. This is a dated snapshot, not live Pinterest syncing. Recommended pins, comments and sponsored suggestions are excluded. The repeated Hamnet caption tag is deduplicated.
+Imported 27 September 2026 from the user's public [Pinterest board](https://www.pinterest.com/maddyman296/cinema-to-watch/): five saved carousel pins, 50 distinct title labels. The new Films for catharsis pin contributes 11 titles. This is a dated snapshot, not live Pinterest syncing. Recommended pins, comments and sponsored suggestions are excluded. The repeated Hamnet caption tag is deduplicated. All previous film IDs are preserved.
 
 ## My viewing preference
 
@@ -67,8 +67,24 @@ Movies are for watching and enjoying first. Feelings and moments matter without 
 - Sinners
 - Train Dreams
 
+## Films for catharsis — 11 titles
+
+[Saved pin](https://www.pinterest.com/pin/649292471323038063/), curated by Parth; title labels read from carousel slides 2–12. The title describes the creator's mood shelf, not a promise that any film will have a particular emotional effect.
+
+- Ikiru
+- Demolition
+- Tamasha
+- Another Round
+- Drive My Car
+- Secret Sunshine
+- Three Colors: Blue
+- The Son’s Room
+- Poetry
+- Mommy
+- The Great Beauty
+
 ## Import evidence and limits
 
-Titles were observed in the four pin captions and carousel cards. Pinterest is provenance for your saved list, not an authoritative film catalogue. The pin creator's claimed Letterboxd ranking and mood associations are not independently endorsed. No poster images, synopsis text, copyrighted clips or scripts are bundled.
+Titles were observed in the five pin captions and carousel cards. Pinterest is provenance for your saved list, not an authoritative film catalogue. The pin creators' claimed Letterboxd ranking and mood associations are not independently endorsed. No poster images, synopsis text, copyrighted clips or scripts are bundled.
 
 New title labels do not establish an edition, director, year, runtime, content rating or lawful streaming availability. In particular, **Wuthering Heights has multiple adaptations: confirm the intended version before a recommendation**. The three course overlaps retain their previously verified catalogue metadata. All other metadata and lawful India viewing options should be checked individually when a film is selected, rather than fabricated from a title. Watching history has not been assumed or prefilled.
