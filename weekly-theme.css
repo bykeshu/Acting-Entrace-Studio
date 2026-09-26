@@ -1,5 +1,5 @@
 /* Original weekly cinema skin. No external assets; see design/active.json. */
-:root{--stage:#093876;--acid:#fff36b;--paper:#f3f1e6;--panel:#fffdf7;--ink:#15243d;--line:#c7ccd1;--room-accent:#e2e9f3;--display:"Anton",Impact,sans-serif;--weekly-mark:#bb302c;--weekly-soft:#e2e9f3;--muted:#15243d}
+:root{--stage:#171c22;--acid:#f2dbad;--paper:#efe8da;--panel:#fffaf0;--ink:#1d282c;--line:#beb6a8;--room-accent:#ddd3bf;--display:"Archivo Black",Arial,sans-serif;--weekly-mark:#8b3b1c;--weekly-soft:#ddd3bf;--muted:#1d282c}
 body{background:var(--paper)}.sidebar,.poster-focus,.cinema-intro,.daily-summary .dark,.update-notice{background:var(--stage)}
 .sidebar,.brand small,.nav-item,.nav-item span,.sidebar-foot small,.poster-focus>.eyebrow,.poster-focus>p#focusCopy,.poster-focus .progress-wrap,.scene-caption,.cinema-intro,.cinema-intro p,.cinema-intro .eyebrow,.daily-summary .dark p,.daily-summary .dark .eyebrow{color:var(--acid)}
 .brand-mark,.nav-item.active,.nav-item:hover,.poster-focus .primary,.update-notice .primary{background:var(--acid);color:var(--stage);border-color:var(--acid)}
@@ -20,5 +20,5 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .design-edition{font:500 11px/1.6 var(--body);max-width:100%;overflow-wrap:anywhere}.design-edition a{color:var(--weekly-mark)}
 @media(max-width:760px){.sidebar{background:var(--stage)}.mobile-room{color:var(--acid)}.cinema-film .film-cover h3{font-size:35px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
-.poster-focus{border-bottom:12px solid var(--weekly-mark)}.poster-focus>h2{font-family:var(--display);letter-spacing:.005em}.film-cover{border-bottom:8px solid var(--weekly-mark)}.panel h2{letter-spacing:.015em}.hero-star{transform:rotate(30deg)}
+.poster-focus{border-top:1px solid var(--acid);border-bottom:1px solid var(--acid)}.poster-focus>h2{font-family:var(--display);font-size:clamp(58px,7.2vw,112px);letter-spacing:-.07em}.cinema-film .film-cover h3{font-family:var(--display);letter-spacing:-.07em}.panel h2{border-bottom:1px solid var(--line);padding-bottom:12px}.hero-star{border-radius:50%;clip-path:none}
 @media(max-width:460px){.hero-star{width:25px;height:25px}.poster-focus>h2{font-size:clamp(52px,16vw,74px)}.cinema-film .film-cover h3{font-size:33px}}
