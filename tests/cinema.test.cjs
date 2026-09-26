@@ -21,7 +21,7 @@ function harness(initial = {}) {
     });
     return elements.get(selector);
   };
-  const context = {window:{dispatchEvent(){}},document:{querySelector:get,querySelectorAll:()=>[]},
+  const context = {window:{dispatchEvent(){}},document:{body:{dataset:{}},querySelector:get,querySelectorAll:()=>[]},
     localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},
     crypto:webcrypto,Event:class {constructor(type){this.type=type;}},
     FormData:class {constructor(form){this.values=form.values;}[Symbol.iterator](){return Object.entries(this.values)[Symbol.iterator]();}},
@@ -129,14 +129,15 @@ test('PWA precaches the new files and course, and scripts load in dependency ord
   for(const name of ['cinema.css','cinema-data.js','bucket-data.js','INTERNATIONAL_CINEMA_COURSE.md','MOVIE_BUCKET_LIST.md']){
     assert.ok(sw.includes(`./${name}`));assert.ok(fs.existsSync(path.join(root,name)));
   }
-  for(const name of ['seed-data.js','cinema-data.js','bucket-data.js','app.js','cinema.css']){
+  for(const name of ['seed-data.js','cinema-data.js','bucket-data.js','cinema.css']){
     assert.ok(html.includes(`${name}?v=20260927`));
     assert.ok(sw.includes(`./${name}?v=20260927`));
   }
   assert.ok(html.indexOf('src="seed-data.js?')<html.indexOf('src="cinema-data.js?'));
   assert.ok(html.indexOf('src="cinema-data.js?')<html.indexOf('src="bucket-data.js?'));
   assert.ok(html.indexOf('src="bucket-data.js?')<html.indexOf('src="app.js?'));
-  assert.ok(sw.includes('v5-enjoyment-first'));
+  assert.ok(html.includes('app.js?v=20260927-poster'));assert.ok(sw.includes('./app.js?v=20260927-poster'));
+  assert.ok(sw.includes('v6-poster-journal'));
 });
 
 test('personal import has four bounded lists and 39 distinct titles, without claimed film metadata',()=>{
@@ -232,4 +233,30 @@ test('optional forms are collapsed and imported titles do not carry automatic as
   assert.ok(!/<details[^>]*id="(?:cinemaStudy|bucketMemory)"[^>]*\sopen/.test(html));
   assert.ok(!/name="(?:context|observation|interpretation|repair)"[^>]*required/.test(html));
   assert.ok(!data.includes('invite_code'));assert.match(html,/Watched/);
+});
+
+test('mobile room selector reaches every existing view and ignores unknown rooms',()=>{
+  const h=harness();
+  for(const [id,title] of Object.entries({today:'Today’s rehearsal room',daily:'Daily assessment ledger',roadmap:'Your 24-week route',syllabus:'Syllabus studio',practice:'Practice log',tests:'Test and error lab',resources:'Linked resource library',evidence:'NSD evidence file',cinema:'World cinema studio',bucket:'My movie bucket list'})){
+    h.fire('#mobileView','change',{target:{value:id}});assert.equal(h.get('#viewTitle').textContent,title);assert.equal(h.context.document.body.dataset.room,id);assert.equal(h.get('#mobileView').value,id);
+  }
+  h.fire('#mobileView','change',{target:{value:'unknown'}});assert.equal(h.get('#viewTitle').textContent,'My movie bucket list');
+});
+
+test('theme ships offline fonts, attribution and original graphic treatments without remote dependencies',()=>{
+  const css=source('poster-theme.css'),sw=source('sw.js'),html=source('index.html');
+  assert.ok(html.includes('poster-theme.css?v=20260927-poster'));assert.ok(sw.includes('./poster-theme.css?v=20260927-poster'));
+  assert.match(css,/prefers-reduced-motion/);assert.match(css,/:focus-visible/);assert.ok(!/url\(["']?https?:/.test(css));
+  for(const name of ['cormorant-roman-latin.woff2','cormorant-roman-latin-ext.woff2','cormorant-italic-latin.woff2','cormorant-italic-latin-ext.woff2','dm-sans-latin.woff2','dm-sans-latin-ext.woff2']){
+    const buffer=fs.readFileSync(path.join(root,'fonts',name));assert.equal(buffer.toString('ascii',0,4),'wOF2');assert.ok(css.includes(name));assert.ok(sw.includes(`./fonts/${name}`));
+  }
+  for(const name of ['Cormorant-OFL.txt','DM-Sans-OFL.txt'])assert.match(source(`fonts/${name}`),/SIL OPEN FONT LICENSE/);
+  assert.ok(fs.existsSync(path.join(root,'DESIGN_NOTES.md')));assert.match(harness().get('#bucketFilms').innerHTML,/data-collection="crossroads"/);
+  const manifest=JSON.parse(source('manifest.webmanifest'));
+  assert.equal(manifest.theme_color,'#edefdf');assert.equal(manifest.background_color,'#faf8f0');
+  for(const size of [192,512]){
+    const filename=`icons/studio-journal-${size}.png`,buffer=fs.readFileSync(path.join(root,filename));
+    assert.equal(buffer.toString('hex',0,8),'89504e470d0a1a0a');assert.equal(buffer.readUInt32BE(16),size);assert.equal(buffer.readUInt32BE(20),size);
+    assert.ok(manifest.icons.some(i=>i.src===filename));assert.ok(sw.includes(`./${filename}`));
+  }
 });

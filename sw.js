@@ -1,22 +1,32 @@
-const CACHE_NAME = "acting-entrance-studio-shell-v5-enjoyment-first";
+const CACHE_NAME = "acting-entrance-studio-shell-v6-poster-journal";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./daily.css",
   "./cinema.css?v=20260927",
+  "./poster-theme.css?v=20260927-poster",
+  "./fonts/cormorant-roman-latin.woff2",
+  "./fonts/cormorant-roman-latin-ext.woff2",
+  "./fonts/cormorant-italic-latin.woff2",
+  "./fonts/cormorant-italic-latin-ext.woff2",
+  "./fonts/dm-sans-latin.woff2",
+  "./fonts/dm-sans-latin-ext.woff2",
+  "./fonts/Cormorant-OFL.txt",
+  "./fonts/DM-Sans-OFL.txt",
   "./seed-data.js?v=20260927",
   "./cinema-data.js?v=20260927",
   "./bucket-data.js?v=20260927",
   "./INTERNATIONAL_CINEMA_COURSE.md",
   "./MOVIE_BUCKET_LIST.md",
-  "./app.js?v=20260927",
+  "./DESIGN_NOTES.md",
+  "./app.js?v=20260927-poster",
   "./cloud.bundle.js",
   "./pwa.js",
   "./manifest.webmanifest",
-  "./icons/studio.svg",
-  "./icons/studio-192.png",
-  "./icons/studio-512.png"
+  "./icons/studio-journal.svg",
+  "./icons/studio-journal-192.png",
+  "./icons/studio-journal-512.png"
 ];
 
 self.addEventListener("install", event => {

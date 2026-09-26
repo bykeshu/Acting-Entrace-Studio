@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Acting Entrance Studio cinema journal">
+  <rect width="512" height="512" rx="104" fill="#edefdf"/>
+  <path d="m256 74 18 104 65-81-29 105 113-41-85 84 99 17-107 32 63 86-94-41-13 99-39-85-73 61 23-101-113 35 77-78-105-40 113-9-54-99 98 51z" fill="#adc58b"/>
+  <g transform="rotate(-10 256 256)">
+    <rect x="153" y="118" width="223" height="305" fill="#f4dec7" stroke="#405737" stroke-width="3"/>
+    <path d="m193 341 63-177h28l63 177h-35l-14-42h-62l-14 42zm52-69h43l-22-64z" fill="#293f31"/>
+    <path d="M196 373h137" stroke="#704955" stroke-width="5"/>
+    <circle cx="207" cy="397" r="3" fill="#526844"/><circle cx="264" cy="397" r="3" fill="#526844"/><circle cx="321" cy="397" r="3" fill="#526844"/>
+  </g>
+</svg>

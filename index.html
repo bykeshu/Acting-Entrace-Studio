@@ -3,22 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#15120f">
+  <meta name="theme-color" content="#edefdf">
   <title>Acting Entrance Studio — FTII · NSD · Bengal</title>
   <meta name="description" content="Offline-first FTII, NSD and Bengal acting entrance preparation tracker.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icons/studio.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/studio-journal.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="daily.css">
   <link rel="stylesheet" href="cinema.css?v=20260927">
+  <link rel="preload" href="fonts/cormorant-roman-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="poster-theme.css?v=20260927-poster">
 </head>
-<body>
+<body data-room="today">
   <a class="skip" href="#workspace">Skip to workspace</a>
   <div class="shell">
     <aside class="sidebar" aria-label="Primary navigation">
       <div class="brand"><span class="brand-mark">A</span><div><strong>Acting Entrance</strong><small>Studio 2026</small></div></div>
       <nav id="nav">
-        <button class="nav-item active" data-view="today"><span>01</span>Today</button>
+        <button class="nav-item active" data-view="today" aria-current="page"><span>01</span>Today</button>
         <button class="nav-item" data-view="daily"><span>02</span>Daily review</button>
         <button class="nav-item" data-view="roadmap"><span>03</span>Roadmap</button>
         <button class="nav-item" data-view="syllabus"><span>04</span>Syllabus</button>
@@ -29,6 +32,13 @@
         <button class="nav-item" data-view="cinema"><span>09</span>World cinema</button>
         <button class="nav-item" data-view="bucket"><span>10</span>Movie bucket list</button>
       </nav>
+      <label class="mobile-room">Choose a room<select id="mobileView" aria-label="Choose a room">
+        <option value="today">01 · Today</option><option value="daily">02 · Daily review</option>
+        <option value="roadmap">03 · Roadmap</option><option value="syllabus">04 · Syllabus</option>
+        <option value="practice">05 · Practice log</option><option value="tests">06 · Tests</option>
+        <option value="resources">07 · Resources</option><option value="evidence">08 · NSD evidence</option>
+        <option value="cinema">09 · World cinema</option><option value="bucket">10 · Movie bucket list</option>
+      </select></label>
       <div class="sidebar-foot">
         <button id="cloudAccount" class="quiet" type="button">Sign in to sync</button>
         <button id="exportBtn" class="quiet">Export backup</button>
@@ -45,10 +55,12 @@
 
       <section class="view active" id="view-today">
         <div class="hero-grid">
-          <article class="focus-card dark">
-            <p class="eyebrow">TODAY’S FOCUS</p>
-            <h2 id="focusTitle">Build the actor. Pass the gate.</h2>
-            <p id="focusCopy">Balance written knowledge with voice, body, text and camera practice.</p>
+          <article class="focus-card poster-focus">
+            <p class="eyebrow">THE ACTOR’S NOTEBOOK · A LITTLE, EVERY DAY</p>
+            <h2 id="focusTitle">A little craft.<em>A lot of feeling.</em></h2>
+            <p id="focusCopy">Show up for your craft. Make room for films, feelings and moments that stay. Your practice and your pleasure belong here.</p>
+            <div class="hero-choices"><button class="primary" type="button" data-go="practice">Open my practice log ↗</button><button class="quiet" type="button" data-go="bucket">Find a film to enjoy ↗</button></div>
+            <div class="studio-art" aria-hidden="true"><span class="art-ticket">feel.<br>play.<br>become.<small>A personal studio</small></span><span class="art-orbit"></span></div>
             <div class="progress-wrap"><div><span>Week progress</span><strong id="weekProgressLabel">0%</strong></div><div class="progress"><i id="weekProgressBar"></i></div></div>
           </article>
           <article class="stat-card"><span>Knowledge</span><strong id="knowledgeMins">0m</strong><small>This week</small></article>
@@ -210,6 +222,7 @@
         </details>
         <section class="panel cinema-directory"><p class="eyebrow">ONLY IF YOU WANTED TO KEEP ONE</p><h2>My movie memories</h2><div id="bucketMemories" class="history-list"></div></section>
       </section>
+      <footer class="studio-footer"><span>A personal acting &amp; cinema journal · made for practice and pleasure.</span><a href="DESIGN_NOTES.md" target="_blank" rel="noopener">Design inspiration &amp; font credits ↗</a></footer>
     </main>
   </div>
 
@@ -244,7 +257,7 @@
       document.write('<script src="daily-log.js"><\/script>');
     }
   </script>
-  <script src="app.js?v=20260927"></script>
+  <script src="app.js?v=20260927-poster"></script>
   <script src="pwa.js"></script>
   <script>
     if (location.protocol === "https:" || ["localhost", "127.0.0.1"].includes(location.hostname)) {
