@@ -44,7 +44,12 @@ jobs:
       - name: Verify generated release
         run: node --test tests/*.test.cjs
       - name: Check all rooms in installed CI Chrome
-        run: node scripts/check-design-layout.cjs
+        env:
+          NODE_PATH: ${{ runner.temp }}/acting-layout-runtime/node_modules
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+        run: |
+          npm install --prefix "$RUNNER_TEMP/acting-layout-runtime" --no-save --package-lock=false playwright-core@1.63.0
+          node scripts/check-design-layout.cjs
       - name: Save layout evidence
         if: always()
         uses: actions/upload-artifact@v4
