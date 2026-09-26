@@ -1,0 +1,26 @@
+{
+  "revision": "weekly-20260926230346-257af347",
+  "createdAt": "2026-09-26T23:03:46.969Z",
+  "runner": "local",
+  "presetId": "blue-note",
+  "name": "Blue Note / cut-paper cinema",
+  "pinUrl": "https://in.pinterest.com/pin/649292471323038604/",
+  "boardUrl": "https://in.pinterest.com/maddyman296/graphic-design/",
+  "sourceObservedOn": "2026-09-27",
+  "eligiblePoolSize": 3,
+  "mode": "rotation",
+  "rationale": "Indigo paper, yellow starburst, monochrome musician cutout and pasted text strips.",
+  "tokens": {
+    "stage": "#19234b",
+    "accent": "#ffe46b",
+    "paper": "#f5f0de",
+    "panel": "#fffdf3",
+    "ink": "#18213b",
+    "line": "#ccc8b8",
+    "mark": "#bd352d",
+    "soft": "#e9e4ce",
+    "display": "archivo",
+    "layout": "collage"
+  },
+  "paidApiUsed": false
+}

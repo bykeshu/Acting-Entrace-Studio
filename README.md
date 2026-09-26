@@ -17,3 +17,19 @@ New date defaults use the user's India calendar (`Asia/Kolkata`), including afte
 Open `index.html` directly for local-only use. For PWA installation, serve this directory over localhost or publish it over HTTPS. See [ANDROID_DEPLOYMENT.md](ANDROID_DEPLOYMENT.md) for GitHub Pages, Firebase sync status, Android installation, and reminders.
 
 Personal submissions and reviews must not be committed. The local daily coach writes `daily-log.js`, which is ignored by Git. The GitHub-hosted app does not load that private file; completed reviews are imported through the laptop's local app and queued for the signed-in account once sync is enabled.
+
+## Weekly cloud design
+
+`weekly-theme.css` is a design-only overlay. Four original styles interpret actual
+saved pins in the dated public `design/presets.json` snapshot. No reference artwork
+is copied. `design/active.json` and `design/history.json` record public releases,
+not learning records. The builder validates text contrast, existing fonts and
+reviewed layouts, writes five public files and refreshes the PWA cache.
+
+GitHub Actions runs a no-API rotation on Mondays at 09:00 Asia/Kolkata (scheduled
+runs can be delayed), and supports Run workflow for a manual cloud test. It runs
+the same Node builder/tests as a local test and deploys the tested tracked public
+site to Pages. Normal main-branch pushes deploy without another rotation. Fresh
+AI variations use included ChatGPT cloud Work reasoning, not paid API calls; see
+[WEEKLY_DESIGN.md](WEEKLY_DESIGN.md). A cloud AI schedule must be verified in the
+user's account before it is described as active. `npm test` checks all tests.

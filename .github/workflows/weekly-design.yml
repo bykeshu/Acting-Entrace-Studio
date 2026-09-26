@@ -1,0 +1,88 @@
+name: Weekly cinema theme
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '30 3 * * 1' # Monday 09:00 Asia/Kolkata; GitHub may delay schedules.
+  workflow_dispatch:
+
+concurrency:
+  group: weekly-cinema-design
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    outputs:
+      revision: ${{ steps.build.outputs.revision }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify existing app
+        run: node --test tests/*.test.cjs
+      - name: Rotate verified saved-pin snapshot
+        if: github.event_name != 'push'
+        run: node scripts/refresh-design.cjs --runner github-actions
+      - name: Identify release
+        id: build
+        run: |
+          echo "revision=$(node -p 'require("./design/active.json").revision')" >> "$GITHUB_OUTPUT"
+      - name: Verify generated release
+        run: node --test tests/*.test.cjs
+      - name: Commit public design files only
+        if: github.event_name != 'push'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add weekly-theme.css design/active.json design/history.json index.html sw.js
+          git commit -m "design: weekly saved-pin theme rotation"
+          git push origin HEAD:main
+      - name: Assemble tracked public site
+        run: |
+          mkdir _site
+          git archive HEAD | tar -x -C _site --exclude=.github --exclude=tests --exclude=scripts
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Record release evidence
+        run: |
+          echo '## Weekly cinema theme' >> "$GITHUB_STEP_SUMMARY"
+          node -e 'const r=require("./design/active.json"); console.log(`Revision: ${r.revision}\n\nMode: ${r.mode}; runner: ${r.runner}; paid API: ${r.paidApiUsed}\n\nInspiration: ${r.pinUrl}\n\nSource snapshot: ${r.sourceObservedOn}; this is not a live Pinterest sync.`)' >> "$GITHUB_STEP_SUMMARY"
+  deploy:
+    needs: refresh
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish tested site
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Verify public release
+        env:
+          EXPECTED_REVISION: ${{ needs.refresh.outputs.revision }}
+        run: |
+          for attempt in $(seq 1 12); do
+            if curl --fail --silent "https://bykeshu.github.io/Acting-Entrace-Studio/design/active.json?verify=$EXPECTED_REVISION" | grep -F "$EXPECTED_REVISION"; then
+              echo "Live release verified: $EXPECTED_REVISION" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo 'Published revision could not be verified' >&2
+          exit 1

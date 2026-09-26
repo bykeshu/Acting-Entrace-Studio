@@ -47,3 +47,15 @@ All ten rooms use the desktop sidebar or labelled mobile selector. Native contro
 59 personal film/TV titles remain separate from the supplementary World cinema course. Notes/analysis are optional and collapsed; no viewing quotas, automatic quizzes or practice hours from watching. Existing film IDs, storage keys, backups, sync events and Firestore rules are unchanged. No private progress or memories are published.
 
 Website and installed PWA share the responsive app. Reopen online and accept **Update** when offered. Android may refresh launcher icons independently; immediate icon refresh is not guaranteed. `scripts/render-journal-icons.cjs` renders PNGs from `icons/cinema-studio.svg` using installed `sharp` or `ACTING_SHARP_PATH` (development only).
+
+## Weekly saved-pin interpretations
+
+The four saved Graphic Design pins observed on 27 September 2026 are linked in
+`design/presets.json`: Blue Note (indigo/yellow cut-paper), Red Pencil (portrait
+collage with red annotation), Electric Type (blue/yellow lettering and red ribbon),
+and Ink Room (cream/black type specimen). These are original cinematic skins made
+with the existing licensed fonts and CSS, not copies of the reference designs.
+The catalogue is a dated snapshot, not automatic access to future saves. Each
+release records its selected pin, source observation date, palette, mode and
+runner in `design/active.json`. Rotation is not itself fresh AI design; a cloud
+agent may create a validated original variation and explicitly label that mode.

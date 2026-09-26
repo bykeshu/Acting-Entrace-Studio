@@ -3,7 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "test": "node --test tests/cinema.test.cjs",
+    "test": "node --test tests/*.test.cjs",
+    "design:refresh": "node scripts/refresh-design.cjs",
     "build:cloud": "esbuild cloud/cloud.js --bundle --minify --format=iife --target=es2020 --outfile=cloud.bundle.js"
   },
   "dependencies": {

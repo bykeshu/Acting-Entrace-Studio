@@ -1,0 +1,11 @@
+{
+  "boardUrl": "https://in.pinterest.com/maddyman296/graphic-design/",
+  "observedOn": "2026-09-27",
+  "sourceNote": "Four actual saves visually inspected on the public board. Snapshot, not automatic Pinterest sync. Related pins are excluded. Fonts are visual interpretations, not exact identifications.",
+  "presets": [
+    {"id":"blue-note","name":"Blue Note / cut-paper cinema","pinUrl":"https://in.pinterest.com/pin/649292471323038604/","observation":"Indigo paper, yellow starburst, monochrome musician cutout and pasted text strips.","tokens":{"stage":"#19234b","accent":"#ffe46b","paper":"#f5f0de","panel":"#fffdf3","ink":"#18213b","line":"#ccc8b8","mark":"#bd352d","soft":"#e9e4ce","display":"archivo","layout":"collage"}},
+    {"id":"red-pencil","name":"Red Pencil / annotated frames","pinUrl":"https://in.pinterest.com/pin/649292471323038596/","observation":"Monochrome portrait collage with cobalt headlines and red handwritten annotations.","tokens":{"stage":"#1a2044","accent":"#f6eedb","paper":"#f5f1e8","panel":"#fffdf7","ink":"#172447","line":"#c6c8cd","mark":"#ad2925","soft":"#e7e9f2","display":"archivo","layout":"editorial"}},
+    {"id":"electric-type","name":"Electric Type / independent screen","pinUrl":"https://in.pinterest.com/pin/649292471323038594/","observation":"Blue ground, red sweeping graphic and bright yellow expressive lettering. Six-slide font reference; no particular font is attributed.","tokens":{"stage":"#093876","accent":"#fff36b","paper":"#f3f1e6","panel":"#fffdf7","ink":"#15243d","line":"#c7ccd1","mark":"#bb302c","soft":"#e2e9f3","display":"anton","layout":"ribbon"}},
+    {"id":"ink-room","name":"Ink Room / type specimen","pinUrl":"https://in.pinterest.com/pin/649292471323038586/","observation":"Near-black specimen page with warm cream oversized ink-trap lettering. Existing Archivo Black is a licensed approximation, not an ink-trap font attribution.","tokens":{"stage":"#121619","accent":"#e8ddc4","paper":"#eee8dc","panel":"#fffaf0","ink":"#1c2428","line":"#c4beb0","mark":"#934522","soft":"#e1d9c7","display":"archivo","layout":"specimen"}}
+  ]
+}

@@ -1,0 +1,24 @@
+/* Original weekly cinema skin. No external assets; see design/active.json. */
+:root{--stage:#19234b;--acid:#ffe46b;--paper:#f5f0de;--panel:#fffdf3;--ink:#18213b;--line:#ccc8b8;--room-accent:#e9e4ce;--display:"Archivo Black",Arial,sans-serif;--weekly-mark:#bd352d;--weekly-soft:#e9e4ce;--muted:#18213b}
+body{background:var(--paper)}.sidebar,.poster-focus,.cinema-intro,.daily-summary .dark,.update-notice{background:var(--stage)}
+.sidebar,.brand small,.nav-item,.nav-item span,.sidebar-foot small,.poster-focus>.eyebrow,.poster-focus>p#focusCopy,.poster-focus .progress-wrap,.scene-caption,.cinema-intro,.cinema-intro p,.cinema-intro .eyebrow,.daily-summary .dark p,.daily-summary .dark .eyebrow{color:var(--acid)}
+.brand-mark,.nav-item.active,.nav-item:hover,.poster-focus .primary,.update-notice .primary{background:var(--acid);color:var(--stage);border-color:var(--acid)}
+.nav-item.active span,.nav-item:hover span{color:var(--stage)}.sidebar-foot .quiet,.mobile-room select,.poster-focus .quiet,.cinema-intro .quiet{background:var(--stage);color:var(--acid);border-color:var(--acid)}
+.poster-focus>h2,.poster-focus>p.hero-script,.cinema-intro h2,.cinema-intro a,.daily-summary .dark h2{color:var(--acid)}
+.poster-focus::after{background:linear-gradient(90deg,var(--stage) 0%,var(--stage) 32%,transparent 85%)}
+.primary{background:var(--stage);color:var(--acid);border-color:var(--stage)}.primary:hover{background:var(--acid);color:var(--stage);border-color:var(--stage)}
+.poster-focus .primary:hover{background:var(--paper);color:var(--ink)}.quiet:hover{background:var(--weekly-soft);color:var(--ink)}
+.hero-star,.cover-art{background:var(--weekly-mark)}.text-btn,.resource a,.cinema-source,.cinema-directory a{color:var(--weekly-mark)}
+.panel,.module,.phase,.resource,.production,.evidence-card,.stat-card:nth-child(n),.cinema-film{background:var(--panel);border-color:var(--line)}
+.accent-panel,.intro-panel,.phase.current,.session-mini,.tag{background:var(--weekly-soft);color:var(--ink)}
+.panel p,.panel .eyebrow,.filter-row label,.form-panel label,.inline-form label,dialog label,.cinema-film summary,.cinema-directory>summary,.studio-footer,.studio-programme button,.studio-programme span{color:var(--ink)}
+.panel.cinema-intro,.panel.poster-focus,.daily-summary .panel.dark{background:var(--stage);color:var(--acid)}.daily-summary .dark>p:not(.eyebrow){color:var(--acid)}
+.cinema-intro p,.cinema-intro .eyebrow,.cinema-intro .cinema-mapping p,.cinema-intro .cinema-access{color:var(--acid)!important}.cinema-intro .cinema-access,.cinema-intro .cinema-route span{background:var(--stage);border-color:var(--acid);color:var(--acid)}
+.cinema-film:nth-child(n),.bucket-film[data-collection]{--cover:var(--weekly-soft)}.film-cover,.bucket-film .film-cover{border-color:var(--ink);box-shadow:4px 4px 0 var(--line)}
+.cinema-film .film-cover h3,.bucket-film:nth-child(n) .film-cover h3{color:var(--ink);font-family:var(--display);text-shadow:none}.cover-caption{color:var(--ink)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--weekly-mark);outline-offset:4px}.sidebar button:focus-visible,.poster-focus button:focus-visible,.cinema-intro a:focus-visible,.cinema-intro button:focus-visible{outline-color:var(--acid)}
+.design-edition{font:500 11px/1.6 var(--body);max-width:100%;overflow-wrap:anywhere}.design-edition a{color:var(--weekly-mark)}
+@media(max-width:760px){.sidebar{background:var(--stage)}.mobile-room{color:var(--acid)}.cinema-film .film-cover h3{font-size:35px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.poster-focus{border-bottom:8px solid var(--acid)}.hero-star{width:68px;height:68px;transform:rotate(-10deg)}.film-cover{border-width:2px}.cover-caption{background:var(--panel);padding:5px 9px}.panel h2{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
+@media(max-width:460px){.hero-star{width:25px;height:25px}.poster-focus>h2{font-size:clamp(52px,16vw,74px)}.cinema-film .film-cover h3{font-size:33px}}

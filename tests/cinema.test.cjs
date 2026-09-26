@@ -137,7 +137,11 @@ test('PWA precaches the new files and course, and scripts load in dependency ord
   assert.ok(html.indexOf('src="cinema-data.js?')<html.indexOf('src="bucket-data.js?'));
   assert.ok(html.indexOf('src="bucket-data.js?')<html.indexOf('src="app.js?'));
   for(const name of ['app.js','bucket-data.js']){assert.ok(html.includes(`${name}?v=20260927-van-gogh`));assert.ok(sw.includes(`./${name}?v=20260927-van-gogh`));}
-  assert.ok(sw.includes('v8-van-gogh'));
+  const revision=JSON.parse(source('design/active.json')).revision;
+  assert.ok(revision.startsWith('weekly-'));
+  assert.ok(sw.includes(`acting-entrance-studio-shell-${revision}`));
+  assert.ok(sw.includes(`./weekly-theme.css?v=${revision}`));
+  assert.ok(html.includes(`weekly-theme.css?v=${revision}`));
 });
 
 test('personal import has six bounded lists and 59 distinct titles, without claimed film metadata',()=>{
