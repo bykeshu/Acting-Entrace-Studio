@@ -32,7 +32,7 @@ jobs:
       - name: Verify existing app
         run: node --test tests/*.test.cjs
       - name: Rotate verified saved-pin snapshot
-        if: github.event_name != 'push'
+        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[run-weekly-design]')
         run: node scripts/refresh-design.cjs --runner github-actions
       - name: Identify release
         id: build
@@ -41,7 +41,7 @@ jobs:
       - name: Verify generated release
         run: node --test tests/*.test.cjs
       - name: Commit public design files only
-        if: github.event_name != 'push'
+        if: github.event_name != 'push' || contains(github.event.head_commit.message, '[run-weekly-design]')
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'

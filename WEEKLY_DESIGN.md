@@ -55,3 +55,11 @@ cloud run and a cloud schedule have been verified. A repository commit made by
 the desktop agent is NOT proof of cloud execution. Do not require this laptop's
 Windows path, signed-in browser or installed local skills in the cloud prompt.
 No paid API workflow is configured or authorized.
+
+GitHub Actions provides the independent no-API rotation at Monday 09:00 IST.
+Run workflow dispatches it manually; an authorized main-branch commit containing
+`[run-weekly-design]` also runs the full rotation for an end-to-end cloud test.
+Other main pushes test and deploy the current design without rotating it again.
+The separate fresh-AI cloud Work schedule should run Monday 09:15 IST, after the
+fallback rotation. GitHub schedule execution may be delayed; no exact-time SLA
+is implied. Both paths use main as the source of truth, not this laptop.
