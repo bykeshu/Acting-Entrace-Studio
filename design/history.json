@@ -50,5 +50,31 @@
       "layout": "collage"
     },
     "paidApiUsed": false
+  },
+  {
+    "revision": "weekly-20260926230630-e24ba9d4",
+    "createdAt": "2026-09-26T23:06:30.027Z",
+    "runner": "github-actions",
+    "presetId": "electric-type",
+    "name": "Electric Type / independent screen",
+    "pinUrl": "https://in.pinterest.com/pin/649292471323038594/",
+    "boardUrl": "https://in.pinterest.com/maddyman296/graphic-design/",
+    "sourceObservedOn": "2026-09-27",
+    "eligiblePoolSize": 2,
+    "mode": "rotation",
+    "rationale": "Blue ground, red sweeping graphic and bright yellow expressive lettering. Six-slide font reference; no particular font is attributed.",
+    "tokens": {
+      "stage": "#093876",
+      "accent": "#fff36b",
+      "paper": "#f3f1e6",
+      "panel": "#fffdf7",
+      "ink": "#15243d",
+      "line": "#c7ccd1",
+      "mark": "#bb302c",
+      "soft": "#e2e9f3",
+      "display": "anton",
+      "layout": "ribbon"
+    },
+    "paidApiUsed": false
   }
 ]
