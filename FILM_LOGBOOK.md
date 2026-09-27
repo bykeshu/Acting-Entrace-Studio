@@ -121,3 +121,9 @@ posting anything to Letterboxd. It is a manual control, not an automatic
 Pinterest scraper or a recurring AI redesign. Source hosts must remain online;
 linked art is not bundled into GitHub. A local private reference gallery is kept
 outside the public repository.
+
+Wide desktop screens (1050px and above) show four cards across. Phones retain a
+single compact column with the same 2:3 card ratio. Clicking the artwork, title or
+ticket opens a native modal showing the uncropped source image and its credit.
+The explicit View poster button provides keyboard access; Escape, Close and the
+backdrop dismiss it. Editing, changing art and Letterboxd controls remain separate.

@@ -5,6 +5,19 @@
   const catalogue=[...window.ACTING_BUCKET.films.map(f=>({...f,filmKey:core.identity(f)})),...window.ACTING_CINEMA.films.map(f=>({...f,filmKey:`cinema-watched:${f.id}`}))];
   let selected=null,request=0,searchBusy=false,artRequest=0,artBusy=false,draftFullPoster='';
   const artwork=f=>core.poster(f,store.read());
+  const posterDialog=$('#journalPosterDialog'),fullPoster=$('#journalFullPoster');
+  function viewPoster(s){
+    const art=artwork(s);if(!art)return;
+    $('#journalPosterHeading').textContent=s.title+(s.year?' ('+s.year+')':'');
+    fullPoster.alt='Poster artwork for '+s.title;fullPoster.hidden=false;fullPoster.src=art.url;
+    $('#journalFullPosterCredit').innerHTML=art.source?`<a href="${esc(art.source)}" target="_blank" rel="noopener noreferrer">${esc(art.credit)} ↗</a>`:esc(art.credit);
+    $('#journalFullPosterStatus').textContent='Full artwork, without the card overlay or crop.';
+    if(!posterDialog.open)posterDialog.showModal();
+  }
+  fullPoster.onerror=()=>{fullPoster.hidden=true;$('#journalFullPosterStatus').textContent='This artwork could not load. Use its credited source link, or choose another poster.';};
+  $('#journalPosterClose').onclick=()=>posterDialog.close();
+  posterDialog.addEventListener('click',e=>{if(e.target===posterDialog)posterDialog.close();});
+  posterDialog.addEventListener('close',()=>{fullPoster.removeAttribute('src');});
   function dateState(){const unknown=form.elements.watchedDateUnknown.checked;form.elements.date.disabled=unknown;form.elements.date.required=!unknown;}
   form.elements.watchedDateUnknown.addEventListener('change',dateState);
   function handoff(s){
@@ -21,7 +34,7 @@
   function cardMarkup(s,i=0){
     const art=artwork(s),p=art?.palette;
     const credit=art?`<small class="diary-art-credit">${art.source?`<a href="${esc(art.source)}" target="_blank" rel="noopener noreferrer">${esc(art.credit)} ↗</a>`:esc(art.credit)}</small>`:'';
-    return `<article class="diary-card${art?' poster-card':''}" data-card="${i%4}"${p?` style="--poster-ink:${p.ink};--poster-text:${p.text};--poster-accent:${p.accent}"`:''}>${artMarkup(s)}<div class="diary-ticket"><span>${s.watchedDateUnknown?'WATCHED / DATE NOT RECORDED':'ADMIT ONE / '+esc(s.date)}</span><span>${s.rewatch?'REWATCH':'A VIEWING'}</span></div><span class="diary-reel" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="diary-content"><h3>${esc(s.title)}</h3><p class="diary-year">${esc(s.year||'Edition not specified')}</p><p class="diary-rating" aria-label="${s.rating==null?'No rating':esc(s.rating)+' out of five stars'}">${s.rating==null?'UNRATED':esc(s.rating)+' / 5 ★'}</p><div class="meta">${(s.genres||[]).map(g=>`<span class="tag">${esc(g)}</span>`).join('')}</div>${s.note?`<p class="diary-moment" tabindex="0">${esc(s.note)}</p>`:'<p class="diary-moment">A film can stay with you without a note.</p>'}${handoff(s)}<button type="button" class="text-btn" data-journal-edit="${esc(s.id)}">Edit this card ↗</button>${s.posterVariants?.length?`<button type="button" class="text-btn" data-journal-poster="${esc(s.id)}">Change poster ↻</button>`:''}${credit}</div></article>`;
+    return `<article class="diary-card${art?' poster-card':''}" data-card="${i%4}"${art?` data-journal-art="${esc(s.id)}"`:''}${p?` style="--poster-ink:${p.ink};--poster-text:${p.text};--poster-accent:${p.accent}"`:''}>${artMarkup(s)}<div class="diary-ticket"><span>${s.watchedDateUnknown?'WATCHED / DATE NOT RECORDED':'ADMIT ONE / '+esc(s.date)}</span><span>${s.rewatch?'REWATCH':'A VIEWING'}</span></div><span class="diary-reel" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="diary-content"><h3>${esc(s.title)}</h3><p class="diary-year">${esc(s.year||'Edition not specified')}</p><p class="diary-rating" aria-label="${s.rating==null?'No rating':esc(s.rating)+' out of five stars'}">${s.rating==null?'UNRATED':esc(s.rating)+' / 5 ★'}</p><div class="meta">${(s.genres||[]).map(g=>`<span class="tag">${esc(g)}</span>`).join('')}</div>${s.note?`<p class="diary-moment" tabindex="0">${esc(s.note)}</p>`:'<p class="diary-moment">A film can stay with you without a note.</p>'}${handoff(s)}<button type="button" class="text-btn" data-journal-edit="${esc(s.id)}">Edit this card ↗</button>${s.posterVariants?.length?`<button type="button" class="text-btn" data-journal-poster="${esc(s.id)}">Change poster ↻</button>`:''}${art?`<button type="button" class="text-btn" data-journal-view="${esc(s.id)}">View poster ↗</button>`:''}${credit}</div></article>`;
   }
   function loadArtwork(root,onLoad,onError){
     root.querySelectorAll('.diary-poster').forEach(img=>{
@@ -138,6 +151,8 @@
   $('#journalFilter').addEventListener('input',render);
   $('#journalWatchlist').addEventListener('click',e=>{const key=e.target.closest('[data-journal-watch]')?.dataset.journalWatch;const f=core.watchlist(window.ACTING_BUCKET.films,store.read(),store.watched()).find(f=>f.filmKey===key);if(f)offer(f);});
   $('#journalCards').addEventListener('click',e=>{
+    const view=e.target.closest('[data-journal-view]')?.dataset.journalView||(!e.target.closest('button,a,summary,details,input,textarea,select,.diary-moment')?e.target.closest('[data-journal-art]')?.dataset.journalArt:null);
+    if(view){const s=store.read().find(s=>s.mode==='Film diary'&&s.id===view);if(s)viewPoster(s);return;}
     const swap=e.target.closest('[data-journal-poster]')?.dataset.journalPoster;
     if(swap){const s=store.read().find(s=>s.mode==='Film diary'&&s.id===swap);if(s?.posterVariants?.length){try{store.put({...s,posterVariantIndex:((s.posterVariantIndex||0)+1)%(s.posterVariants.length+1)});render();}catch(error){$('#journalStatus').textContent=error.message;}}return;}
     const edit=e.target.closest('[data-journal-edit]')?.dataset.journalEdit,confirmed=e.target.closest('[data-journal-confirm]')?.dataset.journalConfirm;
