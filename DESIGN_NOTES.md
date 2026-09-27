@@ -42,20 +42,28 @@ All are unmodified, self-hosted Google Fonts WOFF2 builds with SIL Open Font Lic
 
 ## Interaction, privacy and updates
 
-All ten rooms use the desktop sidebar or labelled mobile selector. Native controls, visible focus, 16px mobile inputs, reduced motion and 44px primary targets remain. Headlines wrap on phones; no flashing marquee, forced splash, sound or autoplay. Decoration is hidden from assistive technology.
+All eleven rooms use the composition's desktop navigation or labelled mobile selector. Native controls, visible focus, 16px mobile inputs, reduced motion and 44px primary targets remain. Headlines wrap on phones; no flashing marquee, forced splash, sound or autoplay. Decoration is hidden from assistive technology. Room 11 is a private film-card logbook with explicit ratings and optional feelings, not exam homework.
 
 59 personal film/TV titles remain separate from the supplementary World cinema course. Notes/analysis are optional and collapsed; no viewing quotas, automatic quizzes or practice hours from watching. Existing film IDs, storage keys, backups, sync events and Firestore rules are unchanged. No private progress or memories are published.
 
-Website and installed PWA share the responsive app. Reopen online and accept **Update** when offered. Android may refresh launcher icons independently; immediate icon refresh is not guaranteed. `scripts/render-journal-icons.cjs` renders PNGs from `icons/cinema-studio.svg` using installed `sharp` or `ACTING_SHARP_PATH` (development only).
+Website and installed PWA share the responsive app. Reopen online and accept **Update** when offered. Android may refresh launcher icons independently; immediate icon refresh is not guaranteed. The current weekly builder `scripts/weekly-icons.cjs` creates original mask-safe SVG and PNG marks without dependencies. The manifest URL and installed app identity stay stable; icon asset URLs change with the release. The older `render-journal-icons.cjs` is not used by weekly releases.
 
 ## Weekly saved-pin interpretations
 
 The four saved Graphic Design pins observed on 27 September 2026 are linked in
 `design/presets.json`: Blue Note (indigo/yellow cut-paper), Red Pencil (portrait
 collage with red annotation), Electric Type (blue/yellow lettering and red ribbon),
-and Ink Room (cream/black type specimen). These are original cinematic skins made
+and Ink Room (cream/black type specimen). These are original cinematic compositions made
 with the existing licensed fonts and CSS, not copies of the reference designs.
+Version 2 changes navigation, hero, metrics, roadmap, resource spreads and film-card
+arrangements as well as typography, palette and the original icon. Collage,
+editorial, ribbon and specimen layouts have distinct desktop structures and
+readable phone adaptations. Fresh cloud-AI proposals must include original
+responsive composition CSS, not only colour tokens.
 The catalogue is a dated snapshot, not automatic access to future saves. Each
 release records its selected pin, source observation date, palette, mode and
 runner in `design/active.json`. Rotation is not itself fresh AI design; a cloud
 agent may create a validated original variation and explicitly label that mode.
+Generated compositions are published only after unit, eleven-room desktop/phone,
+functional and offline checks pass. See [the audit record](APP_AUDIT.md) and
+[weekly release contract](WEEKLY_DESIGN.md).
