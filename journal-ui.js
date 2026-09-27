@@ -176,6 +176,14 @@
   });
   $('#journalWatchlist').addEventListener('click',e=>{const key=e.target.closest('[data-journal-watch]')?.dataset.journalWatch;const f=core.watchlist(window.ACTING_BUCKET.films,store.read(),store.watched()).find(f=>f.filmKey===key);if(f)offer(f);});
   $('#journalCards').addEventListener('click',e=>{
+    const thoughtSummary=e.target.closest('[data-journal-thought] > summary');
+    if(thoughtSummary){
+      e.preventDefault();const details=thoughtSummary.parentElement,id=details.dataset.journalThought,s=store.read().find(s=>s.id===id&&s.mode==='Film diary');
+      details.open=!details.open;
+      // Capture the disclosure state immediately; native toggle events are queued and can lose a race with sync renders.
+      if(s)thoughtDrafts.set(id,{...(thoughtDrafts.get(id)||{value:s.note||'',baseNote:s.note||''}),open:details.open});
+      return;
+    }
     if(e.target.closest('[data-thought-cancel]')){const f=e.target.closest('[data-journal-note]'),id=f.dataset.journalNote;thoughtDrafts.delete(id);f.elements.thought.value=store.read().find(s=>s.id===id)?.note||'';f.querySelector('[role="status"]').textContent='';f.closest('details').open=false;f.closest('details').querySelector('summary').focus({preventScroll:true});return;}
     const view=e.target.closest('[data-journal-view]')?.dataset.journalView||(!e.target.closest('button,a,summary,details,input,textarea,select,.diary-moment')?e.target.closest('[data-journal-art]')?.dataset.journalArt:null);
     if(view){const s=store.read().find(s=>s.mode==='Film diary'&&s.id===view);if(s)viewPoster(s);return;}
