@@ -136,7 +136,7 @@ test('PWA precaches the new files and course, and scripts load in dependency ord
   assert.ok(html.indexOf('src="seed-data.js?')<html.indexOf('src="cinema-data.js?'));
   assert.ok(html.indexOf('src="cinema-data.js?')<html.indexOf('src="bucket-data.js?'));
   assert.ok(html.indexOf('src="bucket-data.js?')<html.indexOf('src="app.js?'));
-  for(const [name,version]of [['app.js','20260927-logbook'],['bucket-data.js','20260927-van-gogh'],['journal-core.js','20260927-colour-deck'],['journal-ui.js','20260927-colour-deck'],['deck.css','20260927-colour-deck']]){assert.ok(html.includes(`${name}?v=${version}`));assert.ok(sw.includes(`./${name}?v=${version}`));}
+  for(const [name,version]of [['app.js','20260927-logbook'],['bucket-data.js','20260927-van-gogh'],['journal-core.js','20260927-watched-deck'],['journal-ui.js','20260927-watched-deck'],['deck.css','20260927-watched-deck']]){assert.ok(html.includes(`${name}?v=${version}`));assert.ok(sw.includes(`./${name}?v=${version}`));}
   const revision=JSON.parse(source('design/active.json')).revision;
   assert.ok(revision.startsWith('weekly-'));
   assert.ok(sw.includes(`acting-entrance-studio-shell-${revision}`));

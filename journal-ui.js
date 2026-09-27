@@ -4,6 +4,12 @@
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const catalogue=[...window.ACTING_BUCKET.films.map(f=>({...f,filmKey:core.identity(f)})),...window.ACTING_CINEMA.films.map(f=>({...f,filmKey:`cinema-watched:${f.id}`}))];
   let selected=null,request=0,searchBusy=false,artRequest=0,artBusy=false;
+  function dateState(){const unknown=form.elements.watchedDateUnknown.checked;form.elements.date.disabled=unknown;form.elements.date.required=!unknown;}
+  form.elements.watchedDateUnknown.addEventListener('change',dateState);
+  function handoff(s){
+    if(s.letterboxdStatus==='observed')return `<details><summary>From your Letterboxd watched list</summary><p>Checked during import, not continuously live-linked. Already on Letterboxd; excluded from pending exports.</p><a href="${esc(core.uri(s.letterboxdURI))}" target="_blank" rel="noopener noreferrer">Film on Letterboxd ↗</a></details>`;
+    return `<details><summary>Letterboxd handoff</summary><p>${s.letterboxdStatus==='confirmed'?'Marked imported by you — not remotely verified.':!s.date?'Watched date not recorded. Add a date before a diary export.':'Not posted to Letterboxd. Export the pending diary CSV, check its matches, then confirm there.'}</p><button type="button" class="text-btn" data-journal-confirm="${esc(s.id)}">${s.letterboxdStatus==='confirmed'?'Return to pending':'I imported this entry'}</button></details>`;
+  }
   function setColours(p){for(const [key,name] of [['ink','posterInk'],['text','posterText'],['accent','posterAccent']])form.elements[name].value=p[key];}
   function artworkValues(){const v=Object.fromEntries(new FormData(form));return {...v,posterPalette:{ink:v.posterInk,text:v.posterText,accent:v.posterAccent}};}
   function clearPreview(){const p=$('#journalPosterPreview');p.hidden=true;p.innerHTML='';$('#journalPosterStatus').textContent='';}
@@ -14,7 +20,7 @@
   function cardMarkup(s,i=0){
     const art=core.poster(s),p=art?.palette;
     const credit=art?`<small class="diary-art-credit">${art.source?`<a href="${esc(art.source)}" target="_blank" rel="noopener noreferrer">${esc(art.credit)} ↗</a>`:esc(art.credit)}</small>`:'';
-    return `<article class="diary-card${art?' poster-card':''}" data-card="${i%4}"${p?` style="--poster-ink:${p.ink};--poster-text:${p.text};--poster-accent:${p.accent}"`:''}>${artMarkup(s)}<div class="diary-ticket"><span>ADMIT ONE / ${esc(s.date)}</span><span>${s.rewatch?'REWATCH':'A VIEWING'}</span></div><span class="diary-reel" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="diary-content"><h3>${esc(s.title)}</h3><p class="diary-year">${esc(s.year||'Edition not specified')}</p><p class="diary-rating" aria-label="${s.rating==null?'No rating':esc(s.rating)+' out of five stars'}">${s.rating==null?'UNRATED':esc(s.rating)+' / 5 ★'}</p><div class="meta">${(s.genres||[]).map(g=>`<span class="tag">${esc(g)}</span>`).join('')}</div>${s.note?`<p class="diary-moment" tabindex="0">${esc(s.note)}</p>`:'<p class="diary-moment">A film can stay with you without a note.</p>'}<details><summary>Letterboxd handoff</summary><p>${s.letterboxdStatus==='confirmed'?'Marked imported by you — not remotely verified.':'Not posted to Letterboxd. Export the pending diary CSV, check its matches, then confirm there.'}</p><button type="button" class="text-btn" data-journal-confirm="${esc(s.id)}">${s.letterboxdStatus==='confirmed'?'Return to pending':'I imported this entry'}</button></details><button type="button" class="text-btn" data-journal-edit="${esc(s.id)}">Edit this card ↗</button>${credit}</div></article>`;
+    return `<article class="diary-card${art?' poster-card':''}" data-card="${i%4}"${p?` style="--poster-ink:${p.ink};--poster-text:${p.text};--poster-accent:${p.accent}"`:''}>${artMarkup(s)}<div class="diary-ticket"><span>${s.watchedDateUnknown?'WATCHED / DATE NOT RECORDED':'ADMIT ONE / '+esc(s.date)}</span><span>${s.rewatch?'REWATCH':'A VIEWING'}</span></div><span class="diary-reel" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="diary-content"><h3>${esc(s.title)}</h3><p class="diary-year">${esc(s.year||'Edition not specified')}</p><p class="diary-rating" aria-label="${s.rating==null?'No rating':esc(s.rating)+' out of five stars'}">${s.rating==null?'UNRATED':esc(s.rating)+' / 5 ★'}</p><div class="meta">${(s.genres||[]).map(g=>`<span class="tag">${esc(g)}</span>`).join('')}</div>${s.note?`<p class="diary-moment" tabindex="0">${esc(s.note)}</p>`:'<p class="diary-moment">A film can stay with you without a note.</p>'}${handoff(s)}<button type="button" class="text-btn" data-journal-edit="${esc(s.id)}">Edit this card ↗</button>${credit}</div></article>`;
   }
   function loadArtwork(root,onLoad,onError){
     root.querySelectorAll('.diary-poster').forEach(img=>{
@@ -37,6 +43,8 @@
     form.elements.posterCredit.value=f.posterCredit||'';
     form.elements.posterHidden.checked=!!f.posterHidden;
     form.elements.posterData.value=core.posterData(f.posterData);
+    form.elements.watchedDateUnknown.checked=!!f.watchedDateUnknown;
+    form.elements.letterboxdObserved.checked=f.letterboxdStatus==='observed';dateState();
     setColours(core.poster({...f,posterHidden:false})?.palette||{ink:'#111111',text:'#ffffff',accent:'#ff9b86'});
     clearPreview();
     $('#journalIdentity').textContent=f.wikidataId?`Selected Wikidata ${f.wikidataId} · check the edition/year before saving.`:'Selected from your shelf · confirm the edition/year if known.';
@@ -53,7 +61,7 @@
     $('#journalCards').innerHTML=shown.length?shown.map(cardMarkup).join(''):'<div class="journal-empty"><span aria-hidden="true">✳</span><h3>THE END.<br>OR A BEGINNING.</h3><p>Your first film card goes here. Nothing to analyse. Just your cinema.</p></div>';
     loadArtwork($('#journalCards'));
     $('#journalWatchlist').innerHTML=list.map(f=>`<div class="watch-ticket"><div><strong>${esc(f.title)}</strong><small>${esc(f.year||'Confirm edition in Letterboxd')}${f.genres?.length?' · '+esc(f.genres.join(', ')):''}</small></div><button type="button" class="text-btn" data-journal-watch="${esc(f.filmKey)}">Watched ↗</button></div>`).join('')||'<p class="empty">An empty watchlist is fine too.</p>';
-    $('#journalPending').textContent=`${diary.filter(s=>s.letterboxdStatus!=='confirmed').length} diary entries pending handoff. Exports never include your private moments or genres as reviews/tags.`;
+    $('#journalPending').textContent=`${diary.filter(core.pending).length} dated diary entries pending handoff · ${diary.filter(s=>s.letterboxdStatus==='observed').length} checked Letterboxd imports. Exports never include your private moments or genres as reviews/tags.`;
   }
   function values(){
     const v=artworkValues();
@@ -65,10 +73,10 @@
       if(artBusy)throw Error('Please wait for the poster to finish processing before saving.');
       const v=values(),editing=form.elements.entryId.value;
       const record=core.entry(v,{id:watchlist?crypto.randomUUID():editing||crypto.randomUUID(),date:store.today(),watchlist});
-      if(!watchlist && store.read().some(s=>s.mode==='Film diary'&&s.id!==record.id&&s.filmKey===record.filmKey&&s.date===record.date)){throw Error('You already have this film on this date. Edit that card; Letterboxd combines same-film, same-day imports.');}
+      if(!watchlist && store.read().some(s=>s.mode==='Film diary'&&s.id!==record.id&&core.sameFilm(s,record)&&(s.date===record.date||(!record.date&&record.letterboxdStatus==='observed')))){throw Error('This viewing already has a card. Edit it instead of importing the same film twice.');}
       store.put(record);
       if(!watchlist)store.mark(record.filmKey,true);
-      form.reset();clearPreview();form.elements.date.value=store.today();selected=null;$('#journalIdentity').textContent='Manual entry works offline. Metadata is optional.';
+      form.reset();dateState();clearPreview();form.elements.date.value=store.today();selected=null;$('#journalIdentity').textContent='Manual entry works offline. Metadata is optional.';
       $('#journalStatus').textContent=watchlist?'Added to your private watchlist. Export watchlist CSV to add it to Letterboxd.':'Your film card is saved privately and queued through existing account sync when signed in. Letterboxd posting is still pending.';
       render();
     }catch(e){$('#journalStatus').textContent=e.message;}
@@ -77,7 +85,7 @@
   $('#journalAddWatchlist').onclick=()=>save(true);
   form.elements.title.addEventListener('input',()=>{request++;artRequest++;artBusy=false;selected=null;form.elements.entryId.value='';form.elements.posterURL.value='';form.elements.posterSourceURL.value='';form.elements.posterCredit.value='';form.elements.posterData.value='';form.elements.posterHidden.checked=false;clearPreview();$('#journalMatches').innerHTML='';$('#journalIdentity').textContent='Manual entry works offline. Metadata is optional.';});
   form.elements.title.addEventListener('change',()=>{const f=catalogue.find(f=>f.title.toLowerCase()===form.elements.title.value.trim().toLowerCase());if(f)choose(f);});
-  $('#journalReset').onclick=()=>{artRequest++;artBusy=false;form.reset();clearPreview();selected=null;form.elements.date.value=store.today();$('#journalStatus').textContent='New card — previous saved cards are unchanged.';};
+  $('#journalReset').onclick=()=>{artRequest++;artBusy=false;form.reset();dateState();clearPreview();selected=null;form.elements.date.value=store.today();$('#journalStatus').textContent='New card — previous saved cards are unchanged.';};
   function readImage(url,cors=false){return new Promise((resolve,reject)=>{
     const img=new Image(),timer=setTimeout(()=>{img.src='';reject(Error('Image lookup timed out. Upload the poster instead.'));},12000);
     if(cors)img.crossOrigin='anonymous';img.referrerPolicy='no-referrer';
@@ -129,7 +137,7 @@
     form.reset();choose(s);form.elements.entryId.value=s.id;form.elements.date.value=s.date;form.elements.rating.value=s.rating==null?'none':String(s.rating);form.elements.note.value=s.note||'';form.elements.rewatch.checked=!!s.rewatch;form.scrollIntoView({behavior:'smooth'});form.elements.title.focus();
   });
   function download(text,name){const a=document.createElement('a'),url=URL.createObjectURL(new Blob([text],{type:'text/csv;charset=utf-8'}));a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-  $('#journalExportDiary').onclick=()=>{const pending=store.read().filter(s=>s.mode==='Film diary'&&s.letterboxdStatus!=='confirmed'),rows=core.exportable(pending);if(!rows.length){$('#journalExportStatus').textContent='No eligible pending diary entries. Scoped episode/series/segment entries need an exact Letterboxd link before export.';return;}download(core.csv(rows,true),`letterboxd-diary-${store.today()}.csv`);$('#journalExportStatus').textContent=`${rows.length} entries downloaded only; nothing posted. ${pending.length-rows.length} scoped entries omitted. Import to your profile, review matches, then confirm there. Dates/watched status may be publicly visible.`;};
+  $('#journalExportDiary').onclick=()=>{const pending=store.read().filter(core.pending),rows=core.exportable(pending);if(!rows.length){$('#journalExportStatus').textContent='No eligible pending dated diary entries. Checked Letterboxd imports and undated watches are excluded; scoped entries need an exact film link.';return;}download(core.csv(rows,true),`letterboxd-diary-${store.today()}.csv`);$('#journalExportStatus').textContent=`${rows.length} entries downloaded only; nothing posted. ${pending.length-rows.length} scoped entries omitted. Import to your profile, review matches, then confirm there. Dates/watched status may be publicly visible.`;};
   $('#journalExportWatchlist').onclick=()=>{const list=core.watchlist(window.ACTING_BUCKET.films,store.read(),store.watched()),rows=core.exportable(list);if(!rows.length){$('#journalExportStatus').textContent='No eligible watchlist titles to export.';return;}download(core.csv(rows),`letterboxd-watchlist-${store.today()}.csv`);$('#journalExportStatus').textContent=`${rows.length} titles downloaded. ${list.length-rows.length} scoped episode/series/segment entries omitted unless an exact link is provided. Import to WATCHLIST, not profile. Review ambiguous editions before adding films.`;};
   async function wikidata(params){
     const url=new URL('https://www.wikidata.org/w/api.php');for(const [k,v]of Object.entries({...params,format:'json',origin:'*',maxlag:5}))url.searchParams.set(k,v);

@@ -15,7 +15,7 @@
   <link rel="preload" href="fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="poster-theme.css?v=20260927-cinema">
-  <link rel="stylesheet" href="deck.css?v=20260927-colour-deck">
+  <link rel="stylesheet" href="deck.css?v=20260927-watched-deck">
   <link rel="stylesheet" href="weekly-theme.css?v=weekly-20260927044507-febbe558">
 </head>
 <body data-room="today">
@@ -101,6 +101,7 @@
             <button id="journalSearchOnline" type="button" class="quiet">Search world films on Wikidata ↗</button>
             <small id="journalIdentity">Manual entry works offline. Metadata is optional.</small><div id="journalMatches" aria-live="polite"></div>
             <div class="form-row"><label>Release year (optional)<input name="year" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="Confirm the edition"></label><label>Watched on<input name="date" type="date" required></label></div>
+            <label class="journal-check"><input name="watchedDateUnknown" type="checkbox">Date not recorded — I know I watched it</label>
             <label>How would you rate it?<select name="rating" required><option value="" disabled selected>Choose your rating, or no rating</option><option value="none">No rating — just watched it</option><option value="0.5">½ ★</option><option value="1">★</option><option value="1.5">★ ½</option><option value="2">★★</option><option value="2.5">★★ ½</option><option value="3">★★★</option><option value="3.5">★★★ ½</option><option value="4">★★★★</option><option value="4.5">★★★★ ½</option><option value="5">★★★★★</option></select></label>
             <label class="journal-check"><input name="rewatch" type="checkbox">I have watched this before</label>
             <label>Genres (optional, comma-separated)<input name="genres" maxlength="300" placeholder="Drama, absurdist comedy, science fiction…"></label>
@@ -114,7 +115,7 @@
               <label>Artwork source page (optional)<input name="posterSourceURL" type="url" maxlength="2048" placeholder="https://…/film-page"></label><label>Artwork credit (optional)<input name="posterCredit" maxlength="200" placeholder="Publisher / artist"></label><label class="journal-check"><input name="posterHidden" type="checkbox">Keep this card text-only</label><button id="journalPreviewPoster" type="button" class="quiet">Preview my poster card ↗</button><div id="journalPosterPreview" class="journal-poster-preview" hidden></div><p id="journalPosterStatus" role="status"></p>
               <small>Choose artwork you are permitted to display. Uploads become a small JPEG in your private card, synced only when you save while signed in, and included in your backup—not public GitHub files. Original files and their metadata aren’t uploaded. External image hosts still see your IP; requests have no referrer. Some hosts block colour sampling: upload the picture or choose colours manually instead.</small>
             </details>
-            <details><summary>Exact Letterboxd film link (optional)</summary><label>Letterboxd URL<input name="letterboxdURI" type="url" placeholder="https://letterboxd.com/film/…"></label><p>A film link avoids ambiguous title matches when importing. No passwords or API keys.</p></details>
+            <details><summary>Exact Letterboxd film link (optional)</summary><label>Letterboxd URL<input name="letterboxdURI" type="url" placeholder="https://letterboxd.com/film/…"></label><label class="journal-check"><input name="letterboxdObserved" type="checkbox">Already listed as watched on Letterboxd</label><p>A checked watched-list import is excluded from pending exports to avoid posting it twice. This is a checked snapshot, not a live connection. No passwords or API keys.</p></details>
             <button class="primary" type="submit">Save my film card ↗</button><button id="journalAddWatchlist" type="button" class="quiet">Haven’t seen it? Add to watchlist instead</button><p id="journalStatus" role="status"></p>
           </form>
           <section class="journal-bridge panel"><p class="eyebrow">YOUR OTHER LOGBOOK</p><h2>LETTERBOXD<br><em>saltinsea</em> ↗</h2><p>These cards sync privately through your existing app account. Letterboxd is a separate handoff, not an automatic connection.</p><p>Its API currently excludes personal/GPT projects. No credentials are stored here, and no background posting is claimed.</p><p id="journalPending"></p><button id="journalExportDiary" type="button" class="primary">Download pending diary CSV</button><a class="quiet" href="https://letterboxd.com/import/" target="_blank" rel="noopener">Open Letterboxd diary importer ↗</a><button id="journalExportWatchlist" type="button" class="primary">Download unwatched watchlist CSV</button><a class="quiet" href="https://letterboxd.com/saltinsea/watchlist/" target="_blank" rel="noopener">Open my Letterboxd watchlist ↗</a><p id="journalExportStatus" role="status"></p><small>Check film matches before confirming: Letterboxd imports have no undo. Never import the watchlist to your profile. Feelings stay private and are not included in CSV files.</small><p><a href="https://letterboxd.com/about/importing-data/" target="_blank" rel="noopener">Import format &amp; privacy details</a> · <a href="https://www.wikidata.org/wiki/Wikidata:Data_access" target="_blank" rel="noopener">Wikidata / CC0 metadata</a></p></section>
@@ -298,9 +299,9 @@
       document.write('<script src="daily-log.js"><\/script>');
     }
   </script>
-  <script src="journal-core.js?v=20260927-colour-deck"></script>
+  <script src="journal-core.js?v=20260927-watched-deck"></script>
   <script src="app.js?v=20260927-logbook"></script>
-  <script src="journal-ui.js?v=20260927-colour-deck"></script>
+  <script src="journal-ui.js?v=20260927-watched-deck"></script>
   <script src="pwa.js"></script>
   <script>
     if (location.protocol === "https:" || ["localhost", "127.0.0.1"].includes(location.hostname)) {

@@ -77,6 +77,21 @@ date, rating, film identity, learning credit or account rules are changed.
 
 ## Weekly visual update and Android icon
 
+Poster cards have an invariant 2:3 canvas on phone, desktop and previews. The
+same `cover` crop and focal point apply at every width. Content scrolls inside
+the overlay when necessary, rather than stretching the poster. Text-only cards
+remain flexible. Artwork URLs are optional private references, never bundled
+Pinterest or Letterboxd assets; alternative artwork must match the exact film.
+
+Checked Letterboxd watched-list imports retain the observed rating and actual
+diary date when available. If a watched film has no diary date, select Date not
+recorded: its saved date is empty, not today's date. These checked snapshot cards
+use `letterboxdStatus: observed`, distinct from a live API connection or the user's
+manual imported confirmation. They are excluded from pending diary exports, as
+are undated watches. Identity/title/year checks prevent same-viewing duplicates
+and keep imported watched films out of the unwatched shelf. No private watched
+titles, ratings or dates belong in public seed files or this documentation.
+
 The app now rotates compositions, not just palettes: cut-paper collage, editorial
 broadsheet, electric ribbon, and oversized type specimen. A cloud AI proposal can
 author additional original responsive CSS. All room forms and private records

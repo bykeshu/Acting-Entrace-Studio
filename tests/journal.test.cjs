@@ -17,6 +17,16 @@ test('Letterboxd CSV uses supported columns and excludes private memories, tags 
  const un=j.csv([j.entry({...valid,rating:'none'},options)],true);assert.match(un,/"","2026-09-27"/);
  assert.ok(!j.csv([e]).includes('WatchedDate'));assert.match(j.csv([{title:'=FORMULA',year:'',letterboxdURI:''}]),/'=FORMULA/);assert.match(j.csv([{title:'He said "hello"'}]),/He said ""hello""/);
 });
+test('Checked watched imports preserve unknown dates and do not become pending Letterboxd posts',()=>{
+ const imported=j.entry({...valid,date:'',watchedDateUnknown:'on',letterboxdObserved:'on'},options);
+ assert.equal(imported.date,'');assert.equal(imported.watchedDateUnknown,true);assert.equal(imported.letterboxdStatus,'observed');assert.equal(imported.minutes,0);assert.equal(j.pending(imported),false);
+ assert.equal(j.pending(j.entry(valid,options)),true);assert.equal(j.pending({...imported,letterboxdStatus:'diary-pending'}),false);
+ assert.equal(j.pending({...j.entry(valid,options),letterboxdStatus:'confirmed'}),false);
+ assert.throws(()=>j.entry({...valid,letterboxdObserved:'on',letterboxdURI:''},options));
+ assert.equal(j.sameFilm(imported,{title:'PARIS, TEXAS',year:'1984',filmKey:'different-source-key'}),true);
+ assert.equal(j.sameFilm(imported,{title:'Paris, Texas',year:'2000'}),false);
+ assert.deepEqual(j.watchlist([{id:'new-key',title:valid.title,year:'1984'}],[imported],{}),[]);
+});
 test('Unwatched watchlist deduplicates stable keys, updates with new saves, and excludes watched/diary records',()=>{
  const shelf=[{id:'a',title:'One'},{id:'b',title:'Two',courseId:'two'},{id:'c',title:'A new save'}],session={id:'watch',title:'Personal title',filmKey:'film:personal:',mode:'Film watchlist'};
  const list=j.watchlist(shelf,[session,{...session,id:'watch2'},{mode:'Film diary',filmKey:'bucket-watched:a'}],{'cinema-watched:two':true});assert.deepEqual(list.map(f=>f.title),['A new save','Personal title']);
