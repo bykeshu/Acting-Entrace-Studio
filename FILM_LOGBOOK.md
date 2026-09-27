@@ -156,3 +156,11 @@ single compact column with the same 2:3 card ratio. Clicking the artwork, title 
 ticket opens a native modal showing the uncropped source image and its credit.
 The explicit View poster button provides keyboard access; Escape, Close and the
 backdrop dismiss it. Editing, changing art and Letterboxd controls remain separate.
+
+The film deck sorts by watch date, rating, title or release year, in either
+direction. Missing ratings/dates/years stay last. Native picker input and change
+events apply the order immediately; Apply re-sorts the currently selected option
+even when no new change event is fired. A compact confirmation shows the active
+order and filtered card count. Returning to a restored browser page reconciles
+its picker with the rendered order. This preference is device-local and does not
+modify film records, posters, notes, learning scores or private sync events.
