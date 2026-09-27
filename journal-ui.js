@@ -5,6 +5,11 @@
   const catalogue=[...window.ACTING_BUCKET.films.map(f=>({...f,filmKey:core.identity(f)})),...window.ACTING_CINEMA.films.map(f=>({...f,filmKey:`cinema-watched:${f.id}`}))];
   let selected=null,request=0,searchBusy=false,artRequest=0,artBusy=false,draftFullPoster='';
   const artwork=f=>core.poster(f,store.read());
+  const thoughtDrafts=new Map();
+  function thoughtMarkup(s,i){
+    const draft=thoughtDrafts.get(s.id);
+    return `<section class="diary-afterword" aria-label="Personal thoughts for ${esc(s.title)}"><p class="diary-afterword-kicker">AFTER THE CREDITS / JUST FOR YOU</p>${s.note?`<blockquote class="diary-carved" tabindex="0">${esc(s.note)}</blockquote>`:'<p class="diary-afterword-empty">Some films leave a feeling. There’s room for it here, if you want.</p>'}<details data-journal-thought="${esc(s.id)}"${draft?' open':''}><summary>${s.note?'Edit my thought ↗':'Leave a thought ↗'}</summary><form data-journal-note="${esc(s.id)}"><label for="journalThought-${i}">What stayed with me?</label><textarea id="journalThought-${i}" name="thought" rows="4" maxlength="3000" placeholder="A realization, an epiphany, a moment. Or nothing at all.">${esc(draft?draft.value:s.note||'')}</textarea><small>Optional · private · up to 3,000 characters. Not homework or a Letterboxd review.</small><div class="diary-thought-actions"><button type="submit">Save thought ↗</button><button type="button" data-thought-cancel>Cancel</button></div><p class="diary-thought-status" role="status"></p></form></details></section>`;
+  }
   const posterDialog=$('#journalPosterDialog'),fullPoster=$('#journalFullPoster');
   function viewPoster(s){
     const art=artwork(s);if(!art)return;
@@ -31,10 +36,11 @@
     const art=artwork(s);if(!art)return '';
     return `<img class="diary-poster" src="${esc(art.url)}" data-art-source="${esc(art.source)}" data-art-credit="${esc(art.credit)}" alt="" aria-hidden="true" loading="lazy" decoding="async" referrerpolicy="no-referrer">`;
   }
-  function cardMarkup(s,i=0){
+  function cardMarkup(s,i=0,withJournal=true){
     const art=artwork(s),p=art?.palette;
     const credit=art?`<small class="diary-art-credit">${art.source?`<a href="${esc(art.source)}" target="_blank" rel="noopener noreferrer">${esc(art.credit)} ↗</a>`:esc(art.credit)}</small>`:'';
-    return `<article class="diary-card${art?' poster-card':''}" data-card="${i%4}"${art?` data-journal-art="${esc(s.id)}"`:''}${p?` style="--poster-ink:${p.ink};--poster-text:${p.text};--poster-accent:${p.accent}"`:''}>${artMarkup(s)}<div class="diary-ticket"><span>${s.watchedDateUnknown?'WATCHED / DATE NOT RECORDED':'ADMIT ONE / '+esc(s.date)}</span><span>${s.rewatch?'REWATCH':'A VIEWING'}</span></div><span class="diary-reel" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="diary-content"><h3>${esc(s.title)}</h3><p class="diary-year">${esc(s.year||'Edition not specified')}</p><p class="diary-rating" aria-label="${s.rating==null?'No rating':esc(s.rating)+' out of five stars'}">${s.rating==null?'UNRATED':esc(s.rating)+' / 5 ★'}</p><div class="meta">${(s.genres||[]).map(g=>`<span class="tag">${esc(g)}</span>`).join('')}</div>${s.note?`<p class="diary-moment" tabindex="0">${esc(s.note)}</p>`:'<p class="diary-moment">A film can stay with you without a note.</p>'}${handoff(s)}<button type="button" class="text-btn" data-journal-edit="${esc(s.id)}">Edit this card ↗</button>${s.posterVariants?.length?`<button type="button" class="text-btn" data-journal-poster="${esc(s.id)}">Change poster ↻</button>`:''}${art?`<button type="button" class="text-btn" data-journal-view="${esc(s.id)}">View poster ↗</button>`:''}${credit}</div></article>`;
+    const card=`<article class="diary-card${art?' poster-card':''}" data-card="${i%4}"${art?` data-journal-art="${esc(s.id)}"`:''}${p?` style="--poster-ink:${p.ink};--poster-text:${p.text};--poster-accent:${p.accent}"`:''}>${artMarkup(s)}<div class="diary-ticket"><span>${s.watchedDateUnknown?'WATCHED / DATE NOT RECORDED':'ADMIT ONE / '+esc(s.date)}</span><span>${s.rewatch?'REWATCH':'A VIEWING'}</span></div><span class="diary-reel" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="diary-content"><h3>${esc(s.title)}</h3><p class="diary-year">${esc(s.year||'Edition not specified')}</p><p class="diary-rating" aria-label="${s.rating==null?'No rating':esc(s.rating)+' out of five stars'}">${s.rating==null?'UNRATED':esc(s.rating)+' / 5 ★'}</p><div class="meta">${(s.genres||[]).map(g=>`<span class="tag">${esc(g)}</span>`).join('')}</div>${handoff(s)}<button type="button" class="text-btn" data-journal-edit="${esc(s.id)}">Edit this card ↗</button>${s.posterVariants?.length?`<button type="button" class="text-btn" data-journal-poster="${esc(s.id)}">Change poster ↻</button>`:''}${art?`<button type="button" class="text-btn" data-journal-view="${esc(s.id)}">View poster ↗</button>`:''}${credit}</div></article>`;
+    return withJournal?`<div class="diary-leaf"${p?` style="--poster-ink:${p.ink};--poster-text:${p.text};--poster-accent:${p.accent}"`:''}>${card}${thoughtMarkup(s,i)}</div>`:card;
   }
   function loadArtwork(root,onLoad,onError){
     root.querySelectorAll('.diary-poster').forEach(img=>{
@@ -75,7 +81,7 @@
     const sessions=store.read(),diary=sessions.filter(s=>s.mode==='Film diary').slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))),list=core.watchlist(window.ACTING_BUCKET.films,sessions,store.watched());
     const q=$('#journalFilter').value.trim().toLowerCase(),shown=diary.filter(s=>`${s.title} ${s.year} ${(s.genres||[]).join(' ')} ${s.note}`.toLowerCase().includes(q));
     $('#journalCount').textContent=`${diary.length} viewings · ${list.length} on your watchlist · pleasure is not productivity`;
-    $('#journalCards').innerHTML=shown.length?shown.map(cardMarkup).join(''):'<div class="journal-empty"><span aria-hidden="true">✳</span><h3>THE END.<br>OR A BEGINNING.</h3><p>Your first film card goes here. Nothing to analyse. Just your cinema.</p></div>';
+    $('#journalCards').innerHTML=shown.length?shown.map((s,i)=>cardMarkup(s,i)).join(''):'<div class="journal-empty"><span aria-hidden="true">✳</span><h3>THE END.<br>OR A BEGINNING.</h3><p>Your first film card goes here. Nothing to analyse. Just your cinema.</p></div>';
     loadArtwork($('#journalCards'));
     $('#journalWatchlist').innerHTML=list.map(f=>`<div class="watch-ticket"><div><strong>${esc(f.title)}</strong><small>${esc(f.year||'Confirm edition in Letterboxd')}${f.genres?.length?' · '+esc(f.genres.join(', ')):''}</small></div><button type="button" class="text-btn" data-journal-watch="${esc(f.filmKey)}">Watched ↗</button></div>`).join('')||'<p class="empty">An empty watchlist is fine too.</p>';
     $('#journalPending').textContent=`${diary.filter(core.pending).length} dated diary entries pending handoff · ${diary.filter(s=>s.letterboxdStatus==='observed').length} checked Letterboxd imports. Exports never include your private moments or genres as reviews/tags.`;
@@ -144,13 +150,34 @@
     if(v.posterURL?.trim()&&!core.imageURL(v.posterURL)){$('#journalPosterStatus').textContent='Use a public HTTPS image URL without credentials or a custom port.';return;}
     const art=artwork(v);if(!art){$('#journalPosterStatus').textContent=v.posterHidden?'Text-only selected.':'No built-in cover for this film yet. Paste a direct poster-image link, or keep your paper card.';return;}
     if(!core.palette(v.posterPalette)){$('#journalPosterStatus').textContent='These colours need more contrast. Match poster colours or choose lighter text and a darker background.';return;}
-    const p=$('#journalPosterPreview');p.hidden=false;p.innerHTML=cardMarkup({...v,id:'preview-only',title:v.title||'Your film',date:v.date||store.today(),rating:v.rating&&v.rating!=='none'?Number(v.rating):null,genres:[]});
+    const p=$('#journalPosterPreview');p.hidden=false;p.innerHTML=cardMarkup({...v,id:'preview-only',title:v.title||'Your film',date:v.date||store.today(),rating:v.rating&&v.rating!=='none'?Number(v.rating):null,genres:[]},0,false);
     p.querySelectorAll('button').forEach(b=>b.remove());p.querySelector('details')?.remove();
     loadArtwork(p,()=>{$('#journalPosterStatus').textContent='Backdrop preview only — save the card to keep your choice.';},()=>{$('#journalPosterStatus').textContent='Image unavailable or blocked by its host. The paper card still works; try another image link.';});
   };
   $('#journalFilter').addEventListener('input',render);
+  $('#journalCards').addEventListener('toggle',e=>{
+    const details=e.target;if(!details.matches('[data-journal-thought]')||!details.open||!details.isConnected)return;
+    const id=details.dataset.journalThought,s=store.read().find(s=>s.id===id&&s.mode==='Film diary');
+    if(s&&!thoughtDrafts.has(id))thoughtDrafts.set(id,{value:s.note||'',baseNote:s.note||''});
+  },true);
+  $('#journalCards').addEventListener('input',e=>{
+    const f=e.target.closest('[data-journal-note]');if(!f||e.target.name!=='thought')return;
+    const id=f.dataset.journalNote,s=store.read().find(s=>s.id===id&&s.mode==='Film diary');
+    if(s)thoughtDrafts.set(id,{value:e.target.value,baseNote:thoughtDrafts.get(id)?.baseNote??s.note??''});
+  });
+  $('#journalCards').addEventListener('submit',e=>{
+    const f=e.target.closest('[data-journal-note]');if(!f)return;e.preventDefault();
+    const id=f.dataset.journalNote,s=store.read().find(s=>s.id===id&&s.mode==='Film diary'),draft=thoughtDrafts.get(id),status=f.querySelector('[role="status"]');
+    try{
+      if(draft&&(s?.note||'')!==draft.baseNote)throw Error('This thought changed on another device. Your draft is safe here: copy it, then Cancel to reload the latest thought.');
+      store.put(core.withThought(s,f.elements.thought.value));thoughtDrafts.delete(id);render();
+      $('#journalStatus').textContent='Your thought is carved into this film deck and saved privately. It uses existing account sync and backups; nothing was posted to Letterboxd.';
+      $('#journalCards').querySelectorAll('[data-journal-thought]').forEach(d=>{if(d.dataset.journalThought===id)d.querySelector('summary').focus({preventScroll:true});});
+    }catch(error){status.textContent=error.message;}
+  });
   $('#journalWatchlist').addEventListener('click',e=>{const key=e.target.closest('[data-journal-watch]')?.dataset.journalWatch;const f=core.watchlist(window.ACTING_BUCKET.films,store.read(),store.watched()).find(f=>f.filmKey===key);if(f)offer(f);});
   $('#journalCards').addEventListener('click',e=>{
+    if(e.target.closest('[data-thought-cancel]')){const f=e.target.closest('[data-journal-note]'),id=f.dataset.journalNote;thoughtDrafts.delete(id);f.elements.thought.value=store.read().find(s=>s.id===id)?.note||'';f.querySelector('[role="status"]').textContent='';f.closest('details').open=false;f.closest('details').querySelector('summary').focus({preventScroll:true});return;}
     const view=e.target.closest('[data-journal-view]')?.dataset.journalView||(!e.target.closest('button,a,summary,details,input,textarea,select,.diary-moment')?e.target.closest('[data-journal-art]')?.dataset.journalArt:null);
     if(view){const s=store.read().find(s=>s.mode==='Film diary'&&s.id===view);if(s)viewPoster(s);return;}
     const swap=e.target.closest('[data-journal-poster]')?.dataset.journalPoster;

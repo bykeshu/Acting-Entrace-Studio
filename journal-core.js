@@ -132,6 +132,13 @@
     if(new TextEncoder().encode(JSON.stringify(out)).length>48000)throw Error('This card is too large to sync safely. Use a smaller poster or shorter image/source links.');
     return out;
   }
+  function withThought(record,value){
+    if(record?.mode!=='Film diary'||!record.id)throw Error('This film card is no longer available.');
+    if(typeof value!=='string'||value.length>3000)throw Error('Keep your thought within 3,000 characters.');
+    const out={...record,note:clean(value,3000)};
+    if(new TextEncoder().encode(JSON.stringify(out)).length>48000)throw Error('This card is too large to sync safely. Shorten the thought or use shorter poster links; nothing was changed.');
+    return out;
+  }
   // Quoting is RFC 4180; neutralise spreadsheet formulas without changing ordinary film labels.
   const cell=s=>'"'+String(s??'').replace(/^[=+@\-\t\r]/,"'$&").replace(/"/g,'""')+'"';
   function csv(rows,diary=false){
@@ -147,7 +154,7 @@
     }
     return [...map.values()];
   }
-  const api={personal,identity,sameFilm,pending,entry,csv,watchlist,uri,exportable,imageURL,poster,posterData,fullPosterData,artworkChunks,resolveArtwork,variants,nextPoster,palette,paletteFromPixels,posterContrast};
+  const api={personal,identity,sameFilm,pending,entry,withThought,csv,watchlist,uri,exportable,imageURL,poster,posterData,fullPosterData,artworkChunks,resolveArtwork,variants,nextPoster,palette,paletteFromPixels,posterContrast};
   root.ACTING_JOURNAL=api;
   if(typeof module!=='undefined')module.exports=api;
 })(typeof window==='undefined'?globalThis:window);

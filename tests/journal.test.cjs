@@ -17,6 +17,12 @@ test('Letterboxd CSV uses supported columns and excludes private memories, tags 
  const un=j.csv([j.entry({...valid,rating:'none'},options)],true);assert.match(un,/"","2026-09-27"/);
  assert.ok(!j.csv([e]).includes('WatchedDate'));assert.match(j.csv([{title:'=FORMULA',year:'',letterboxdURI:''}]),/'=FORMULA/);assert.match(j.csv([{title:'He said "hello"'}]),/He said ""hello""/);
 });
+test('Optional thought editing changes only the private note and never earns study credit',()=>{
+ const card={...j.entry(valid,options),letterboxdStatus:'confirmed',posterVariantIndex:2,posterShuffleRemaining:[0,1],posterAssetId:'poster:11111111-1111-4111-8111-111111111111'};
+ const snapshot=JSON.stringify(card),updated=j.withThought(card,'  A quiet epiphany.\nIt stayed with me.  ');
+ assert.equal(JSON.stringify(card),snapshot);assert.equal(updated.note,'A quiet epiphany.\nIt stayed with me.');assert.deepEqual({...updated,note:card.note},card);assert.equal(updated.minutes,0);assert.ok(!j.csv([updated],true).includes('epiphany'));assert.equal(j.withThought(updated,'').note,'');
+ assert.throws(()=>j.withThought(card,'x'.repeat(3001)));assert.throws(()=>j.withThought({...card,extra:'x'.repeat(48000)},'thought'));assert.throws(()=>j.withThought({...card,mode:'Practice'},'thought'));
+});
 test('Checked watched imports preserve unknown dates and do not become pending Letterboxd posts',()=>{
  const imported=j.entry({...valid,date:'',watchedDateUnknown:'on',letterboxdObserved:'on'},options);
  assert.equal(imported.date,'');assert.equal(imported.watchedDateUnknown,true);assert.equal(imported.letterboxdStatus,'observed');assert.equal(imported.minutes,0);assert.equal(j.pending(imported),false);

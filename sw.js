@@ -1,4 +1,4 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260927044507-febbe558-poster-shuffle";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260927044507-febbe558-afterword";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -6,7 +6,7 @@ const APP_SHELL = [
   "./daily.css",
   "./cinema.css?v=20260927",
   "./poster-theme.css?v=20260927-cinema",
-  "./deck.css?v=20260927-poster-viewer",
+  "./deck.css?v=20260927-afterword",
   "./weekly-theme.css?v=weekly-20260927044507-febbe558",
   "./design/active.json",
   "./fonts/anton-latin.woff2",
@@ -30,9 +30,9 @@ const APP_SHELL = [
   "./MOVIE_BUCKET_LIST.md",
   "./FILM_LOGBOOK.md",
   "./DESIGN_NOTES.md",
-  "./journal-core.js?v=20260927-poster-shuffle",
+  "./journal-core.js?v=20260927-afterword",
   "./app.js?v=20260927-sharp-posters",
-  "./journal-ui.js?v=20260927-poster-shuffle",
+  "./journal-ui.js?v=20260927-afterword",
   "./cloud.bundle.js",
   "./pwa.js",
   "./manifest.webmanifest",
