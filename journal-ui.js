@@ -154,7 +154,7 @@
     const view=e.target.closest('[data-journal-view]')?.dataset.journalView||(!e.target.closest('button,a,summary,details,input,textarea,select,.diary-moment')?e.target.closest('[data-journal-art]')?.dataset.journalArt:null);
     if(view){const s=store.read().find(s=>s.mode==='Film diary'&&s.id===view);if(s)viewPoster(s);return;}
     const swap=e.target.closest('[data-journal-poster]')?.dataset.journalPoster;
-    if(swap){const s=store.read().find(s=>s.mode==='Film diary'&&s.id===swap);if(s?.posterVariants?.length){try{store.put({...s,posterVariantIndex:((s.posterVariantIndex||0)+1)%(s.posterVariants.length+1)});render();}catch(error){$('#journalStatus').textContent=error.message;}}return;}
+    if(swap){const s=store.read().find(s=>s.mode==='Film diary'&&s.id===swap);if(s?.posterVariants?.length){try{store.put({...s,...core.nextPoster(s)});render();$('#journalStatus').textContent='Random poster selected from your '+(s.posterVariants.length+1)+' saved choices. The selection syncs privately; this is not a fresh internet search.';}catch(error){$('#journalStatus').textContent=error.message;}}return;}
     const edit=e.target.closest('[data-journal-edit]')?.dataset.journalEdit,confirmed=e.target.closest('[data-journal-confirm]')?.dataset.journalConfirm;
     const s=store.read().find(s=>s.mode==='Film diary'&&s.id===(edit||confirmed));if(!s)return;
     if(confirmed){store.put({...s,letterboxdStatus:s.letterboxdStatus==='confirmed'?'diary-pending':'confirmed'});render();return;}

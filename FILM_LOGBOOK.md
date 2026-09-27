@@ -114,9 +114,12 @@ Letterboxd exports and the visible diary count; backups include it privately.
 This increases per-image sync reads/writes, with no paid storage/API added.
 Older compressed images cannot regain lost detail: upload the original again.
 
-Each private card may hold two credited HTTPS alternate poster references and
-their contrast-checked palettes. “Change poster” cycles through the original and
-alternatives, syncing the selected index without changing rating/date/memory or
+Each private card may hold up to 30 credited HTTPS alternate poster references
+within its 48,000-byte sync limit, with contrast-checked palettes and duplicate
+image links removed. “Change poster” uses a random shuffle bag containing the
+original and alternatives. Each image appears once per cycle, with no immediate
+repeat at a cycle boundary. Changing the pool or saving an edited card resets the
+bag. The chosen index and remaining bag sync privately without changing rating/date/memory or
 posting anything to Letterboxd. It is a manual control, not an automatic
 Pinterest scraper or a recurring AI redesign. Source hosts must remain online;
 linked art is not bundled into GitHub. A local private reference gallery is kept

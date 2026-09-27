@@ -34,12 +34,29 @@
   function variants(value){
     if(typeof value==='string'){try{value=JSON.parse(value||'[]');}catch{throw Error('Alternate posters must be a JSON list.');}}
     if(value==null)return [];
-    if(!Array.isArray(value)||value.length>2)throw Error('Keep up to two alternate posters per film.');
+    if(!Array.isArray(value)||value.length>30)throw Error('Keep up to 30 alternate posters per film.');
+    const seen=new Set();
     return value.map(v=>{
       const url=imageURL(v?.url),source=imageURL(v?.source),p=palette(v?.palette);
       if(!url||!source||!p)throw Error('Each alternate needs HTTPS image/source links and readable palette colours.');
       return {url,source,credit:clean(v.credit,200)||'Poster artwork · rights belong to its owner',palette:p};
-    });
+    }).filter(v=>{if(seen.has(v.url))return false;seen.add(v.url);return true;});
+  }
+  // A private shuffle bag, not an internet search. Restart when the image pool changes.
+  function nextPoster(f,random=Math.random){
+    const choices=variants(f.posterVariants),count=choices.length+1;
+    if(count<2)return {posterVariantIndex:0,posterShuffleRemaining:[],posterShuffleKey:''};
+    const key=[f.posterAssetId||f.posterURL||'original',...choices.map(v=>v.url)].join('|').split('').reduce((h,c)=>Math.imul(h^c.charCodeAt(0),16777619)>>>0,2166136261).toString(16);
+    const current=Number.isInteger(f.posterVariantIndex)&&f.posterVariantIndex>=0&&f.posterVariantIndex<count?f.posterVariantIndex:0;
+    const raw=f.posterShuffleRemaining;
+    let bag=f.posterShuffleKey===key&&Array.isArray(raw)&&raw.length<count&&new Set(raw).size===raw.length&&raw.every(i=>Number.isInteger(i)&&i>=0&&i<count&&i!==current)?raw.slice():[];
+    if(!bag.length){
+      bag=Array.from({length:count},(_,i)=>i);
+      for(let i=bag.length-1;i>0;i--){const sample=random(),j=Math.floor(Math.max(0,Math.min(.999999999,Number.isFinite(sample)?sample:0))*(i+1));[bag[i],bag[j]]=[bag[j],bag[i]];}
+      // At a cycle boundary postpone the current image, without losing it.
+      if(bag[0]===current)[bag[0],bag[1]]=[bag[1],bag[0]];
+    }
+    return {posterVariantIndex:bag.shift(),posterShuffleRemaining:bag,posterShuffleKey:key};
   }
   const rgb=hex=>hex.slice(1).match(/../g).map(n=>parseInt(n,16));
   const hex=values=>'#'+values.map(n=>Math.max(0,Math.min(255,Math.round(n))).toString(16).padStart(2,'0')).join('');
@@ -130,7 +147,7 @@
     }
     return [...map.values()];
   }
-  const api={personal,identity,sameFilm,pending,entry,csv,watchlist,uri,exportable,imageURL,poster,posterData,fullPosterData,artworkChunks,resolveArtwork,variants,palette,paletteFromPixels,posterContrast};
+  const api={personal,identity,sameFilm,pending,entry,csv,watchlist,uri,exportable,imageURL,poster,posterData,fullPosterData,artworkChunks,resolveArtwork,variants,nextPoster,palette,paletteFromPixels,posterContrast};
   root.ACTING_JOURNAL=api;
   if(typeof module!=='undefined')module.exports=api;
 })(typeof window==='undefined'?globalThis:window);

@@ -71,9 +71,16 @@ test('High-quality private artwork survives bounded event chunks, partial sync u
  assert.equal(j.poster(card,chunks).url,data);assert.equal(j.poster(card,chunks.slice(1)).url,card.posterData);assert.ok(!j.csv([card],true).includes(id));
  assert.throws(()=>j.artworkChunks('data:image/svg+xml;base64,AAAA',{id}));assert.throws(()=>j.entry({...valid,posterAssetId:'evil'},options));
 });
-test('Two private alternate posters cycle safely without mutating viewing details',()=>{
+test('Larger private alternate library remains bounded and deduplicates images',()=>{
  const a={url:'https://example.com/alternate.jpg',source:'https://example.com/artist',credit:'Artist',palette:j.paletteFromPixels([])};
  const card=j.entry({...valid,posterVariants:JSON.stringify([a]),posterVariantIndex:'1'},options);
  assert.equal(j.poster(card).url,a.url);assert.equal(card.rating,3.5);assert.equal(card.date,valid.date);assert.equal(card.minutes,0);assert.ok(!j.csv([card],true).includes('alternate.jpg'));
- assert.throws(()=>j.variants([a,a,a]));assert.throws(()=>j.variants([{...a,url:'javascript:evil'}]));assert.throws(()=>j.variants([{...a,palette:{ink:'#000000',text:'#000000',accent:'#000000'}}]));
+ assert.equal(j.variants([a,a,a]).length,1);assert.equal(j.variants(Array.from({length:30},(_,i)=>({...a,url:`https://example.com/${i}.jpg`}))).length,30);assert.throws(()=>j.variants(Array(31).fill(a)));assert.throws(()=>j.variants([{...a,url:'javascript:evil'}]));assert.throws(()=>j.variants([{...a,palette:{ink:'#000000',text:'#000000',accent:'#000000'}}]));
+});
+test('Random poster bag exhausts a cycle, never immediately repeats and resets safely',()=>{
+ const variants=Array.from({length:8},(_,i)=>({url:`https://example.com/${i}.jpg`,source:'https://example.com/artist',credit:'Artist',palette:j.paletteFromPixels([])}));
+ let card=j.entry({...valid,posterVariants:variants},options);const cycle=[];
+ for(let i=0;i<27;i++){const previous=card.posterVariantIndex;card={...card,...j.nextPoster(card,()=>.4)};assert.notEqual(card.posterVariantIndex,previous);cycle.push(card.posterVariantIndex);assert.equal(card.rating,valid.rating*1);assert.equal(card.date,valid.date);}
+ for(let i=0;i<27;i+=9)assert.equal(new Set(cycle.slice(i,i+9)).size,9);
+ const changed=j.nextPoster({...card,posterVariants:variants.slice(0,3),posterShuffleRemaining:[-1,999,'bad']},()=>NaN);assert.ok(changed.posterVariantIndex>=0&&changed.posterVariantIndex<=3);assert.ok(changed.posterShuffleRemaining.every(Number.isInteger));assert.ok(!j.csv([card],true).includes('posterShuffle'));
 });
