@@ -65,7 +65,7 @@ test('User-selected JPEG stays private, fits the existing sync payload, and is e
  assert.throws(()=>j.entry({...valid,posterData:'data:image/jpeg;base64,'+'A'.repeat(29000),letterboxdURI:'https://letterboxd.com/film/'+'x'.repeat(20000)},options));
 });
 test('No Letterboxd secret, undocumented API or fictitious automatic sync; offline assets match',()=>{
- const root=path.resolve(__dirname,'..'),html=fs.readFileSync(path.join(root,'index.html'),'utf8'),ui=fs.readFileSync(path.join(root,'journal-ui.js'),'utf8');assert.match(html,/not an automatic connection/);assert.match(ui,/not remotely verified/);assert.ok(!ui.includes('api.letterboxd.com'));assert.ok(!ui.includes('client_secret'));assert.match(ui,/www.wikidata.org\/w\/api.php/);
+ const root=path.resolve(__dirname,'..'),html=fs.readFileSync(path.join(root,'index.html'),'utf8'),ui=fs.readFileSync(path.join(root,'journal-ui.js'),'utf8');assert.match(html,/posting back is still a separate handoff/);assert.match(html,/Cloud setup pending/);assert.match(html,/Daily at about 9 am IST, not instant/);assert.match(ui,/not remotely verified/);assert.ok(!ui.includes('api.letterboxd.com'));assert.ok(!ui.includes('client_secret'));assert.match(ui,/www.wikidata.org\/w\/api.php/);
  for(const name of ['journal-core.js','journal-ui.js','deck.css'])assert.ok(fs.readFileSync(path.join(root,'sw.js'),'utf8').includes(name));
  assert.ok(html.indexOf('src="journal-core.js')<html.indexOf('src="app.js'));assert.ok(html.indexOf('src="app.js')<html.indexOf('src="journal-ui.js'));
 });

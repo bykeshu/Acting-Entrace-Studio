@@ -1,0 +1,43 @@
+name: Daily private Letterboxd import
+
+on:
+  schedule:
+    - cron: '30 3 * * *' # Daily 09:00 Asia/Kolkata; GitHub can delay schedules.
+  workflow_dispatch:
+    inputs:
+      check_only:
+        description: 'Check public RSS without signing in or writing private data'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+concurrency:
+  group: daily-letterboxd-import
+  cancel-in-progress: false
+
+jobs:
+  import:
+    if: vars.LETTERBOXD_IMPORT_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.check_only)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install the pinned RSS parser only
+        run: npm install --prefix "$RUNNER_TEMP/letterboxd-runtime" --no-save --package-lock=false sax@1.4.4
+      - name: Test import and privacy helpers with synthetic records
+        env:
+          NODE_PATH: ${{ runner.temp }}/letterboxd-runtime/node_modules
+        run: node --test tests/letterboxd.test.cjs
+      - name: Refresh private inbox (no history artifacts or public commits)
+        env:
+          NODE_PATH: ${{ runner.temp }}/letterboxd-runtime/node_modules
+          LETTERBOXD_CHECK_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.check_only && 'true' || 'false' }}
+          LETTERBOXD_IMPORT_EMAIL: ${{ secrets.LETTERBOXD_IMPORT_EMAIL }}
+          LETTERBOXD_IMPORT_PASSWORD: ${{ secrets.LETTERBOXD_IMPORT_PASSWORD }}
+          LETTERBOXD_OWNER_UID: ${{ secrets.LETTERBOXD_OWNER_UID }}
+          LETTERBOXD_WRITER_UID: ${{ secrets.LETTERBOXD_WRITER_UID }}
+        run: node scripts/import-letterboxd.cjs

@@ -37,8 +37,10 @@ user's account before it is described as active. `npm test` checks all tests.
 
 Room 11 stores private, enjoyment-first film cards with half-star/no-rating,
 optional genres/moments, rewatches and an unwatched watchlist. Wikidata search has
-an offline/manual fallback. Letterboxd is a clearly labelled CSV handoff, not an
-automatic API connection. Read [FILM_LOGBOOK.md](FILM_LOGBOOK.md).
+an offline/manual fallback. Daily Letterboxd RSS imports have a separate, guarded
+cloud workflow and private inbox; setup and a real-write trial are required before
+enabling it. Posting back remains an explicit CSV/website handoff, not an API
+connection. See [LETTERBOXD_IMPORTS.md](LETTERBOXD_IMPORTS.md) and [FILM_LOGBOOK.md](FILM_LOGBOOK.md).
 
 Weekly design contract v2 now rotates full page compositions and original app
 icons, and lets cloud AI author responsive composition CSS. The expanded CI gate

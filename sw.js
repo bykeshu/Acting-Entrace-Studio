@@ -1,4 +1,4 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260927044507-febbe558-in-card-journal-2";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260927044507-febbe558-daily-inbox";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -29,8 +29,10 @@ const APP_SHELL = [
   "./INTERNATIONAL_CINEMA_COURSE.md",
   "./MOVIE_BUCKET_LIST.md",
   "./FILM_LOGBOOK.md",
+  "./LETTERBOXD_IMPORTS.md",
   "./DESIGN_NOTES.md",
   "./journal-core.js?v=20260927-afterword",
+  "./letterboxd-core.js?v=20260927-daily-inbox",
   "./app.js?v=20260927-sharp-posters",
   "./journal-ui.js?v=20260927-in-card-journal-2",
   "./cloud.bundle.js",

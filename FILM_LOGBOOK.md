@@ -37,6 +37,14 @@ API connection. As checked 27 September 2026, [API access policy](https://letter
 requires approval and excludes personal and GPT/LLM projects. Do not use hidden
 endpoints, browser cookies, passwords or a fabricated background automation.
 
+A separate daily read-only RSS importer is now prepared, guarded off until its
+dedicated Firebase login, private-inbox rules and real-write trial are verified.
+It stages recent feed viewings privately in the cloud; an open signed-in app
+reconciles new cards without overwriting existing thoughts, ratings or posters.
+This is not an instant/full-library sync or a posting connection. Setup and exact
+limitations: [LETTERBOXD_IMPORTS.md](LETTERBOXD_IMPORTS.md). Weekly design remains
+Monday-only and independent from daily imports.
+
 Supported handoff: download pending diary CSV and import on Letterboxd's
 [profile importer](https://letterboxd.com/import/). Review each film match before
 the final import: imports have no undo. Ratings/rewatch/watched calendar date are

@@ -17,6 +17,8 @@ permissions:
 jobs:
   refresh:
     runs-on: ubuntu-24.04
+    env:
+      NODE_PATH: ${{ runner.temp }}/acting-layout-runtime/node_modules
     timeout-minutes: 15
     permissions:
       contents: write
@@ -29,6 +31,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Install pinned RSS parser for synthetic unit tests
+        run: npm install --prefix "$RUNNER_TEMP/acting-layout-runtime" --no-save --package-lock=false sax@1.4.4
       - name: Verify existing app
         run: node --test tests/*.test.cjs
       - name: Rotate verified saved-pin snapshot

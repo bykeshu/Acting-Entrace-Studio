@@ -8,7 +8,8 @@
     "build:cloud": "esbuild cloud/cloud.js --bundle --minify --format=iife --target=es2020 --outfile=cloud.bundle.js"
   },
   "dependencies": {
-    "firebase": "12.19.0"
+    "firebase": "12.19.0",
+    "sax": "1.4.4"
   },
   "devDependencies": {
     "esbuild": "0.28.2"

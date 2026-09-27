@@ -11,6 +11,9 @@ importers:
       firebase:
         specifier: 12.19.0
         version: 12.19.0
+      sax:
+        specifier: 1.4.4
+        version: 1.4.4
     devDependencies:
       esbuild:
         specifier: 0.28.2
@@ -513,6 +516,10 @@ packages:
 
   safe-buffer@5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
+
+  sax@1.4.4:
+    resolution: {integrity: sha512-1n3r/tGXO6b6VXMdFT54SHzT9ytu9yr7TaELowdYpMqY/Ao7EnlQGmAQ1+RatX7Tkkdm6hONI2owqNx2aZj5Sw==}
+    engines: {node: '>=11.0.0'}
 
   string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
@@ -1108,6 +1115,8 @@ snapshots:
   require-directory@2.1.1: {}
 
   safe-buffer@5.2.1: {}
+
+  sax@1.4.4: {}
 
   string-width@4.2.3:
     dependencies:
