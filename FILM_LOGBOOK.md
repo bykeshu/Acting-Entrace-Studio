@@ -101,3 +101,23 @@ URL stays stable as required by Chrome's update process.
 Browser/WebAPK launcher refresh timing is controlled by Android/Chrome, so an
 installed icon may lag behind the in-app mark. Updating the app does not require
 clearing data or reinstalling. See WEEKLY_DESIGN.md for the cloud release gate.
+# Poster quality and private alternatives (27 September 2026)
+
+Cards are capped at 320 CSS pixels wide on desktop and retain the same 2:3
+aspect ratio and crop on phones. Uploaded artwork retains a JPEG up to 1280px
+on its long edge (never upscaled), bounded to 288,000 base64 characters. It is
+split into immutable `Film artwork` session events of at most 24,000 characters,
+using the existing owner-only event path and unchanged Firebase rules. A diary
+card references one immutable artwork ID and retains a small fallback thumbnail
+until all parts arrive. Artwork is excluded from learning, practice clearing,
+Letterboxd exports and the visible diary count; backups include it privately.
+This increases per-image sync reads/writes, with no paid storage/API added.
+Older compressed images cannot regain lost detail: upload the original again.
+
+Each private card may hold two credited HTTPS alternate poster references and
+their contrast-checked palettes. “Change poster” cycles through the original and
+alternatives, syncing the selected index without changing rating/date/memory or
+posting anything to Letterboxd. It is a manual control, not an automatic
+Pinterest scraper or a recurring AI redesign. Source hosts must remain online;
+linked art is not bundled into GitHub. A local private reference gallery is kept
+outside the public repository.

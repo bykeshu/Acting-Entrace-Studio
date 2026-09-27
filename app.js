@@ -155,7 +155,7 @@
     $("#weekProgressLabel").textContent=`${Math.round(done/total*100)}%`;
     $("#weekProgressBar").style.width=`${done/total*100}%`;
     const weekAgo=Date.now()-7*86400000;
-    const learningSessions=state.sessions.filter(s=>!['Film memory','Film diary','Film watchlist'].includes(s.mode));
+    const learningSessions=state.sessions.filter(s=>!['Film memory','Film diary','Film watchlist','Film artwork'].includes(s.mode));
     const recent=learningSessions.filter(s=>new Date(s.date).getTime()>=weekAgo);
     const knowledge=recent.filter(s=>["Written study","Play analysis","Film-performance analysis","Mock test"].includes(s.mode)).reduce((a,s)=>a+Number(s.minutes),0);
     const practice=recent.reduce((a,s)=>a+Number(s.minutes),0)-knowledge;
@@ -206,7 +206,7 @@
   $("#syllabusGrid").addEventListener("change",e=>{if(e.target.dataset.topic){state.completedTopics[e.target.dataset.topic]=e.target.checked;save();renderSyllabus()}});
 
   $("#sessionForm").addEventListener("submit",e=>{e.preventDefault();const o=Object.fromEntries(new FormData(e.target));state.sessions.push({id:crypto.randomUUID(),date:todayISO(),...o,minutes:Number(o.minutes),rating:Number(o.rating)});e.target.reset();e.target.minutes.value=45;save();renderSessions()});
-  const personalFilmRecord=s=>['Film memory','Film diary','Film watchlist'].includes(s.mode);
+  const personalFilmRecord=s=>['Film memory','Film diary','Film watchlist','Film artwork'].includes(s.mode);
   function renderSessions(){ const sessions=state.sessions.filter(s=>!personalFilmRecord(s)); $("#sessionList").innerHTML=sessions.length?sessions.slice().reverse().map(s=>`<article class="history-item"><div class="history-item-head"><strong>${esc(s.title)}</strong><span class="tag">${s.minutes}m</span></div><div class="meta"><span>${esc(s.date)}</span><span>${esc(s.mode)}</span><span>${esc(s.track)}</span><span>Quality ${s.rating}/5</span></div>${s.note?`<p>${esc(s.note)}</p>`:''}</article>`).join(''):`<p class="empty">No sessions logged yet.</p>`; }
   $("#clearSessions").onclick=()=>{if(confirm("Clear all practice sessions? Your film diary, watchlist and memories will be kept.")){state.sessions=state.sessions.filter(personalFilmRecord);save();renderSessions();renderCinema()}};
 
@@ -342,7 +342,12 @@
   $("#importInput").onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const payload=JSON.parse(await file.text());const imported=validatedState(Object.prototype.hasOwnProperty.call(payload||{},'state')?payload.state:payload);state=imported;save();renderAll();alert("Backup imported.")}catch{alert("That file is not a valid backup. Existing progress is unchanged.")}};
   function renderAll(){renderToday();renderDaily();renderRoadmap();renderSyllabus();renderSessions();renderTests();renderResources();renderEvidence();renderCinema();renderBucket();window.ACTING_LOGBOOK?.render()}
   window.ACTING_FILM_STORE={read:()=>clone(state.sessions),watched:()=>clone(state.completedTopics),today:todayISO,open:switchView,
-    put(record){const i=state.sessions.findIndex(s=>s.id===record.id);if(i<0)state.sessions.push(record);else state.sessions[i]=record;save();},
+    put(record,artwork=[]){
+      const next=clone(state);for(const item of [...artwork,record]){const i=next.sessions.findIndex(s=>s.id===item.id);if(i<0)next.sessions.push(item);else next.sessions[i]=item;}
+      // Preflight storage before changing state or queuing cloud events.
+      try{localStorage.setItem(KEY,JSON.stringify(next));}catch{throw Error('Device storage is full. Export a backup and use an image URL instead; this card was not changed.');}
+      state=next;save();
+    },
     mark(key,value){state.completedTopics[key]=value;save();renderCinema();renderBucket();}};
   renderAll();
 })();

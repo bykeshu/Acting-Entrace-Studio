@@ -63,3 +63,17 @@ test('No Letterboxd secret, undocumented API or fictitious automatic sync; offli
  for(const name of ['journal-core.js','journal-ui.js','deck.css'])assert.ok(fs.readFileSync(path.join(root,'sw.js'),'utf8').includes(name));
  assert.ok(html.indexOf('src="journal-core.js')<html.indexOf('src="app.js'));assert.ok(html.indexOf('src="app.js')<html.indexOf('src="journal-ui.js'));
 });
+test('High-quality private artwork survives bounded event chunks, partial sync uses fallback',()=>{
+ const data='data:image/jpeg;base64,'+'A'.repeat(150000),id='poster:11111111-1111-4111-8111-111111111111';
+ const chunks=j.artworkChunks(data,{id,date:options.date});assert.ok(chunks.length>1);assert.ok(chunks.every(c=>JSON.stringify(c).length<48000&&j.personal(c)&&c.minutes===0));
+ assert.equal(j.resolveArtwork(id,chunks),data);assert.equal(j.resolveArtwork(id,chunks.slice(1)),'');assert.equal(j.resolveArtwork(id,[...chunks,chunks[0]]),'');
+ const card=j.entry({...valid,posterAssetId:id,posterData:'data:image/jpeg;base64,/9j/AAAA'},options);
+ assert.equal(j.poster(card,chunks).url,data);assert.equal(j.poster(card,chunks.slice(1)).url,card.posterData);assert.ok(!j.csv([card],true).includes(id));
+ assert.throws(()=>j.artworkChunks('data:image/svg+xml;base64,AAAA',{id}));assert.throws(()=>j.entry({...valid,posterAssetId:'evil'},options));
+});
+test('Two private alternate posters cycle safely without mutating viewing details',()=>{
+ const a={url:'https://example.com/alternate.jpg',source:'https://example.com/artist',credit:'Artist',palette:j.paletteFromPixels([])};
+ const card=j.entry({...valid,posterVariants:JSON.stringify([a]),posterVariantIndex:'1'},options);
+ assert.equal(j.poster(card).url,a.url);assert.equal(card.rating,3.5);assert.equal(card.date,valid.date);assert.equal(card.minutes,0);assert.ok(!j.csv([card],true).includes('alternate.jpg'));
+ assert.throws(()=>j.variants([a,a,a]));assert.throws(()=>j.variants([{...a,url:'javascript:evil'}]));assert.throws(()=>j.variants([{...a,palette:{ink:'#000000',text:'#000000',accent:'#000000'}}]));
+});

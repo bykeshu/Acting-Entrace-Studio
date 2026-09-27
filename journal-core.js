@@ -1,6 +1,6 @@
 /* Personal cinema, never an exam score. Pure helpers also exercised by Node tests. */
 ((root) => {
-  const personal = s => ['Film memory','Film diary','Film watchlist'].includes(s.mode);
+  const personal = s => ['Film memory','Film diary','Film watchlist','Film artwork'].includes(s.mode);
   const clean = (s,n=200) => String(s ?? '').trim().slice(0,n);
   const identity = f => f.filmKey || (f.courseId ? `cinema-watched:${f.courseId}` : f.id ? `bucket-watched:${f.id}` : `film:${clean(f.title).normalize('NFKC').toLowerCase()}:${f.year||''}`);
   const sameFilm = (a,b) => (a.filmKey&&a.filmKey===b.filmKey) || (uri(a.letterboxdURI)&&uri(a.letterboxdURI)===uri(b.letterboxdURI)) || (clean(a.title).normalize('NFKC').toLowerCase()===clean(b.title).normalize('NFKC').toLowerCase()&&(!a.year||!b.year||String(a.year)===String(b.year)));
@@ -18,6 +18,29 @@
     }catch{return '';}
   };
   const posterData=value=>typeof value==='string'&&value.length<=30000&&/^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/.test(value)?value:'';
+  const fullPosterData=value=>typeof value==='string'&&value.length<=288000&&/^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/.test(value)?value:'';
+  const assetId=value=>/^poster:[0-9a-f-]{36}$/.test(value||'')?value:'';
+  function artworkChunks(data,{id,date}){
+    if(!fullPosterData(data)||!assetId(id))throw Error('Invalid private poster artwork.');
+    const count=Math.ceil(data.length/24000);
+    return Array.from({length:count},(_,index)=>({id:`${id}:${index}`,mode:'Film artwork',track:'Personal',minutes:0,rating:null,date,title:'Private poster artwork',posterAssetId:id,posterPart:index,posterParts:count,posterChunk:data.slice(index*24000,(index+1)*24000)}));
+  }
+  function resolveArtwork(id,records=[]){
+    if(!assetId(id))return '';
+    const parts=records.filter(r=>r.mode==='Film artwork'&&r.posterAssetId===id).sort((a,b)=>a.posterPart-b.posterPart),count=parts[0]?.posterParts;
+    if(!Number.isInteger(count)||count<1||count>12||parts.length!==count||parts.some((r,i)=>r.posterPart!==i||r.posterParts!==count||typeof r.posterChunk!=='string'||r.posterChunk.length>24000))return '';
+    return fullPosterData(parts.map(r=>r.posterChunk).join(''));
+  }
+  function variants(value){
+    if(typeof value==='string'){try{value=JSON.parse(value||'[]');}catch{throw Error('Alternate posters must be a JSON list.');}}
+    if(value==null)return [];
+    if(!Array.isArray(value)||value.length>2)throw Error('Keep up to two alternate posters per film.');
+    return value.map(v=>{
+      const url=imageURL(v?.url),source=imageURL(v?.source),p=palette(v?.palette);
+      if(!url||!source||!p)throw Error('Each alternate needs HTTPS image/source links and readable palette colours.');
+      return {url,source,credit:clean(v.credit,200)||'Poster artwork · rights belong to its owner',palette:p};
+    });
+  }
   const rgb=hex=>hex.slice(1).match(/../g).map(n=>parseInt(n,16));
   const hex=values=>'#'+values.map(n=>Math.max(0,Math.min(255,Math.round(n))).toString(16).padStart(2,'0')).join('');
   const luminance=colour=>rgb(colour).map(n=>{n/=255;return n<=.04045?n/12.92:((n+.055)/1.055)**2.4;}).reduce((v,n,i)=>v+n*[.2126,.7152,.0722][i],0);
@@ -50,9 +73,11 @@
     return palette({ink,text,accent})||{...neutralPalette};
   }
   const metalArtwork={url:'https://s3.amazonaws.com/criterion-production/films/71b3c648d30693c6d47a84e88afb5a6d/UrNlfWgNeBSPUZtpsIDTa1BAlEmwFr_large.jpg',source:'https://www.criterion.com/films/32169-sound-of-metal',credit:'Sound of Metal (2019) · Criterion cover by William Laboury',palette:{ink:'#1b1614',text:'#fbfaf6',accent:'#dfb396'}};
-  function poster(f){
+  function poster(f,records=[]){
     if(f.posterHidden===true||f.posterHidden==='on')return null;
-    const data=posterData(f.posterData),url=imageURL(f.posterURL),colours=palette(f.posterPalette);
+    let alternatives=[];try{alternatives=variants(f.posterVariants);}catch{}
+    if(Number.isInteger(f.posterVariantIndex)&&f.posterVariantIndex>0&&alternatives[f.posterVariantIndex-1])return {...alternatives[f.posterVariantIndex-1],uploaded:false};
+    const data=resolveArtwork(f.posterAssetId,records)||posterData(f.posterData),url=imageURL(f.posterURL),colours=palette(f.posterPalette);
     if(data||url)return {url:data||url,source:imageURL(f.posterSourceURL),credit:clean(f.posterCredit,200)||'Poster artwork · rights belong to its owner',palette:colours||{...neutralPalette},uploaded:!!data};
     if(clean(f.title).normalize('NFKC').toLowerCase()==='sound of metal'&&['','2019','2020'].includes(String(f.year||'')))return {...metalArtwork,palette:colours||metalArtwork.palette};
     return null;
@@ -84,6 +109,9 @@
     if(data){out.posterData=data;out.posterSourceURL=posterSourceURL;out.posterCredit=clean(values.posterCredit,200);}
     if(values.posterPalette){const p=palette(values.posterPalette);if(!p)throw Error('Text and accent colours need stronger contrast. Use Match poster colours or choose a lighter text / darker background.');out.posterPalette=p;}
     if(values.posterHidden===true||values.posterHidden==='on')out.posterHidden=true;
+    if(values.posterAssetId){if(!assetId(values.posterAssetId))throw Error('Invalid private poster reference.');out.posterAssetId=values.posterAssetId;}
+    const alternatives=variants(values.posterVariants);
+    if(alternatives.length){out.posterVariants=alternatives;const index=Number(values.posterVariantIndex)||0;out.posterVariantIndex=Number.isInteger(index)&&index>=0&&index<=alternatives.length?index:0;}
     if(new TextEncoder().encode(JSON.stringify(out)).length>48000)throw Error('This card is too large to sync safely. Use a smaller poster or shorter image/source links.');
     return out;
   }
@@ -102,7 +130,7 @@
     }
     return [...map.values()];
   }
-  const api={personal,identity,sameFilm,pending,entry,csv,watchlist,uri,exportable,imageURL,poster,posterData,palette,paletteFromPixels,posterContrast};
+  const api={personal,identity,sameFilm,pending,entry,csv,watchlist,uri,exportable,imageURL,poster,posterData,fullPosterData,artworkChunks,resolveArtwork,variants,palette,paletteFromPixels,posterContrast};
   root.ACTING_JOURNAL=api;
   if(typeof module!=='undefined')module.exports=api;
 })(typeof window==='undefined'?globalThis:window);

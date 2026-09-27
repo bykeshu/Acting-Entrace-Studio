@@ -15,7 +15,7 @@
   <link rel="preload" href="fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="poster-theme.css?v=20260927-cinema">
-  <link rel="stylesheet" href="deck.css?v=20260927-watched-deck">
+  <link rel="stylesheet" href="deck.css?v=20260927-sharp-posters">
   <link rel="stylesheet" href="weekly-theme.css?v=weekly-20260927044507-febbe558">
 </head>
 <body data-room="today">
@@ -109,11 +109,13 @@
             <details id="journalArtwork"><summary>Poster artwork &amp; colours (optional)</summary>
               <p>A vivid, edge-to-edge poster. Live titles, ratings and details wear its colours. Upload your preferred artwork to extract its palette on this device.</p>
               <input type="hidden" name="posterData">
+              <input type="hidden" name="posterAssetId"><input type="hidden" name="posterVariantIndex" value="0">
               <label>Upload a poster<input id="journalPosterFile" type="file" accept="image/jpeg,image/png,image/webp"></label><button id="journalRemovePosterFile" type="button" class="text-btn">Remove uploaded artwork</button>
               <label>Or use a poster image URL<input name="posterURL" type="url" maxlength="2048" placeholder="https://…/poster.jpg"></label>
+              <label>Curated alternate posters (optional JSON list)<textarea name="posterVariants" rows="4" maxlength="10000" placeholder='[{"url":"https://…/poster.jpg","source":"https://…/artist","credit":"Artist","palette":{"ink":"#111111","text":"#ffffff","accent":"#ff9b86"}}]'></textarea></label><small>Up to two credited alternatives. “Change poster” cycles through these and your original; the choice syncs privately, without changing your viewing details.</small>
               <div class="poster-colour-controls"><label>Overlay background<input name="posterInk" type="color" value="#111111"></label><label>Title &amp; body text<input name="posterText" type="color" value="#ffffff"></label><label>Rating &amp; accents<input name="posterAccent" type="color" value="#ff9b86"></label></div><button id="journalMatchPosterColours" type="button" class="quiet">Match poster colours ↗</button>
               <label>Artwork source page (optional)<input name="posterSourceURL" type="url" maxlength="2048" placeholder="https://…/film-page"></label><label>Artwork credit (optional)<input name="posterCredit" maxlength="200" placeholder="Publisher / artist"></label><label class="journal-check"><input name="posterHidden" type="checkbox">Keep this card text-only</label><button id="journalPreviewPoster" type="button" class="quiet">Preview my poster card ↗</button><div id="journalPosterPreview" class="journal-poster-preview" hidden></div><p id="journalPosterStatus" role="status"></p>
-              <small>Choose artwork you are permitted to display. Uploads become a small JPEG in your private card, synced only when you save while signed in, and included in your backup—not public GitHub files. Original files and their metadata aren’t uploaded. External image hosts still see your IP; requests have no referrer. Some hosts block colour sampling: upload the picture or choose colours manually instead.</small>
+              <small>Choose artwork you are permitted to display. Uploads keep a higher-quality JPEG (up to 1280 pixels on its long edge), split into small private sync records, plus a fallback thumbnail. They are included in your backup—not public GitHub files. Original files and their metadata aren’t uploaded. External image hosts still see your IP; requests have no referrer. Some hosts block colour sampling: upload the picture or choose colours manually instead. Previously compressed uploads need their original file uploaded again; lost detail cannot be recovered.</small>
             </details>
             <details><summary>Exact Letterboxd film link (optional)</summary><label>Letterboxd URL<input name="letterboxdURI" type="url" placeholder="https://letterboxd.com/film/…"></label><label class="journal-check"><input name="letterboxdObserved" type="checkbox">Already listed as watched on Letterboxd</label><p>A checked watched-list import is excluded from pending exports to avoid posting it twice. This is a checked snapshot, not a live connection. No passwords or API keys.</p></details>
             <button class="primary" type="submit">Save my film card ↗</button><button id="journalAddWatchlist" type="button" class="quiet">Haven’t seen it? Add to watchlist instead</button><p id="journalStatus" role="status"></p>
@@ -299,9 +301,9 @@
       document.write('<script src="daily-log.js"><\/script>');
     }
   </script>
-  <script src="journal-core.js?v=20260927-watched-deck"></script>
-  <script src="app.js?v=20260927-logbook"></script>
-  <script src="journal-ui.js?v=20260927-watched-status"></script>
+  <script src="journal-core.js?v=20260927-sharp-posters"></script>
+  <script src="app.js?v=20260927-sharp-posters"></script>
+  <script src="journal-ui.js?v=20260927-sharp-posters"></script>
   <script src="pwa.js"></script>
   <script>
     if (location.protocol === "https:" || ["localhost", "127.0.0.1"].includes(location.hostname)) {
