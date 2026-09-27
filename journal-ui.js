@@ -77,7 +77,7 @@
       store.put(record);
       if(!watchlist)store.mark(record.filmKey,true);
       form.reset();dateState();clearPreview();form.elements.date.value=store.today();selected=null;$('#journalIdentity').textContent='Manual entry works offline. Metadata is optional.';
-      $('#journalStatus').textContent=watchlist?'Added to your private watchlist. Export watchlist CSV to add it to Letterboxd.':'Your film card is saved privately and queued through existing account sync when signed in. Letterboxd posting is still pending.';
+      $('#journalStatus').textContent=watchlist?'Added to your private watchlist. Export watchlist CSV to add it to Letterboxd.':record.letterboxdStatus==='observed'?'Your checked Letterboxd import is saved privately and queued for app-account sync. Already listed as watched there; excluded from pending exports.':'Saved to your private app logbook and queued for app-account sync. Letterboxd has NOT been updated: complete its separate handoff.';
       render();
     }catch(e){$('#journalStatus').textContent=e.message;}
   }

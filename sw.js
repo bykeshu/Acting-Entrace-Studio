@@ -1,4 +1,4 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260927044507-febbe558-watched-deck";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260927044507-febbe558-watched-status";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -32,7 +32,7 @@ const APP_SHELL = [
   "./DESIGN_NOTES.md",
   "./journal-core.js?v=20260927-watched-deck",
   "./app.js?v=20260927-logbook",
-  "./journal-ui.js?v=20260927-watched-deck",
+  "./journal-ui.js?v=20260927-watched-status",
   "./cloud.bundle.js",
   "./pwa.js",
   "./manifest.webmanifest",
