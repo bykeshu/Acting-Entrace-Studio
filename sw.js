@@ -1,4 +1,4 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260926232331-3c63f9a7";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260927041607-620d1f2e";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -6,7 +6,8 @@ const APP_SHELL = [
   "./daily.css",
   "./cinema.css?v=20260927",
   "./poster-theme.css?v=20260927-cinema",
-  "./weekly-theme.css?v=weekly-20260926232331-3c63f9a7",
+  "./deck.css?v=20260927-logbook",
+  "./weekly-theme.css?v=weekly-20260927041607-620d1f2e",
   "./design/active.json",
   "./fonts/anton-latin.woff2",
   "./fonts/anton-latin-ext.woff2",
@@ -27,15 +28,18 @@ const APP_SHELL = [
   "./bucket-data.js?v=20260927-van-gogh",
   "./INTERNATIONAL_CINEMA_COURSE.md",
   "./MOVIE_BUCKET_LIST.md",
+  "./FILM_LOGBOOK.md",
   "./DESIGN_NOTES.md",
-  "./app.js?v=20260927-van-gogh",
+  "./journal-core.js?v=20260927-logbook",
+  "./app.js?v=20260927-logbook",
+  "./journal-ui.js?v=20260927-logbook",
   "./cloud.bundle.js",
   "./pwa.js",
-  "./manifest.webmanifest",
+  "./manifest.webmanifest?v=weekly-20260927041607-620d1f2e",
   "./icons/rehearsal-frame.svg",
-  "./icons/cinema-studio.svg",
-  "./icons/cinema-studio-192.png",
-  "./icons/cinema-studio-512.png"
+  "./icons/cinema-studio.svg?v=weekly-20260927041607-620d1f2e",
+  "./icons/cinema-studio-192.png?v=weekly-20260927041607-620d1f2e",
+  "./icons/cinema-studio-512.png?v=weekly-20260927041607-620d1f2e"
 ];
 
 self.addEventListener("install", event => {

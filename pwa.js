@@ -4,6 +4,7 @@
   const refreshButton = document.getElementById("refreshApp");
   let installPrompt = null;
   let refreshing = false;
+  let hadController = Boolean(navigator.serviceWorker?.controller);
 
   window.addEventListener("beforeinstallprompt", event => {
     event.preventDefault();
@@ -26,6 +27,8 @@
   if (!("serviceWorker" in navigator) || !window.isSecureContext) return;
 
   navigator.serviceWorker.addEventListener("controllerchange", () => {
+    // First install may claim this tab; do not reload and erase an unsaved form.
+    if(!hadController){hadController=true;return;}
     if (refreshing) return;
     refreshing = true;
     location.reload();

@@ -136,7 +136,7 @@ test('PWA precaches the new files and course, and scripts load in dependency ord
   assert.ok(html.indexOf('src="seed-data.js?')<html.indexOf('src="cinema-data.js?'));
   assert.ok(html.indexOf('src="cinema-data.js?')<html.indexOf('src="bucket-data.js?'));
   assert.ok(html.indexOf('src="bucket-data.js?')<html.indexOf('src="app.js?'));
-  for(const name of ['app.js','bucket-data.js']){assert.ok(html.includes(`${name}?v=20260927-van-gogh`));assert.ok(sw.includes(`./${name}?v=20260927-van-gogh`));}
+  for(const [name,version]of [['app.js','20260927-logbook'],['bucket-data.js','20260927-van-gogh'],['journal-core.js','20260927-logbook'],['journal-ui.js','20260927-logbook'],['deck.css','20260927-logbook']]){assert.ok(html.includes(`${name}?v=${version}`));assert.ok(sw.includes(`./${name}?v=${version}`));}
   const revision=JSON.parse(source('design/active.json')).revision;
   assert.ok(revision.startsWith('weekly-'));
   assert.ok(sw.includes(`acting-entrance-studio-shell-${revision}`));
@@ -257,11 +257,11 @@ test('theme ships offline fonts, attribution and original graphic treatments wit
   for(const name of ['Anton-OFL.txt','Archivo-Black-OFL.txt','Cormorant-OFL.txt','DM-Sans-OFL.txt'])assert.match(source(`fonts/${name}`),/SIL OPEN FONT LICENSE/);
   assert.ok(fs.existsSync(path.join(root,'DESIGN_NOTES.md')));assert.match(harness().get('#bucketFilms').innerHTML,/data-collection="crossroads"/);
   const manifest=JSON.parse(source('manifest.webmanifest'));
-  assert.equal(manifest.theme_color,'#101110');assert.equal(manifest.background_color,'#f4f2e9');
+  const active=JSON.parse(source('design/active.json'));assert.equal(manifest.theme_color,active.tokens.stage);assert.equal(manifest.background_color,active.tokens.paper);assert.equal(manifest.id,'./index.html');
   for(const size of [192,512]){
     const filename=`icons/cinema-studio-${size}.png`,buffer=fs.readFileSync(path.join(root,filename));
     assert.equal(buffer.toString('hex',0,8),'89504e470d0a1a0a');assert.equal(buffer.readUInt32BE(16),size);assert.equal(buffer.readUInt32BE(20),size);
-    assert.ok(manifest.icons.some(i=>i.src===filename));assert.ok(sw.includes(`./${filename}`));
+    assert.ok(manifest.icons.some(i=>i.src===filename+`?v=${active.revision}`));assert.ok(sw.includes(`./${filename}?v=${active.revision}`));
   }
 });
 
@@ -276,7 +276,7 @@ test('new catharsis shelf is isolated from old progress and has only observed ti
 
 test('every precached asset exists and visual research never bundles reference photographs',()=>{
   for(const [,url] of source('sw.js').matchAll(/"\.\/([^"?]+)(?:\?[^" ]*)?"/g))assert.ok(fs.existsSync(path.join(root,url)),`Missing cached asset ${url}`);
-  const html=source('index.html');assert.match(html,/icons\/rehearsal-frame\.svg/);assert.match(html,/LIVE FOR/);assert.ok(!html.includes('Aarman Roy.jpg'));
+  const html=source('index.html');assert.match(html,/icons\/rehearsal-frame\.svg/);assert.match(html,/A LIFE/);assert.ok(!html.includes('Aarman Roy.jpg'));
   assert.match(source('DESIGN_NOTES.md'),/not a verified original font/);assert.match(source('poster-theme.css'),/font-family:"Archivo Black"/);
 });
 
@@ -289,4 +289,22 @@ test('Van Gogh import preserves old ticks and memories and distinguishes episode
   const state=h.state();assert.equal(state.completedTopics['bucket-watched:bucket-ikiru'],true);assert.equal(state.completedTopics['ftii-papers:2024-25'],true);assert.equal(state.sessions.length,1);assert.equal(state.sessions[0].note,'Unchanged');assert.equal(state.dailyReviews.length,0);assert.equal(h.get('#practiceMins').textContent,'0m');
   assert.ok(h.context.window.ACTING_SYNC.outbox('test-user').some(e=>e.entityId==='bucket-watched:bucket-doctor-who-vincent'));
   const second=harness();await second.get('#importInput').onchange({target:{files:[{text:async()=>JSON.stringify({state})}]}});assert.equal(second.state().completedTopics['bucket-watched:bucket-doctor-who-vincent'],true);assert.equal(second.state().sessions[0].note,'Unchanged');
+});
+
+test('Film diary uses existing private session sync and backups without training credit or clearing history',async()=>{
+ const h=harness();h.context.window.ACTING_SYNC.activate('test-user');
+ const card={id:'diary-private',title:'Test film',date:h.get('#bucketMemoryDate').value,mode:'Film diary',minutes:0,rating:4.5,genres:['Drama'],note:'Private moment',filmKey:'film:test'};
+ h.context.window.ACTING_FILM_STORE.put(card);h.context.window.ACTING_FILM_STORE.mark(card.filmKey,true);
+ assert.equal(h.get('#knowledgeMins').textContent,'0m');assert.equal(h.get('#practiceMins').textContent,'0m');assert.equal(h.get('#streak').textContent,'0d');assert.ok(!h.get('#sessionList').innerHTML.includes('Test film'));assert.equal(h.state().dailyReviews.length,0);
+ const events=h.context.window.ACTING_SYNC.outbox('test-user');assert.ok(events.some(e=>e.kind==='session'&&JSON.parse(e.payload).mode==='Film diary'));
+ h.get('#clearSessions').onclick();assert.equal(h.state().sessions[0].id,card.id);
+ const other=harness();other.context.window.ACTING_SYNC.activate('test-user');other.context.window.ACTING_SYNC.applyRemote('test-user',events);assert.equal(other.state().sessions[0].rating,4.5);
+ const copy=harness();await copy.get('#importInput').onchange({target:{files:[{text:async()=>JSON.stringify({state:other.state()})}]}});assert.equal(copy.state().sessions[0].note,'Private moment');
+});
+test('Malformed backup import is atomic and leaves existing progress intact',async()=>{
+ const h=harness({currentWeek:6,tasks:[{id:'keep-me',title:'My work'}]});h.context.window.ACTING_FILM_STORE.mark('film:keep',true);const before=h.storage.get('acting-entrance-studio-v1');
+ for(const invalid of [null,{tasks:null},{sessions:[{title:'No ID'}]},{currentWeek:25},{evidence:[]},{tasks:[{id:'same'},{id:'same'}]}]){await h.get('#importInput').onchange({target:{files:[{text:async()=>JSON.stringify({state:invalid})}]}});assert.equal(h.storage.get('acting-entrance-studio-v1'),before);}
+});
+test('Impossible scores are rejected instead of corrupting the trend',()=>{
+ const h=harness({tests:[]}),form=h.get('#testForm');for(const [score,max]of [['101','100'],['-1','100'],['10','0'],['bad','100']]){form.values={score,max};h.fire('#testForm','submit',{target:form,preventDefault(){}});assert.equal(h.state().tests.length,0);assert.match(h.get('#testStatus').textContent,/between zero/);}
 });

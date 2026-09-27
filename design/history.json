@@ -104,5 +104,33 @@
     "paidApiUsed": false,
     "proposalId": "ink-room-20260927-cloud-3c63f9a7",
     "designAuthor": "chatgpt-cloud"
+  },
+  {
+    "revision": "weekly-20260927041607-620d1f2e",
+    "createdAt": "2026-09-27T04:16:07.438Z",
+    "runner": "local",
+    "presetId": "electric-type",
+    "name": "Electric Type / independent screen",
+    "pinUrl": "https://in.pinterest.com/pin/649292471323038594/",
+    "boardUrl": "https://in.pinterest.com/maddyman296/graphic-design/",
+    "sourceObservedOn": "2026-09-27",
+    "eligiblePoolSize": 3,
+    "mode": "rotation",
+    "rationale": "Blue ground, red sweeping graphic and bright yellow expressive lettering. Six-slide font reference; no particular font is attributed.",
+    "tokens": {
+      "stage": "#093876",
+      "accent": "#fff36b",
+      "paper": "#f3f1e6",
+      "panel": "#fffdf7",
+      "ink": "#15243d",
+      "line": "#c7ccd1",
+      "mark": "#bb302c",
+      "soft": "#e2e9f3",
+      "display": "anton",
+      "layout": "ribbon"
+    },
+    "compositionVersion": 2,
+    "iconMotif": "ribbon",
+    "paidApiUsed": false
   }
 ]

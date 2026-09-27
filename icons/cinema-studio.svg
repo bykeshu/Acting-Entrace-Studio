@@ -1,7 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Acting Entrance Studio">
-  <rect width="512" height="512" rx="96" fill="#101110"/>
-  <rect x="128" y="115" width="256" height="282" fill="#e9f437"/>
-  <path d="m176 334 60-150h41l59 150h-43l-10-30h-57l-10 30zm62-64h32l-16-51z" fill="#101110"/>
-  <path d="m387 84 6 25 25-9-15 22 20 16-27-1-6 26-10-24-24 9 14-21-18-18 27 2z" fill="#e4442c"/>
-  <path d="M144 134h16m16 0h16m16 0h16m16 0h16m16 0h16m16 0h16m16 0h16m16 0h16M144 378h16m16 0h16m16 0h16m16 0h16m16 0h16m16 0h16m16 0h16m16 0h16" stroke="#101110" stroke-width="10"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Acting Studio weekly ribbon cinema mark</title><path fill="#093876" d="M0 0h512v512H0z"/><circle cx="256" cy="256" r="192" fill="#fff36b"/><path fill="#093876" d="M135 167h242v184H135z"/><path fill="#fffdf7" d="M157 188h198v128H157z"/><path stroke="#093876" stroke-width="28" d="m160 146 40 28m18-28 40 28m18-28 40 28"/><path fill="#bb302c" d="M180 290h153v26H180z"/></svg>

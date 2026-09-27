@@ -2,6 +2,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const {renderComposition}=require('./composition-treatments.cjs');
+const icons=require('./weekly-icons.cjs');
 const root = path.resolve(__dirname, '..');
 const colours = ['stage','accent','paper','panel','ink','line','mark','soft'];
 const fonts = {archivo:'"Archivo Black",Arial,sans-serif',anton:'"Anton",Impact,sans-serif',serif:'"Cormorant Garamond",Georgia,serif'};
@@ -11,6 +13,15 @@ function luminance(hex) {
   return rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722;
 }
 function contrast(a,b){const x=luminance(a),y=luminance(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);}
+function validateComposition(css=''){
+  if(typeof css!=='string'||css.length>16000)throw Error('Original composition CSS must be text, at most 16000 characters');
+  if(!css)return '';
+  // Defence in depth, not a general CSS sandbox: keep public creative work credential-free.
+  const normal=css.replace(/\/\*[\s\S]*?\*\//g,'').toLowerCase();
+  if(/[\\<>]/.test(normal)||/@(?:import|font-face)|url\s*\(|expression\s*\(|javascript:|data:|https?:|position\s*:\s*(?:fixed|absolute)|display\s*:\s*none|visibility\s*:\s*hidden|opacity\s*:\s*0(?:\s*[;}])|pointer-events\s*:\s*none|content\s*:|z-index\s*:\s*-/.test(normal))throw Error('Unsafe or control-hiding composition CSS');
+  if(/\b(?:color|background(?:-color)?)\s*:\s*(?!var\(--(?:ink|paper|panel|stage|acid|weekly-mark|weekly-soft)\))/.test(normal))throw Error('Use reviewed palette variables for composition colours');
+  return css;
+}
 function validateTokens(t) {
   if(!t || Object.keys(t).sort().join()!==[...colours,'display','layout'].sort().join())throw Error('Unexpected design fields');
   for(const key of colours)if(!/^#[0-9a-f]{6}$/i.test(t[key]))throw Error(`Invalid colour: ${key}`);
@@ -62,7 +73,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
     ribbon:'.poster-focus{border-bottom:12px solid var(--weekly-mark)}.poster-focus>h2{font-family:var(--display);letter-spacing:.005em}.film-cover{border-bottom:8px solid var(--weekly-mark)}.panel h2{letter-spacing:.015em}.hero-star{transform:rotate(30deg)}',
     specimen:'.poster-focus{border-top:1px solid var(--acid);border-bottom:1px solid var(--acid)}.poster-focus>h2{font-family:var(--display);font-size:clamp(58px,7.2vw,112px);letter-spacing:-.07em}.cinema-film .film-cover h3{font-family:var(--display);letter-spacing:-.07em}.panel h2{border-bottom:1px solid var(--line);padding-bottom:12px}.hero-star{border-radius:50%;clip-path:none}'
   };
-  return css+treatments[t.layout]+'\n@media(max-width:460px){.hero-star{width:25px;height:25px}.poster-focus>h2{font-size:clamp(52px,16vw,74px)}.cinema-film .film-cover h3{font-size:33px}}\n';
+  return css+treatments[t.layout]+'\n'+renderComposition(t.layout);
 }
 function refresh({repo=root,date=new Date(),random,design=null,runner='local',proposalId=null}={}) {
   if(!['local','github-actions','chatgpt-cloud'].includes(runner))throw Error('Unknown runner');
@@ -73,22 +84,35 @@ function refresh({repo=root,date=new Date(),random,design=null,runner='local',pr
   if(!preset)throw Error('Design must reference an observed saved-pin preset');
   if(design && !selected.eligibleIds.includes(preset.id))throw Error('Design must use an eligible unused saved pin');
   if(design && (typeof design.rationale!=='string'||design.rationale.length>1000||!['rotation','fresh-ai'].includes(design.mode)))throw Error('Invalid design provenance');
-  const tokens=validateTokens(design?.tokens||preset.tokens),css=renderCss(tokens);
+  const tokens=validateTokens(design?.tokens||preset.tokens),original=validateComposition(design?.compositionCss||''),css=renderCss(tokens)+(original?'\n/* Original cloud-AI composition extension; public and tested. */\n'+original:'');
   const at=date.toISOString(),revision=`weekly-${at.replace(/\D/g,'').slice(0,14)}-${crypto.createHash('sha256').update(css).digest('hex').slice(0,8)}`;
-  const release={revision,createdAt:at,runner,presetId:preset.id,name:preset.name,pinUrl:preset.pinUrl,boardUrl:catalogue.boardUrl,sourceObservedOn:catalogue.observedOn,eligiblePoolSize:design?1:selected.poolSize,mode:design?.mode||'rotation',rationale:design?.rationale||preset.observation,tokens,paidApiUsed:false};
+  const release={revision,createdAt:at,runner,presetId:preset.id,name:preset.name,pinUrl:preset.pinUrl,boardUrl:catalogue.boardUrl,sourceObservedOn:catalogue.observedOn,eligiblePoolSize:design?1:selected.poolSize,mode:design?.mode||'rotation',rationale:design?.rationale||preset.observation,tokens,compositionVersion:2,iconMotif:tokens.layout,paidApiUsed:false};
   if(proposalId){release.proposalId=proposalId;release.designAuthor='chatgpt-cloud';}
+  if(original){release.originalComposition=true;release.compositionSha256=crypto.createHash('sha256').update(original).digest('hex');}
   let html=fs.readFileSync(path.join(repo,'index.html'),'utf8');
   let sw=fs.readFileSync(path.join(repo,'sw.js'),'utf8');
+  const manifest=read('manifest.webmanifest');
+  if(manifest.id!=='./index.html'||manifest.scope!=='./')throw Error('Preserve the installed app identity');
   const url=`weekly-theme.css?v=${revision}`;
   if(!html.includes('weekly-theme.css?v='))throw Error('Weekly stylesheet link is missing');
   html=html.replace(/weekly-theme\.css\?v=[^"\s]+/g,url);
+  html=html.replace(/<meta name="theme-color" content="[^"]+">/,`<meta name="theme-color" content="${tokens.stage}">`);
+  html=html.replace(/href="manifest\.webmanifest(?:\?v=[^"]+)?"/,`href="manifest.webmanifest?v=${revision}"`);
+  html=html.replace(/(icons\/cinema-studio(?:-192\.png|-512\.png|\.svg))(?:\?v=[^"\s]+)?/g,`$1?v=${revision}`);
   sw=sw.replace(/weekly-theme\.css\?v=[^"\s]+/g,url).replace(/const CACHE_NAME = "[^"]+";/,`const CACHE_NAME = "acting-entrance-studio-shell-${revision}";`);
-  // Exactly five public design outputs. Never enumerate or read user records.
+  sw=sw.replace(/(manifest\.webmanifest|icons\/cinema-studio(?:-192\.png|-512\.png|\.svg))(?:\?v=[^"\s]+)?/g,`$1?v=${revision}`);
+  manifest.theme_color=tokens.stage;manifest.background_color=tokens.paper;
+  for(const icon of manifest.icons)icon.src=icon.src.replace(/\?v=.*$/,'')+`?v=${revision}`;
+  // Nine public design outputs. Manifest appearance changes, never its identity.
   fs.writeFileSync(path.join(repo,'weekly-theme.css'),css);
   fs.writeFileSync(path.join(repo,'design/active.json'),JSON.stringify(release,null,2)+'\n');
   fs.writeFileSync(path.join(repo,'design/history.json'),JSON.stringify([...history,release],null,2)+'\n');
   fs.writeFileSync(path.join(repo,'index.html'),html);
   fs.writeFileSync(path.join(repo,'sw.js'),sw);
+  fs.writeFileSync(path.join(repo,'manifest.webmanifest'),JSON.stringify(manifest,null,2)+'\n');
+  fs.mkdirSync(path.join(repo,'icons'),{recursive:true});
+  fs.writeFileSync(path.join(repo,'icons/cinema-studio.svg'),icons.svg(tokens));
+  for(const size of [192,512])fs.writeFileSync(path.join(repo,`icons/cinema-studio-${size}.png`),icons.png(size,tokens));
   return release;
 }
 if(require.main===module){
@@ -96,4 +120,4 @@ if(require.main===module){
   const design=designIndex<0?null:JSON.parse(fs.readFileSync(args[designIndex+1],'utf8'));
   console.log(JSON.stringify(refresh({design,runner:runnerIndex<0?(process.env.GITHUB_ACTIONS?'github-actions':'local'):args[runnerIndex+1]}),null,2));
 }
-module.exports={contrast,validateTokens,selectPreset,renderCss,refresh};
+module.exports={contrast,validateTokens,validateComposition,selectPreset,renderCss,refresh};

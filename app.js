@@ -13,7 +13,18 @@
     ], sessions: [], tests: [], productions: []
   };
   let state;
-  try { state = {...defaults, ...JSON.parse(localStorage.getItem(KEY) || "{}")}; } catch { state = structuredClone(defaults); }
+  function validatedState(input){
+    if(!input || typeof input!=="object" || Array.isArray(input))throw Error('Backup must contain a progress object.');
+    const result={...structuredClone(defaults),...input};
+    for(const key of ['tasks','sessions','tests','productions','dailyReviews']){
+      if(!Array.isArray(result[key])||result[key].some(x=>!x||typeof x!=="object"||typeof x.id!=="string"||!x.id||x.id.length>400))throw Error(`Invalid ${key} records.`);
+      if(new Set(result[key].map(x=>x.id)).size!==result[key].length)throw Error(`Duplicate ${key} IDs.`);
+    }
+    for(const key of ['completedTopics','evidence'])if(!result[key]||typeof result[key]!=="object"||Array.isArray(result[key]))throw Error(`Invalid ${key}.`);
+    if(!Number.isInteger(result.currentWeek)||result.currentWeek<1||result.currentWeek>24)throw Error('Invalid roadmap week.');
+    return result;
+  }
+  try { state = validatedState(JSON.parse(localStorage.getItem(KEY) || "{}")); } catch { state = structuredClone(defaults); }
   const stateBeforeFileReviews = JSON.parse(JSON.stringify(state));
   const fileReviews = Array.isArray(window.ACTING_DAILY_LOG) ? window.ACTING_DAILY_LOG : [];
   const reviewMap = new Map([...(state.dailyReviews || []), ...fileReviews].map(r => [r.id, r]));
@@ -112,7 +123,7 @@
     const value=type=>parts.find(p=>p.type===type).value;
     return `${value('year')}-${value('month')}-${value('day')}`;
   };
-  const viewNames = {today:"Today’s rehearsal room",daily:"Daily assessment ledger",roadmap:"Your 24-week route",syllabus:"Syllabus studio",practice:"Practice log",tests:"Test and error lab",resources:"Linked resource library",evidence:"NSD evidence file",cinema:"World cinema studio",bucket:"My movie bucket list"};
+  const viewNames = {today:"Today’s rehearsal room",daily:"Daily assessment ledger",roadmap:"Your 24-week route",syllabus:"Syllabus studio",practice:"Practice log",tests:"Test and error lab",resources:"Linked resource library",evidence:"NSD evidence file",cinema:"World cinema studio",bucket:"My movie bucket list",journal:"My life in films"};
 
   function switchView(id){
     if(!viewNames[id])return;
@@ -124,6 +135,7 @@
     if(id==="daily") renderDaily(); if(id==="resources") renderResources(); if(id==="syllabus") renderSyllabus(); if(id==="practice") renderSessions(); if(id==="tests") renderTests(); if(id==="evidence") renderEvidence();
     if(id==="cinema") renderCinema();
     if(id==="bucket") renderBucket();
+    if(id==="journal") window.ACTING_LOGBOOK?.render();
     scrollTo({top:0,behavior:"smooth"});
   }
   $("#nav").addEventListener("click",e=>{const b=e.target.closest("[data-view]");if(b)switchView(b.dataset.view)});
@@ -135,7 +147,7 @@
     $("#weekProgressLabel").textContent=`${Math.round(done/total*100)}%`;
     $("#weekProgressBar").style.width=`${done/total*100}%`;
     const weekAgo=Date.now()-7*86400000;
-    const learningSessions=state.sessions.filter(s=>s.mode!=="Film memory");
+    const learningSessions=state.sessions.filter(s=>!['Film memory','Film diary','Film watchlist'].includes(s.mode));
     const recent=learningSessions.filter(s=>new Date(s.date).getTime()>=weekAgo);
     const knowledge=recent.filter(s=>["Written study","Play analysis","Film-performance analysis","Mock test"].includes(s.mode)).reduce((a,s)=>a+Number(s.minutes),0);
     const practice=recent.reduce((a,s)=>a+Number(s.minutes),0)-knowledge;
@@ -147,7 +159,7 @@
     $("#pulseGrid").innerHTML=pulse.map(([a,b])=>`<div class="pulse"><strong>${b}</strong><small>${a}</small></div>`).join("");
     $("#recentSessions").innerHTML=learningSessions.length?learningSessions.slice(-4).reverse().map(s=>`<div class="session-mini"><strong>${esc(s.title)}</strong><small>${esc(s.mode)} · ${s.minutes}m · ${esc(s.track)}</small></div>`).join(""):`<p class="empty">Your first logged rehearsal will appear here.</p>`;
   }
-  $("#todayTasks").addEventListener("change",e=>{if(e.target.dataset.task){const t=state.tasks.find(x=>x.id===e.target.dataset.task);t.done=e.target.checked;save()}});
+  $("#todayTasks").addEventListener("change",e=>{if(e.target.dataset.task){const t=state.tasks.find(x=>x.id===e.target.dataset.task);if(!t)return;t.done=e.target.checked;save()}});
   $("#todayTasks").addEventListener("click",e=>{const id=e.target.dataset.deleteTask;if(id){state.tasks=state.tasks.filter(t=>t.id!==id);save()}});
 
   const taskDialog=$("#taskDialog"); const openTask=()=>taskDialog.showModal(); $("#addTaskTop").onclick=openTask; $("#addTaskInline").onclick=openTask;
@@ -186,10 +198,11 @@
   $("#syllabusGrid").addEventListener("change",e=>{if(e.target.dataset.topic){state.completedTopics[e.target.dataset.topic]=e.target.checked;save();renderSyllabus()}});
 
   $("#sessionForm").addEventListener("submit",e=>{e.preventDefault();const o=Object.fromEntries(new FormData(e.target));state.sessions.push({id:crypto.randomUUID(),date:todayISO(),...o,minutes:Number(o.minutes),rating:Number(o.rating)});e.target.reset();e.target.minutes.value=45;save();renderSessions()});
-  function renderSessions(){ const sessions=state.sessions.filter(s=>s.mode!=="Film memory"); $("#sessionList").innerHTML=sessions.length?sessions.slice().reverse().map(s=>`<article class="history-item"><div class="history-item-head"><strong>${esc(s.title)}</strong><span class="tag">${s.minutes}m</span></div><div class="meta"><span>${esc(s.date)}</span><span>${esc(s.mode)}</span><span>${esc(s.track)}</span><span>Quality ${s.rating}/5</span></div>${s.note?`<p>${esc(s.note)}</p>`:''}</article>`).join(''):`<p class="empty">No sessions logged yet.</p>`; }
-  $("#clearSessions").onclick=()=>{if(confirm("Clear all practice sessions? Movie memories will be kept.")){state.sessions=state.sessions.filter(s=>s.mode==="Film memory");save();renderSessions();renderCinema()}};
+  const personalFilmRecord=s=>['Film memory','Film diary','Film watchlist'].includes(s.mode);
+  function renderSessions(){ const sessions=state.sessions.filter(s=>!personalFilmRecord(s)); $("#sessionList").innerHTML=sessions.length?sessions.slice().reverse().map(s=>`<article class="history-item"><div class="history-item-head"><strong>${esc(s.title)}</strong><span class="tag">${s.minutes}m</span></div><div class="meta"><span>${esc(s.date)}</span><span>${esc(s.mode)}</span><span>${esc(s.track)}</span><span>Quality ${s.rating}/5</span></div>${s.note?`<p>${esc(s.note)}</p>`:''}</article>`).join(''):`<p class="empty">No sessions logged yet.</p>`; }
+  $("#clearSessions").onclick=()=>{if(confirm("Clear all practice sessions? Your film diary, watchlist and memories will be kept.")){state.sessions=state.sessions.filter(personalFilmRecord);save();renderSessions();renderCinema()}};
 
-  $("#testForm").addEventListener("submit",e=>{e.preventDefault();const o=Object.fromEntries(new FormData(e.target));state.tests.push({id:crypto.randomUUID(),date:todayISO(),...o,score:Number(o.score),max:Number(o.max)});e.target.reset();e.target.max.value=100;save();renderTests()});
+  $("#testForm").addEventListener("submit",e=>{e.preventDefault();const o=Object.fromEntries(new FormData(e.target)),score=Number(o.score),max=Number(o.max);if(!Number.isFinite(score)||!Number.isFinite(max)||max<=0||score<0||score>max){$("#testStatus").textContent="Score must be between zero and the maximum.";return;}state.tests.push({id:crypto.randomUUID(),date:todayISO(),...o,score,max});e.target.reset();e.target.max.value=100;$("#testStatus").textContent="Test result saved.";save();renderTests()});
   function renderTests(){
     const last=state.tests.slice(-10), maxHeight=180; $("#scoreChart").innerHTML=last.length?last.map(t=>{const p=Math.max(0,Math.min(100,t.score/t.max*100));return `<div class="bar" style="height:${Math.max(4,p/100*maxHeight)}px" title="${esc(t.exam)}: ${p.toFixed(0)}%"><span>${p.toFixed(0)}%</span></div>`}).join(''):`<p class="empty">Log a test to see the trend.</p>`;
     $("#testList").innerHTML=state.tests.slice().reverse().map(t=>`<article class="history-item"><div class="history-item-head"><strong>${esc(t.exam)}</strong><span class="tag">${t.score}/${t.max}</span></div><div class="meta"><span>${esc(t.date)}</span><span>${esc(t.error)}</span></div>${t.repair?`<p>Repair: ${esc(t.repair)}</p>`:''}</article>`).join('');
@@ -242,6 +255,7 @@
     const id=e.target.dataset.filmWatched;
     if(!id||!cinema.films.some(f=>f.id===id))return;
     state.completedTopics[`cinema-watched:${id}`]=e.target.checked;save();renderCinema();renderBucket();
+    if(e.target.checked){const film=cinema.films.find(f=>f.id===id);if(film)window.ACTING_LOGBOOK?.offer({...film,filmKey:`cinema-watched:${id}`});}
   });
   $("#cinemaFilms").addEventListener("click",e=>{
     const button=e.target.closest("button");if(!button)return;
@@ -287,6 +301,7 @@
   $("#bucketFilms").addEventListener("change",e=>{
     const film=bucket.films.find(f=>f.id===e.target.dataset.bucketWatched);if(!film)return;
     state.completedTopics[bucketWatchKey(film)]=e.target.checked;save();renderBucket();renderCinema();
+    if(e.target.checked)window.ACTING_LOGBOOK?.offer({...film,filmKey:bucketWatchKey(film)});
   });
   $("#bucketFilms").addEventListener("click",e=>{
     const button=e.target.closest("[data-bucket-memory]");if(!button)return;
@@ -316,7 +331,10 @@
   $("#productionList").addEventListener("click",e=>{const id=e.target.dataset.deleteProduction;if(id){state.productions=state.productions.filter(p=>p.id!==id);save();renderEvidence()}});
 
   $("#exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify({app:"Acting Entrance Studio",version:seed.version,exportedAt:new Date().toISOString(),state},null,2)],{type:"application/json"});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`acting-entrance-backup-${todayISO()}.json`;a.click();URL.revokeObjectURL(a.href)};
-  $("#importInput").onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const payload=JSON.parse(await file.text());state={...defaults,...(payload.state||payload)};save();renderAll();alert("Backup imported.")}catch{alert("That file is not a valid backup.")}};
-  function renderAll(){renderToday();renderDaily();renderRoadmap();renderSyllabus();renderSessions();renderTests();renderResources();renderEvidence();renderCinema();renderBucket()}
+  $("#importInput").onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const payload=JSON.parse(await file.text());const imported=validatedState(Object.prototype.hasOwnProperty.call(payload||{},'state')?payload.state:payload);state=imported;save();renderAll();alert("Backup imported.")}catch{alert("That file is not a valid backup. Existing progress is unchanged.")}};
+  function renderAll(){renderToday();renderDaily();renderRoadmap();renderSyllabus();renderSessions();renderTests();renderResources();renderEvidence();renderCinema();renderBucket();window.ACTING_LOGBOOK?.render()}
+  window.ACTING_FILM_STORE={read:()=>clone(state.sessions),watched:()=>clone(state.completedTopics),today:todayISO,open:switchView,
+    put(record){const i=state.sessions.findIndex(s=>s.id===record.id);if(i<0)state.sessions.push(record);else state.sessions[i]=record;save();},
+    mark(key,value){state.completedTopics[key]=value;save();renderCinema();renderBucket();}};
   renderAll();
 })();

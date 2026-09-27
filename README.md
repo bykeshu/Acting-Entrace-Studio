@@ -33,3 +33,15 @@ site to Pages. Normal main-branch pushes deploy without another rotation. Fresh
 AI variations use included ChatGPT cloud Work reasoning, not paid API calls; see
 [WEEKLY_DESIGN.md](WEEKLY_DESIGN.md). A cloud AI schedule must be verified in the
 user's account before it is described as active. `npm test` checks all tests.
+# Film logbook and deck redesign — 27 September 2026
+
+Room 11 stores private, enjoyment-first film cards with half-star/no-rating,
+optional genres/moments, rewatches and an unwatched watchlist. Wikidata search has
+an offline/manual fallback. Letterboxd is a clearly labelled CSV handoff, not an
+automatic API connection. Read [FILM_LOGBOOK.md](FILM_LOGBOOK.md).
+
+Weekly design contract v2 now rotates full page compositions and original app
+icons, and lets cloud AI author responsive composition CSS. The expanded CI gate
+checks all 11 rooms across all 4 base compositions plus the candidate release,
+functional workflows and offline logging. Current details in WEEKLY_DESIGN.md
+supersede earlier five-file/token-skin descriptions below.
