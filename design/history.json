@@ -160,5 +160,37 @@
     "compositionVersion": 2,
     "iconMotif": "collage",
     "paidApiUsed": false
+  },
+  {
+    "revision": "weekly-20260927044507-febbe558",
+    "createdAt": "2026-09-27T04:45:07.970Z",
+    "runner": "github-actions",
+    "presetId": "red-pencil",
+    "name": "Red Pencil / annotated frames",
+    "pinUrl": "https://in.pinterest.com/pin/649292471323038596/",
+    "boardUrl": "https://in.pinterest.com/maddyman296/graphic-design/",
+    "sourceObservedOn": "2026-09-27",
+    "eligiblePoolSize": 1,
+    "mode": "fresh-ai",
+    "rationale": "Original cinematic contact-sheet interpretation of the Red Pencil pin in the verified 2026-09-27 saved-pin snapshot; the public board could not be reinspected. Deep cobalt stage and cream type meet a restrained crimson annotation rule. A four-column navigation ticket grid, full-width hero with separate metric row, proof-sheet study cards, three-column roadmap, framed resources, paired film cards and logbook folios recompose the entire deck without copying the pin.",
+    "tokens": {
+      "stage": "#17233f",
+      "accent": "#f7e9cd",
+      "paper": "#f1eee8",
+      "panel": "#fffaf0",
+      "ink": "#182643",
+      "line": "#c4cbd1",
+      "mark": "#9c2b31",
+      "soft": "#e0e8ee",
+      "display": "archivo",
+      "layout": "editorial"
+    },
+    "compositionVersion": 2,
+    "iconMotif": "editorial",
+    "paidApiUsed": false,
+    "proposalId": "red-pencil-deck-20260927-6e1c4f7a",
+    "designAuthor": "chatgpt-cloud",
+    "originalComposition": true,
+    "compositionSha256": "336fa99230b8bd32e85e421bae010ab23a27f8aa87ba326569364a46d351619b"
   }
 ]

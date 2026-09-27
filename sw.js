@@ -1,4 +1,4 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260927043854-0ebc2dde";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260927044507-febbe558";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -7,7 +7,7 @@ const APP_SHELL = [
   "./cinema.css?v=20260927",
   "./poster-theme.css?v=20260927-cinema",
   "./deck.css?v=20260927-logbook",
-  "./weekly-theme.css?v=weekly-20260927043854-0ebc2dde",
+  "./weekly-theme.css?v=weekly-20260927044507-febbe558",
   "./design/active.json",
   "./fonts/anton-latin.woff2",
   "./fonts/anton-latin-ext.woff2",
@@ -37,9 +37,9 @@ const APP_SHELL = [
   "./pwa.js",
   "./manifest.webmanifest",
   "./icons/rehearsal-frame.svg",
-  "./icons/cinema-studio.svg?v=weekly-20260927043854-0ebc2dde",
-  "./icons/cinema-studio-192.png?v=weekly-20260927043854-0ebc2dde",
-  "./icons/cinema-studio-512.png?v=weekly-20260927043854-0ebc2dde"
+  "./icons/cinema-studio.svg?v=weekly-20260927044507-febbe558",
+  "./icons/cinema-studio-192.png?v=weekly-20260927044507-febbe558",
+  "./icons/cinema-studio-512.png?v=weekly-20260927044507-febbe558"
 ];
 
 self.addEventListener("install", event => {
