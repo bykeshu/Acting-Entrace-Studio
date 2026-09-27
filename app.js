@@ -17,11 +17,19 @@
     if(!input || typeof input!=="object" || Array.isArray(input))throw Error('Backup must contain a progress object.');
     const result={...structuredClone(defaults),...input};
     for(const key of ['tasks','sessions','tests','productions','dailyReviews']){
-      if(!Array.isArray(result[key])||result[key].some(x=>!x||typeof x!=="object"||typeof x.id!=="string"||!x.id||x.id.length>400))throw Error(`Invalid ${key} records.`);
+      if(!Array.isArray(result[key])||result[key].some(x=>!x||typeof x!=="object"||typeof x.id!=="string"||!/^[a-zA-Z0-9:._-]{1,400}$/.test(x.id)))throw Error(`Invalid ${key} records.`);
       if(new Set(result[key].map(x=>x.id)).size!==result[key].length)throw Error(`Duplicate ${key} IDs.`);
     }
     for(const key of ['completedTopics','evidence'])if(!result[key]||typeof result[key]!=="object"||Array.isArray(result[key]))throw Error(`Invalid ${key}.`);
     if(!Number.isInteger(result.currentWeek)||result.currentWeek<1||result.currentWeek>24)throw Error('Invalid roadmap week.');
+    const numeric=(v,min=0,max=100000)=>v===undefined||v===null||(typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max);
+    for(const s of result.sessions){if(!numeric(s.minutes)||!numeric(s.rating,0,5)||(s.genres!==undefined&&(!Array.isArray(s.genres)||s.genres.some(g=>typeof g!=='string'))))throw Error('Invalid session or film-card fields.');}
+    for(const t of result.tests)if(!numeric(t.score)||!numeric(t.max,1)||t.score>t.max)throw Error('Invalid test scores.');
+    for(const r of result.dailyReviews){
+      if(r.assigned!==undefined&&(!Array.isArray(r.assigned)||r.assigned.some(t=>!t||typeof t!=='object'||(t.status!==undefined&&typeof t.status!=='string'))))throw Error('Invalid daily task evidence.');
+      if(r.carryForward!==undefined&&!Array.isArray(r.carryForward))throw Error('Invalid daily carry-forward.');
+      if(r.scores&&Object.values(r.scores).some(v=>!numeric(v)))throw Error('Invalid daily scores.');
+    }
     return result;
   }
   try { state = validatedState(JSON.parse(localStorage.getItem(KEY) || "{}")); } catch { state = structuredClone(defaults); }
@@ -82,7 +90,7 @@
       if(field){
         const index=result[field].findIndex(item=>item.id===event.entityId);
         if(event.action==="delete") { if(index>=0)result[field].splice(index,1); }
-        else if(value && typeof value==="object" && value.id===event.entityId){if(index>=0)result[field][index]=value;else result[field].push(value);}
+        else if(value && typeof value==="object" && value.id===event.entityId){try{validatedState({[field]:[value]});}catch{continue;}if(index>=0)result[field][index]=value;else result[field].push(value);}
       } else if(event.kind==="topic" || event.kind==="evidence"){
         result[event.kind==="topic"?"completedTopics":"evidence"][event.entityId]=Boolean(value);
       } else if(event.kind==="roadmap" && event.entityId==="currentWeek" && Number.isInteger(value) && value>=1 && value<=24){result.currentWeek=value;}
@@ -184,7 +192,7 @@
     const completed=latest.assigned?.filter(t=>t.status==='complete').length||0;
     const total=latest.assigned?.length||0;
     $("#dailySummary").innerHTML=`<article class="focus-card dark"><p class="eyebrow">LATEST REVIEW · ${esc(latest.date)}</p><h2>${esc(latest.rating)}</h2><p>${esc(latest.repair||'Keep the loop honest and specific.')}</p></article><article class="stat-card"><span>Latest score</span><strong>${latest.scores?.total||0}/20</strong><small>Evidence + assessment</small></article><article class="stat-card"><span>Task completion</span><strong>${completed}/${total}</strong><small>Fully evidenced</small></article><article class="stat-card"><span>Average</span><strong>${avg}</strong><small>${reviews.length} review${reviews.length===1?'':'s'}</small></article>`;
-    $("#dailyReviewList").innerHTML=reviews.map(r=>`<article class="daily-review"><div class="daily-review-head"><div><p class="eyebrow">${esc(r.date)} · WEEK ${esc(r.roadmapWeek||'—')}</p><h2>${esc(r.rating||'Daily review')}</h2></div><div class="daily-review-score">${r.scores?.total||0}/20</div></div><div class="score-breakdown"><span class="tag">Tasks ${r.scores?.taskEvidence||0}/10</span><span class="tag">MCQ ${r.scores?.mcq||0}/5</span><span class="tag">Objective ${r.scores?.objective||0}/5</span></div><div class="daily-task-grid">${(r.assigned||[]).map(t=>`<div class="daily-task ${esc(t.status)}"><strong>${esc(t.title)}</strong><small>${esc(t.track)} · ${esc(t.lane)} · ${esc(t.status.replaceAll('_',' '))}${t.evidence?' · '+esc(t.evidence):''}</small></div>`).join('')}</div><div class="daily-insight"><div><span>Strength</span><strong>${esc(r.strength||'—')}</strong></div><div><span>Priority repair</span><strong>${esc(r.repair||'—')}</strong></div></div>${r.carryForward?.length?`<p><strong>Carry forward:</strong> ${r.carryForward.map(esc).join(' · ')}</p>`:''}</article>`).join('');
+    $("#dailyReviewList").innerHTML=reviews.map(r=>`<article class="daily-review"><div class="daily-review-head"><div><p class="eyebrow">${esc(r.date)} · WEEK ${esc(r.roadmapWeek||'—')}</p><h2>${esc(r.rating||'Daily review')}</h2></div><div class="daily-review-score">${r.scores?.total||0}/20</div></div><div class="score-breakdown"><span class="tag">Tasks ${r.scores?.taskEvidence||0}/10</span><span class="tag">MCQ ${r.scores?.mcq||0}/5</span><span class="tag">Objective ${r.scores?.objective||0}/5</span></div><div class="daily-task-grid">${(r.assigned||[]).map(t=>`<div class="daily-task ${esc(t.status)}"><strong>${esc(t.title)}</strong><small>${esc(t.track)} · ${esc(t.lane)} · ${esc(String(t.status||'pending').replaceAll('_',' '))}${t.evidence?' · '+esc(t.evidence):''}</small></div>`).join('')}</div><div class="daily-insight"><div><span>Strength</span><strong>${esc(r.strength||'—')}</strong></div><div><span>Priority repair</span><strong>${esc(r.repair||'—')}</strong></div></div>${r.carryForward?.length?`<p><strong>Carry forward:</strong> ${r.carryForward.map(esc).join(' · ')}</p>`:''}</article>`).join('');
   }
 
   function renderSyllabus(){

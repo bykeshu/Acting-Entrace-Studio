@@ -7,6 +7,7 @@ function consume(repo=path.resolve(__dirname,'..')){
  if(!['mode,presetId,rationale,tokens','compositionCss,mode,presetId,rationale,tokens'].includes(Object.keys(proposal.design).sort().join()))throw Error('Unexpected design fields');
  const history=JSON.parse(fs.readFileSync(path.join(repo,'design/history.json'),'utf8'));
  if(history.some(r=>r.proposalId===proposal.proposalId))return {alreadyProcessed:true,proposalId:proposal.proposalId};
+ if(typeof proposal.design.compositionCss!=='string'||!proposal.design.compositionCss.trim())throw Error('A new fresh-AI proposal needs original compositionCss, not only colour tokens');
  return refresh({repo,design:proposal.design,proposalId:proposal.proposalId,runner:process.env.GITHUB_ACTIONS?'github-actions':'local'});
 }
 if(require.main===module)console.log(JSON.stringify(consume(),null,2));

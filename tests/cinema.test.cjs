@@ -303,7 +303,7 @@ test('Film diary uses existing private session sync and backups without training
 });
 test('Malformed backup import is atomic and leaves existing progress intact',async()=>{
  const h=harness({currentWeek:6,tasks:[{id:'keep-me',title:'My work'}]});h.context.window.ACTING_FILM_STORE.mark('film:keep',true);const before=h.storage.get('acting-entrance-studio-v1');
- for(const invalid of [null,{tasks:null},{sessions:[{title:'No ID'}]},{currentWeek:25},{evidence:[]},{tasks:[{id:'same'},{id:'same'}]}]){await h.get('#importInput').onchange({target:{files:[{text:async()=>JSON.stringify({state:invalid})}]}});assert.equal(h.storage.get('acting-entrance-studio-v1'),before);}
+ for(const invalid of [null,{tasks:null},{sessions:[{title:'No ID'}]},{currentWeek:25},{evidence:[]},{tasks:[{id:'same'},{id:'same'}]},{tasks:[{id:'" onclick="evil'}]},{sessions:[{id:'card',genres:'not-an-array'}]},{dailyReviews:[{id:'review',assigned:[null]}]},{dailyReviews:[{id:'review',carryForward:'not-an-array'}]},{tests:[{id:'test',score:'<img onerror=evil>'}]}]){await h.get('#importInput').onchange({target:{files:[{text:async()=>JSON.stringify({state:invalid})}]}});assert.equal(h.storage.get('acting-entrance-studio-v1'),before);}
 });
 test('Impossible scores are rejected instead of corrupting the trend',()=>{
  const h=harness({tests:[]}),form=h.get('#testForm');for(const [score,max]of [['101','100'],['-1','100'],['10','0'],['bad','100']]){form.values={score,max};h.fire('#testForm','submit',{target:form,preventDefault(){}});assert.equal(h.state().tests.length,0);assert.match(h.get('#testStatus').textContent,/between zero/);}

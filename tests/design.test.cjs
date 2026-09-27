@@ -22,7 +22,7 @@ test('Rotation exhausts each four-pin cycle and avoids immediate repetition',()=
  }
 });
 test('Fresh AI can author original responsive composition but cannot import art, exfiltrate or hide controls',()=>{
- const css='.poster-focus{min-height:580px;border-left:18px solid var(--acid)}@media(min-width:1100px){.journal-deck{grid-template-columns:2fr 1fr}.diary-card:nth-child(even){margin-top:50px}}';assert.equal(validateComposition(css),css);
+ const css='.poster-focus{min-height:580px;border-left:18px solid var(--acid);background: var(--stage)}@media(min-width:1100px){.journal-deck{grid-template-columns:2fr 1fr}.diary-card:nth-child(even){margin-top:50px}}';assert.equal(validateComposition(css),css);
  for(const unsafe of ['@import "evil.css";','.panel{background:url(secret)}','.nav-item{display:none}', '.panel{position:fixed}', '.diary-card{opacity:0}', '.panel{color:#fff}', '.panel{content:"private"}', '.panel{background:u\\72l(secret)}'])assert.throws(()=>validateComposition(unsafe));
  for(const layout of ['collage','editorial','ribbon','specimen']){const rendered=require('../scripts/composition-treatments.cjs').renderComposition(layout);assert.match(rendered,/\.shell/);assert.match(rendered,/\.roadmap/);assert.match(rendered,/\.journal-deck|\.diary-card/);}
 });
@@ -49,7 +49,7 @@ test('Build changes only public outputs and preserves tracker, cache alignment a
   assert.equal(JSON.parse(fs.readFileSync(path.join(repo,'design/history.json'))).length,2);
   assert.throws(()=>refresh({repo,runner:'unverified'}));
   const {consume}=require('../scripts/consume-design-proposal.cjs');
-  const proposal={proposalId:'ink-room-ci-test-20260927',design:{presetId:'ink-room',mode:'fresh-ai',rationale:'Original cinematic specimen variation.',tokens:catalogue.presets[3].tokens}};
+  const proposal={proposalId:'ink-room-ci-test-20260927',design:{presetId:'ink-room',mode:'fresh-ai',rationale:'Original cinematic specimen variation.',tokens:catalogue.presets[3].tokens,compositionCss:'.poster-focus{min-height:640px}.journal-deck{gap:28px}.roadmap{gap:20px}'}};
   fs.writeFileSync(path.join(repo,'design/proposal.json'),JSON.stringify(proposal));
   const applied=consume(repo);assert.equal(applied.proposalId,proposal.proposalId);assert.equal(applied.designAuthor,'chatgpt-cloud');
   assert.equal(consume(repo).alreadyProcessed,true);

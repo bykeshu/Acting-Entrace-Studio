@@ -19,7 +19,7 @@ function validateComposition(css=''){
   // Defence in depth, not a general CSS sandbox: keep public creative work credential-free.
   const normal=css.replace(/\/\*[\s\S]*?\*\//g,'').toLowerCase();
   if(/[\\<>]/.test(normal)||/@(?:import|font-face)|url\s*\(|expression\s*\(|javascript:|data:|https?:|position\s*:\s*(?:fixed|absolute)|display\s*:\s*none|visibility\s*:\s*hidden|opacity\s*:\s*0(?:\s*[;}])|pointer-events\s*:\s*none|content\s*:|z-index\s*:\s*-/.test(normal))throw Error('Unsafe or control-hiding composition CSS');
-  if(/\b(?:color|background(?:-color)?)\s*:\s*(?!var\(--(?:ink|paper|panel|stage|acid|weekly-mark|weekly-soft)\))/.test(normal))throw Error('Use reviewed palette variables for composition colours');
+  for(const match of normal.matchAll(/\b(?:color|background(?:-color)?)\s*:\s*([^;}]+)/g))if(!/^var\(--(?:ink|paper|panel|stage|acid|weekly-mark|weekly-soft)\)$/.test(match[1].trim()))throw Error('Use reviewed palette variables for composition colours');
   return css;
 }
 function validateTokens(t) {
