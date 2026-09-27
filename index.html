@@ -15,7 +15,7 @@
   <link rel="preload" href="fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="poster-theme.css?v=20260927-cinema">
-  <link rel="stylesheet" href="deck.css?v=20260927-logbook">
+  <link rel="stylesheet" href="deck.css?v=20260927-poster-cards">
   <link rel="stylesheet" href="weekly-theme.css?v=weekly-20260927044507-febbe558">
 </head>
 <body data-room="today">
@@ -105,6 +105,7 @@
             <label class="journal-check"><input name="rewatch" type="checkbox">I have watched this before</label>
             <label>Genres (optional, comma-separated)<input name="genres" maxlength="300" placeholder="Drama, absurdist comedy, science fiction…"></label>
             <label>A feeling, a moment, what it meant to you (optional)<textarea name="note" maxlength="3000" rows="3" placeholder="No analysis required. Leaving this blank is completely fine."></textarea></label>
+            <details id="journalArtwork"><summary>Poster backdrop (optional)</summary><p>A softly faded cover sits behind your card. Sound of Metal has a verified Criterion cover; other films can use a direct poster-image link you choose.</p><label>Poster image URL<input name="posterURL" type="url" maxlength="2048" placeholder="https://…/poster.jpg"></label><label>Artwork source page (optional)<input name="posterSourceURL" type="url" maxlength="2048" placeholder="https://…/film-page"></label><label>Artwork credit (optional)<input name="posterCredit" maxlength="200" placeholder="Publisher / artist"></label><label class="journal-check"><input name="posterHidden" type="checkbox">Keep this card text-only</label><button id="journalPreviewPoster" type="button" class="quiet">Preview backdrop ↗</button><div id="journalPosterPreview" class="journal-poster-preview" hidden></div><p id="journalPosterStatus" role="status"></p><small>Choose artwork you are permitted to display. Images load from their host without a referrer; hosts can still see your IP. They aren’t copied into this site or its offline cache. If an image is unavailable, your readable paper card remains.</small></details>
             <details><summary>Exact Letterboxd film link (optional)</summary><label>Letterboxd URL<input name="letterboxdURI" type="url" placeholder="https://letterboxd.com/film/…"></label><p>A film link avoids ambiguous title matches when importing. No passwords or API keys.</p></details>
             <button class="primary" type="submit">Save my film card ↗</button><button id="journalAddWatchlist" type="button" class="quiet">Haven’t seen it? Add to watchlist instead</button><p id="journalStatus" role="status"></p>
           </form>
@@ -289,9 +290,9 @@
       document.write('<script src="daily-log.js"><\/script>');
     }
   </script>
-  <script src="journal-core.js?v=20260927-logbook"></script>
+  <script src="journal-core.js?v=20260927-poster-cards"></script>
   <script src="app.js?v=20260927-logbook"></script>
-  <script src="journal-ui.js?v=20260927-logbook"></script>
+  <script src="journal-ui.js?v=20260927-poster-cards"></script>
   <script src="pwa.js"></script>
   <script>
     if (location.protocol === "https:" || ["localhost", "127.0.0.1"].includes(location.hostname)) {

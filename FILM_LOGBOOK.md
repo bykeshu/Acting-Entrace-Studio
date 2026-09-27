@@ -41,7 +41,26 @@ future visits still require an active authenticated session and your rating.
 Sources: [Letterboxd CSV specification](https://letterboxd.com/about/importing-data/),
 [Wikidata data access / CC0](https://www.wikidata.org/wiki/Wikidata:Data_access).
 No Letterboxd database is scraped or claimed to be open source. No images are
-copied. Metadata searches go directly to Wikidata only when you press Search.
+bundled. Metadata searches go directly to Wikidata only when you press Search.
+
+## Poster backdrops
+
+Film diary cards can show a softly faded remote poster behind their live text.
+Existing Sound of Metal cards use the verified [Criterion cover](https://www.criterion.com/films/32169-sound-of-metal)
+(2019 film, artwork by William Laboury; also recognises the 2020 release label).
+This is an external artwork reference, not a watched-history seed or an open-license
+claim. Other films remain text-only until you choose a direct HTTPS image URL under
+Edit this card → Poster backdrop. Preview, source/credit and a text-only override
+are available. No key, new account or paid service is required.
+
+Artwork rights remain with their owners; choose images you are permitted to display.
+Images load directly from their host with no referrer, but the host still sees your
+IP. No private notes or ratings are sent with the image request. Images are not
+committed, downloaded into the app, or added to its service-worker cache. Blocked
+or unavailable images leave the paper card usable; offline artwork is not guaranteed.
+Your custom poster URL/credit and text-only choice use the existing private session
+sync and JSON backup. They are not included in Letterboxd CSV exports. No diary
+date, rating, film identity, learning credit or account rules are changed.
 
 ## Weekly visual update and Android icon
 

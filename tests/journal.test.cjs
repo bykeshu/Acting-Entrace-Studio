@@ -22,6 +22,19 @@ test('Unwatched watchlist deduplicates stable keys, updates with new saves, and 
  const list=j.watchlist(shelf,[session,{...session,id:'watch2'},{mode:'Film diary',filmKey:'bucket-watched:a'}],{'cinema-watched:two':true});assert.deepEqual(list.map(f=>f.title),['A new save','Personal title']);
  assert.deepEqual(j.exportable([{title:'Film'},{title:'Series',entryNote:'Not a full film'},{title:'Episode',entryNote:'Episode',letterboxdURI:'https://letterboxd.com/film/confirmed/'}]).map(f=>f.title),['Film','Episode']);
 });
+test('Poster URLs are optional, bounded, credential-free HTTPS and never executable markup',()=>{
+ for(const posterURL of ['javascript:alert(1)','data:image/svg+xml,<svg/>','http://example.com/a.jpg','https://user:secret@example.com/p.jpg','https://localhost/p.jpg','https://127.0.0.1/p.jpg','https://192.168.1.5/p.jpg','https://example.com:8443/p.jpg','https://example.com/'+ 'x'.repeat(2048)])assert.throws(()=>j.entry({...valid,posterURL},options));
+ const e=j.entry({...valid,posterURL:'https://example.com/poster.jpg',posterSourceURL:'https://example.com/film',posterCredit:'Artist',posterHidden:'on'},options);
+ assert.equal(e.posterURL,'https://example.com/poster.jpg');assert.equal(e.posterCredit,'Artist');assert.equal(e.posterHidden,true);assert.equal(j.poster(e),null);assert.equal(e.minutes,0);
+ assert.equal(j.poster({...e,posterHidden:false}).source,'https://example.com/film');
+ const csv=j.csv([e],true);assert.ok(!csv.includes('poster.jpg'));assert.ok(!csv.includes('Artist'));
+ assert.equal(j.poster({...valid,posterURL:'javascript:alert(1)'}),null);
+});
+test('Verified Sound of Metal artwork works for old cards without changing their records',()=>{
+ const old={title:'Sound of Metal',year:'',rating:4},before=JSON.stringify(old),art=j.poster(old);
+ assert.match(art.source,/criterion.com\/films\/32169-sound-of-metal/);assert.match(art.credit,/William Laboury/);assert.equal(JSON.stringify(old),before);
+ assert.ok(j.poster({...old,year:'2019'}));assert.ok(j.poster({...old,year:'2020'}));assert.equal(j.poster({...old,year:'1950'}),null);assert.equal(j.poster({title:'Happy Together'}),null);assert.equal(j.poster({...old,posterHidden:true}),null);
+});
 test('No Letterboxd secret, undocumented API or fictitious automatic sync; offline assets match',()=>{
  const root=path.resolve(__dirname,'..'),html=fs.readFileSync(path.join(root,'index.html'),'utf8'),ui=fs.readFileSync(path.join(root,'journal-ui.js'),'utf8');assert.match(html,/not an automatic connection/);assert.match(ui,/not remotely verified/);assert.ok(!ui.includes('api.letterboxd.com'));assert.ok(!ui.includes('client_secret'));assert.match(ui,/www.wikidata.org\/w\/api.php/);
  for(const name of ['journal-core.js','journal-ui.js','deck.css'])assert.ok(fs.readFileSync(path.join(root,'sw.js'),'utf8').includes(name));

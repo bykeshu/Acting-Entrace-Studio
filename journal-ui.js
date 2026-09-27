@@ -4,6 +4,11 @@
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const catalogue=[...window.ACTING_BUCKET.films.map(f=>({...f,filmKey:core.identity(f)})),...window.ACTING_CINEMA.films.map(f=>({...f,filmKey:`cinema-watched:${f.id}`}))];
   let selected=null,request=0,searchBusy=false;
+  function clearPreview(){const p=$('#journalPosterPreview');p.hidden=true;p.innerHTML='';$('#journalPosterStatus').textContent='';}
+  function artMarkup(s){
+    const art=core.poster(s);if(!art)return '';
+    return `<img class="diary-poster" src="${esc(art.url)}" data-art-source="${esc(art.source)}" data-art-credit="${esc(art.credit)}" alt="" aria-hidden="true" loading="lazy" decoding="async" referrerpolicy="no-referrer">`;
+  }
   $('#journalTitles').innerHTML=[...new Set(catalogue.map(f=>f.title))].map(t=>`<option value="${esc(t)}"></option>`).join('');
   function choose(f){
     selected=f;
@@ -11,6 +16,11 @@
     form.elements.year.value=f.year||'';
     form.elements.genres.value=(f.genres||[]).join(', ');
     form.elements.letterboxdURI.value=f.letterboxdURI||'';
+    form.elements.posterURL.value=core.imageURL(f.posterURL);
+    form.elements.posterSourceURL.value=core.imageURL(f.posterSourceURL);
+    form.elements.posterCredit.value=f.posterCredit||'';
+    form.elements.posterHidden.checked=!!f.posterHidden;
+    clearPreview();
     $('#journalIdentity').textContent=f.wikidataId?`Selected Wikidata ${f.wikidataId} · check the edition/year before saving.`:'Selected from your shelf · confirm the edition/year if known.';
   }
   function offer(f){
@@ -22,7 +32,15 @@
     const sessions=store.read(),diary=sessions.filter(s=>s.mode==='Film diary').slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))),list=core.watchlist(window.ACTING_BUCKET.films,sessions,store.watched());
     const q=$('#journalFilter').value.trim().toLowerCase(),shown=diary.filter(s=>`${s.title} ${s.year} ${(s.genres||[]).join(' ')} ${s.note}`.toLowerCase().includes(q));
     $('#journalCount').textContent=`${diary.length} viewings · ${list.length} on your watchlist · pleasure is not productivity`;
-    $('#journalCards').innerHTML=shown.length?shown.map((s,i)=>`<article class="diary-card" data-card="${i%4}"><div class="diary-ticket"><span>ADMIT ONE / ${esc(s.date)}</span><span>${s.rewatch?'REWATCH':'A VIEWING'}</span></div><span class="diary-reel" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><h3>${esc(s.title)}</h3><p class="diary-year">${esc(s.year||'Edition not specified')}</p><p class="diary-rating" aria-label="${s.rating==null?'No rating':esc(s.rating)+' out of five stars'}">${s.rating==null?'UNRATED':esc(s.rating)+' / 5 ★'}</p><div class="meta">${(s.genres||[]).map(g=>`<span class="tag">${esc(g)}</span>`).join('')}</div>${s.note?`<p class="diary-moment">${esc(s.note)}</p>`:'<p class="diary-moment">A film can stay with you without a note.</p>'}<details><summary>Letterboxd handoff</summary><p>${s.letterboxdStatus==='confirmed'?'Marked imported by you — not remotely verified.':'Not posted to Letterboxd. Export the pending diary CSV, check its matches, then confirm there.'}</p><button type="button" class="text-btn" data-journal-confirm="${esc(s.id)}">${s.letterboxdStatus==='confirmed'?'Return to pending':'I imported this entry'}</button></details><button type="button" class="text-btn" data-journal-edit="${esc(s.id)}">Edit this card ↗</button></article>`).join(''):'<div class="journal-empty"><span aria-hidden="true">✳</span><h3>THE END.<br>OR A BEGINNING.</h3><p>Your first film card goes here. Nothing to analyse. Just your cinema.</p></div>';
+    $('#journalCards').innerHTML=shown.length?shown.map((s,i)=>`<article class="diary-card" data-card="${i%4}">${artMarkup(s)}<div class="diary-ticket"><span>ADMIT ONE / ${esc(s.date)}</span><span>${s.rewatch?'REWATCH':'A VIEWING'}</span></div><span class="diary-reel" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><h3>${esc(s.title)}</h3><p class="diary-year">${esc(s.year||'Edition not specified')}</p><p class="diary-rating" aria-label="${s.rating==null?'No rating':esc(s.rating)+' out of five stars'}">${s.rating==null?'UNRATED':esc(s.rating)+' / 5 ★'}</p><div class="meta">${(s.genres||[]).map(g=>`<span class="tag">${esc(g)}</span>`).join('')}</div>${s.note?`<p class="diary-moment">${esc(s.note)}</p>`:'<p class="diary-moment">A film can stay with you without a note.</p>'}<details><summary>Letterboxd handoff</summary><p>${s.letterboxdStatus==='confirmed'?'Marked imported by you — not remotely verified.':'Not posted to Letterboxd. Export the pending diary CSV, check its matches, then confirm there.'}</p><button type="button" class="text-btn" data-journal-confirm="${esc(s.id)}">${s.letterboxdStatus==='confirmed'?'Return to pending':'I imported this entry'}</button></details><button type="button" class="text-btn" data-journal-edit="${esc(s.id)}">Edit this card ↗</button></article>`).join(''):'<div class="journal-empty"><span aria-hidden="true">✳</span><h3>THE END.<br>OR A BEGINNING.</h3><p>Your first film card goes here. Nothing to analyse. Just your cinema.</p></div>';
+    $('#journalCards').querySelectorAll('.diary-poster').forEach(img=>{
+      const source=img.dataset.artSource,credit=img.dataset.artCredit;
+      img.closest('.diary-card').insertAdjacentHTML('beforeend',`<small class="diary-art-credit">${source?`<a href="${esc(source)}" target="_blank" rel="noopener noreferrer">${esc(credit)} ↗</a>`:esc(credit)}</small>`);
+      const loaded=()=>img.closest('.diary-card').classList.add('has-poster');
+      const failed=()=>{img.closest('.diary-card').classList.remove('has-poster');img.hidden=true;};
+      img.addEventListener('load',loaded,{once:true});img.addEventListener('error',failed,{once:true});
+      if(img.complete){if(img.naturalWidth)loaded();else failed();}
+    });
     $('#journalWatchlist').innerHTML=list.map(f=>`<div class="watch-ticket"><div><strong>${esc(f.title)}</strong><small>${esc(f.year||'Confirm edition in Letterboxd')}${f.genres?.length?' · '+esc(f.genres.join(', ')):''}</small></div><button type="button" class="text-btn" data-journal-watch="${esc(f.filmKey)}">Watched ↗</button></div>`).join('')||'<p class="empty">An empty watchlist is fine too.</p>';
     $('#journalPending').textContent=`${diary.filter(s=>s.letterboxdStatus!=='confirmed').length} diary entries pending handoff. Exports never include your private moments or genres as reviews/tags.`;
   }
@@ -38,16 +56,23 @@
       if(!watchlist && store.read().some(s=>s.mode==='Film diary'&&s.id!==record.id&&s.filmKey===record.filmKey&&s.date===record.date)){throw Error('You already have this film on this date. Edit that card; Letterboxd combines same-film, same-day imports.');}
       store.put(record);
       if(!watchlist)store.mark(record.filmKey,true);
-      form.reset();form.elements.date.value=store.today();selected=null;$('#journalIdentity').textContent='Manual entry works offline. Metadata is optional.';
+      form.reset();clearPreview();form.elements.date.value=store.today();selected=null;$('#journalIdentity').textContent='Manual entry works offline. Metadata is optional.';
       $('#journalStatus').textContent=watchlist?'Added to your private watchlist. Export watchlist CSV to add it to Letterboxd.':'Your film card is saved privately and queued through existing account sync when signed in. Letterboxd posting is still pending.';
       render();
     }catch(e){$('#journalStatus').textContent=e.message;}
   }
   form.addEventListener('submit',e=>{e.preventDefault();save();});
   $('#journalAddWatchlist').onclick=()=>save(true);
-  form.elements.title.addEventListener('input',()=>{request++;selected=null;form.elements.entryId.value='';$('#journalMatches').innerHTML='';$('#journalIdentity').textContent='Manual entry works offline. Metadata is optional.';});
+  form.elements.title.addEventListener('input',()=>{request++;selected=null;form.elements.entryId.value='';form.elements.posterURL.value='';form.elements.posterSourceURL.value='';form.elements.posterCredit.value='';form.elements.posterHidden.checked=false;clearPreview();$('#journalMatches').innerHTML='';$('#journalIdentity').textContent='Manual entry works offline. Metadata is optional.';});
   form.elements.title.addEventListener('change',()=>{const f=catalogue.find(f=>f.title.toLowerCase()===form.elements.title.value.trim().toLowerCase());if(f)choose(f);});
-  $('#journalReset').onclick=()=>{form.reset();selected=null;form.elements.date.value=store.today();$('#journalStatus').textContent='New card — previous saved cards are unchanged.';};
+  $('#journalReset').onclick=()=>{form.reset();clearPreview();selected=null;form.elements.date.value=store.today();$('#journalStatus').textContent='New card — previous saved cards are unchanged.';};
+  $('#journalPreviewPoster').onclick=()=>{
+    clearPreview();const v=Object.fromEntries(new FormData(form));
+    if(v.posterURL?.trim()&&!core.imageURL(v.posterURL)){$('#journalPosterStatus').textContent='Use a public HTTPS image URL without credentials or a custom port.';return;}
+    const art=core.poster(v);if(!art){$('#journalPosterStatus').textContent=v.posterHidden?'Text-only selected.':'No built-in cover for this film yet. Paste a direct poster-image link, or keep your paper card.';return;}
+    const p=$('#journalPosterPreview');p.hidden=false;p.innerHTML=`<img src="${esc(art.url)}" alt="Poster backdrop preview" referrerpolicy="no-referrer"><small>${esc(art.credit)}</small>`;
+    const img=p.querySelector('img');img.addEventListener('load',()=>{$('#journalPosterStatus').textContent='Backdrop preview only — save the card to keep your choice.';},{once:true});img.addEventListener('error',()=>{p.hidden=true;$('#journalPosterStatus').textContent='Image unavailable or blocked by its host. The paper card still works; try another image link.';},{once:true});
+  };
   $('#journalFilter').addEventListener('input',render);
   $('#journalWatchlist').addEventListener('click',e=>{const key=e.target.closest('[data-journal-watch]')?.dataset.journalWatch;const f=core.watchlist(window.ACTING_BUCKET.films,store.read(),store.watched()).find(f=>f.filmKey===key);if(f)offer(f);});
   $('#journalCards').addEventListener('click',e=>{
