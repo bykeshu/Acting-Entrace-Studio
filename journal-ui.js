@@ -6,6 +6,8 @@
   let selected=null,request=0,searchBusy=false,artRequest=0,artBusy=false,draftFullPoster='';
   const artwork=f=>core.poster(f,store.read());
   const thoughtDrafts=new Map();
+  const sortPreferenceKey='acting-film-deck-sort-v1';
+  try{const saved=localStorage.getItem(sortPreferenceKey);if(core.diarySortOrders.includes(saved))$('#journalSort').value=saved;}catch{/* Sorting still works when browser storage is unavailable. */}
   function thoughtMarkup(s,i){
     const draft=thoughtDrafts.get(s.id);
     return `<details class="diary-afterword" data-journal-thought="${esc(s.id)}"${draft?.open?' open':''}><summary>${s.note?'My thought ↗':'Leave a thought ↗'}</summary>${s.note?`<blockquote class="diary-carved" tabindex="0">${esc(s.note)}</blockquote>`:''}<form data-journal-note="${esc(s.id)}"><label for="journalThought-${i}">What stayed with me?</label><textarea id="journalThought-${i}" name="thought" rows="4" maxlength="3000" placeholder="A realization, an epiphany, a moment. Or nothing at all.">${esc(draft?draft.value:s.note||'')}</textarea><small>Optional · private · not homework.</small><div class="diary-thought-actions"><button type="submit">Save thought ↗</button><button type="button" data-thought-cancel>Cancel</button></div><p class="diary-thought-status" role="status"></p></form></details>`;
@@ -77,7 +79,7 @@
     $('#journalStatus').textContent='How did it feel? Choose a rating or No rating. A watched tick is saved already; a dated diary card is saved only when you confirm.';
   }
   function render(){
-    const sessions=store.read(),diary=sessions.filter(s=>s.mode==='Film diary').slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))),list=core.watchlist(window.ACTING_BUCKET.films,sessions,store.watched());
+    const sessions=store.read(),diary=core.sortDiary(sessions.filter(s=>s.mode==='Film diary'),$('#journalSort').value),list=core.watchlist(window.ACTING_BUCKET.films,sessions,store.watched());
     const q=$('#journalFilter').value.trim().toLowerCase(),shown=diary.filter(s=>`${s.title} ${s.year} ${(s.genres||[]).join(' ')} ${s.note}`.toLowerCase().includes(q));
     $('#journalCount').textContent=`${diary.length} viewings · ${list.length} on your watchlist · pleasure is not productivity`;
     $('#journalCards').innerHTML=shown.length?shown.map((s,i)=>cardMarkup(s,i)).join(''):'<div class="journal-empty"><span aria-hidden="true">✳</span><h3>THE END.<br>OR A BEGINNING.</h3><p>Your first film card goes here. Nothing to analyse. Just your cinema.</p></div>';
@@ -154,6 +156,7 @@
     loadArtwork(p,()=>{$('#journalPosterStatus').textContent='Backdrop preview only — save the card to keep your choice.';},()=>{$('#journalPosterStatus').textContent='Image unavailable or blocked by its host. The paper card still works; try another image link.';});
   };
   $('#journalFilter').addEventListener('input',render);
+  $('#journalSort').addEventListener('change',()=>{try{localStorage.setItem(sortPreferenceKey,$('#journalSort').value);}catch{/* This preference is device-local, never a progress event. */}render();});
   $('#journalCards').addEventListener('toggle',e=>{
     const details=e.target;if(!details.matches('[data-journal-thought]')||!details.isConnected)return;
     const id=details.dataset.journalThought,s=store.read().find(s=>s.id===id&&s.mode==='Film diary');

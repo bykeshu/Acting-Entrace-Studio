@@ -154,7 +154,29 @@
     }
     return [...map.values()];
   }
-  const api={personal,identity,sameFilm,pending,entry,withThought,csv,watchlist,uri,exportable,imageURL,poster,posterData,fullPosterData,artworkChunks,resolveArtwork,variants,nextPoster,palette,paletteFromPixels,posterContrast};
+  const diarySortOrders=Object.freeze(['watched-desc','watched-asc','rating-desc','rating-asc','title-asc','title-desc','year-desc','year-asc']);
+  function sortDiary(records,order='watched-desc'){
+    if(!diarySortOrders.includes(order))order='watched-desc';
+    const [field,direction]=order.split('-'),sign=direction==='asc'?1:-1;
+    const title=r=>clean(r.title).toLocaleLowerCase('en');
+    const value=r=>{
+      if(field==='title')return title(r)||null;
+      if(field==='rating')return typeof r.rating==='number'&&Number.isFinite(r.rating)&&r.rating>=.5&&r.rating<=5&&Number.isInteger(r.rating*2)?r.rating:null;
+      if(field==='year')return /^\d{4}$/.test(String(r.year??''))&&Number(r.year)>=1888&&Number(r.year)<=2100?Number(r.year):null;
+      const date=String(r.date??'');
+      if(r.watchedDateUnknown||!/^\d{4}-\d{2}-\d{2}$/.test(date))return null;
+      const parsed=new Date(date+'T00:00:00Z');
+      return Number.isFinite(parsed.getTime())&&parsed.toISOString().slice(0,10)===date?date:null;
+    };
+    const compare=(a,b)=>a<b?-1:a>b?1:0;
+    return records.slice().sort((a,b)=>{
+      const av=value(a),bv=value(b);
+      if(av===null&&bv!==null)return 1;
+      if(bv===null&&av!==null)return -1;
+      return (av!==null&&bv!==null?compare(av,bv)*sign:0)||compare(title(a),title(b))||compare(String(a.year??''),String(b.year??''))||compare(String(a.id??''),String(b.id??''));
+    });
+  }
+  const api={personal,identity,sameFilm,pending,entry,withThought,csv,watchlist,uri,exportable,imageURL,poster,posterData,fullPosterData,artworkChunks,resolveArtwork,variants,nextPoster,palette,paletteFromPixels,posterContrast,diarySortOrders,sortDiary};
   root.ACTING_JOURNAL=api;
   if(typeof module!=='undefined')module.exports=api;
 })(typeof window==='undefined'?globalThis:window);
