@@ -1,4 +1,4 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260927044507-febbe558-sharp-posters";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260927044507-febbe558-sharp-posters-2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -6,7 +6,7 @@ const APP_SHELL = [
   "./daily.css",
   "./cinema.css?v=20260927",
   "./poster-theme.css?v=20260927-cinema",
-  "./deck.css?v=20260927-sharp-posters",
+  "./deck.css?v=20260927-sharp-posters-2",
   "./weekly-theme.css?v=weekly-20260927044507-febbe558",
   "./design/active.json",
   "./fonts/anton-latin.woff2",
