@@ -45,21 +45,34 @@ bundled. Metadata searches go directly to Wikidata only when you press Search.
 
 ## Poster backdrops
 
-Film diary cards can show a softly faded remote poster behind their live text.
+Film diary cards show full-bleed posters with live text in each poster's colours.
 Existing Sound of Metal cards use the verified [Criterion cover](https://www.criterion.com/films/32169-sound-of-metal)
 (2019 film, artwork by William Laboury; also recognises the 2020 release label).
 This is an external artwork reference, not a watched-history seed or an open-license
-claim. Other films remain text-only until you choose a direct HTTPS image URL under
-Edit this card → Poster backdrop. Preview, source/credit and a text-only override
-are available. No key, new account or paid service is required.
+claim. Other films remain text-only until you upload your preferred artwork or choose
+a direct HTTPS image URL under Edit this card → Poster artwork & colours. Uploaded
+JPG/PNG/WebP files are sampled on this device into background/text/accent colours.
+Body/title/control colours are adjusted to pass 4.5:1 contrast over the card's
+>=88% content scrim; the large rating accent passes 3:1, preserving vivid hues.
+the exposed artwork stays vivid. Three colour pickers, a live card preview, credits
+and a text-only override are available. No key, new account or paid service is required.
 
 Artwork rights remain with their owners; choose images you are permitted to display.
 Images load directly from their host with no referrer, but the host still sees your
 IP. No private notes or ratings are sent with the image request. Images are not
-committed, downloaded into the app, or added to its service-worker cache. Blocked
-or unavailable images leave the paper card usable; offline artwork is not guaranteed.
-Your custom poster URL/credit and text-only choice use the existing private session
-sync and JSON backup. They are not included in Letterboxd CSV exports. No diary
+committed or added to its service-worker cache. Remote hosts may [block canvas colour sampling](https://developer.mozilla.org/en-US/docs/Web/HTML/How_to/CORS_enabled_image);
+Match poster colours handles this safely, without a proxy or bypass. Upload instead
+for reliable sampling, or pick colours manually. Unavailable remote images leave
+the paper card usable; offline remote artwork is not guaranteed.
+
+User-selected uploads become compact JPEG thumbnails, not public site assets.
+The original file, filename and EXIF metadata are not uploaded. Maximum source
+size is 12 MB / 24 megapixels; the JPEG data URL is bounded to 30,000 characters
+and the whole card to 48,000 UTF-8 bytes, below the existing 50,000-byte event rule.
+Upload processing/preview does not save or sync anything until Save my film card.
+Thumbnails, palette, custom URL/credit and text-only choice use the existing private
+session sync and JSON backup. Uploaded images work offline on devices that have
+received the saved card. They are not included in Letterboxd CSV exports. No diary
 date, rating, film identity, learning credit or account rules are changed.
 
 ## Weekly visual update and Android icon

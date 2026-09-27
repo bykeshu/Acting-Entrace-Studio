@@ -35,6 +35,19 @@ test('Verified Sound of Metal artwork works for old cards without changing their
  assert.match(art.source,/criterion.com\/films\/32169-sound-of-metal/);assert.match(art.credit,/William Laboury/);assert.equal(JSON.stringify(old),before);
  assert.ok(j.poster({...old,year:'2019'}));assert.ok(j.poster({...old,year:'2020'}));assert.equal(j.poster({...old,year:'1950'}),null);assert.equal(j.poster({title:'Happy Together'}),null);assert.equal(j.poster({...old,posterHidden:true}),null);
 });
+test('Poster palettes come from pixels and maintain readable text/accent over the contrast scrim',()=>{
+ const pixels=[];for(const [colour,count] of [[[5,5,5],200],[[180,180,180],180],[[210,10,12],100]])for(let i=0;i<count;i++)pixels.push(...colour,255);
+ const p=j.paletteFromPixels(pixels);assert.ok(j.palette(p));assert.ok(parseInt(p.accent.slice(1,3),16)>parseInt(p.accent.slice(3,5),16));assert.ok(j.posterContrast(p.ink,p.text)>=4.5);assert.ok(j.posterContrast(p.ink,p.accent)>=3);
+ assert.ok(j.palette(j.paletteFromPixels([255,255,255,255,255,255,255,255])));assert.ok(j.palette(j.poster({title:'Sound of Metal'}).palette));
+ for(const p of [{ink:'#000000',text:'#111111',accent:'#222222'},{ink:'url(evil)',text:'#ffffff',accent:'#ff0000'}])assert.equal(j.palette(p),null);
+ assert.throws(()=>j.entry({...valid,posterPalette:{ink:'#000000',text:'#111111',accent:'#222222'}},options));
+});
+test('User-selected JPEG stays private, fits the existing sync payload, and is excluded from Letterboxd exports',()=>{
+ const data='data:image/jpeg;base64,/9j/AAAA',p=j.paletteFromPixels([]),e=j.entry({...valid,posterData:data,posterPalette:p},options);
+ assert.equal(j.poster(e).url,data);assert.equal(j.poster(e).uploaded,true);assert.deepEqual(j.poster(e).palette,p);assert.ok(new TextEncoder().encode(JSON.stringify(e)).length<48000);assert.ok(!j.csv([e],true).includes('/9j/AAAA'));
+ for(const posterData of ['data:image/svg+xml;base64,AAAA','data:image/png;base64,AAAA','data:image/jpeg;base64,<script>','data:image/jpeg;base64,'+'A'.repeat(30000)])assert.throws(()=>j.entry({...valid,posterData},options));
+ assert.throws(()=>j.entry({...valid,posterData:'data:image/jpeg;base64,'+'A'.repeat(29000),letterboxdURI:'https://letterboxd.com/film/'+'x'.repeat(20000)},options));
+});
 test('No Letterboxd secret, undocumented API or fictitious automatic sync; offline assets match',()=>{
  const root=path.resolve(__dirname,'..'),html=fs.readFileSync(path.join(root,'index.html'),'utf8'),ui=fs.readFileSync(path.join(root,'journal-ui.js'),'utf8');assert.match(html,/not an automatic connection/);assert.match(ui,/not remotely verified/);assert.ok(!ui.includes('api.letterboxd.com'));assert.ok(!ui.includes('client_secret'));assert.match(ui,/www.wikidata.org\/w\/api.php/);
  for(const name of ['journal-core.js','journal-ui.js','deck.css'])assert.ok(fs.readFileSync(path.join(root,'sw.js'),'utf8').includes(name));

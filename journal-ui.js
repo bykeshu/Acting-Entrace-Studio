@@ -3,14 +3,30 @@
   const $=s=>document.querySelector(s),form=$('#journalForm');
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const catalogue=[...window.ACTING_BUCKET.films.map(f=>({...f,filmKey:core.identity(f)})),...window.ACTING_CINEMA.films.map(f=>({...f,filmKey:`cinema-watched:${f.id}`}))];
-  let selected=null,request=0,searchBusy=false;
+  let selected=null,request=0,searchBusy=false,artRequest=0,artBusy=false;
+  function setColours(p){for(const [key,name] of [['ink','posterInk'],['text','posterText'],['accent','posterAccent']])form.elements[name].value=p[key];}
+  function artworkValues(){const v=Object.fromEntries(new FormData(form));return {...v,posterPalette:{ink:v.posterInk,text:v.posterText,accent:v.posterAccent}};}
   function clearPreview(){const p=$('#journalPosterPreview');p.hidden=true;p.innerHTML='';$('#journalPosterStatus').textContent='';}
   function artMarkup(s){
     const art=core.poster(s);if(!art)return '';
     return `<img class="diary-poster" src="${esc(art.url)}" data-art-source="${esc(art.source)}" data-art-credit="${esc(art.credit)}" alt="" aria-hidden="true" loading="lazy" decoding="async" referrerpolicy="no-referrer">`;
   }
+  function cardMarkup(s,i=0){
+    const art=core.poster(s),p=art?.palette;
+    const credit=art?`<small class="diary-art-credit">${art.source?`<a href="${esc(art.source)}" target="_blank" rel="noopener noreferrer">${esc(art.credit)} ↗</a>`:esc(art.credit)}</small>`:'';
+    return `<article class="diary-card${art?' poster-card':''}" data-card="${i%4}"${p?` style="--poster-ink:${p.ink};--poster-text:${p.text};--poster-accent:${p.accent}"`:''}>${artMarkup(s)}<div class="diary-ticket"><span>ADMIT ONE / ${esc(s.date)}</span><span>${s.rewatch?'REWATCH':'A VIEWING'}</span></div><span class="diary-reel" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="diary-content"><h3>${esc(s.title)}</h3><p class="diary-year">${esc(s.year||'Edition not specified')}</p><p class="diary-rating" aria-label="${s.rating==null?'No rating':esc(s.rating)+' out of five stars'}">${s.rating==null?'UNRATED':esc(s.rating)+' / 5 ★'}</p><div class="meta">${(s.genres||[]).map(g=>`<span class="tag">${esc(g)}</span>`).join('')}</div>${s.note?`<p class="diary-moment" tabindex="0">${esc(s.note)}</p>`:'<p class="diary-moment">A film can stay with you without a note.</p>'}<details><summary>Letterboxd handoff</summary><p>${s.letterboxdStatus==='confirmed'?'Marked imported by you — not remotely verified.':'Not posted to Letterboxd. Export the pending diary CSV, check its matches, then confirm there.'}</p><button type="button" class="text-btn" data-journal-confirm="${esc(s.id)}">${s.letterboxdStatus==='confirmed'?'Return to pending':'I imported this entry'}</button></details><button type="button" class="text-btn" data-journal-edit="${esc(s.id)}">Edit this card ↗</button>${credit}</div></article>`;
+  }
+  function loadArtwork(root,onLoad,onError){
+    root.querySelectorAll('.diary-poster').forEach(img=>{
+      const loaded=()=>{img.closest('.diary-card').classList.add('has-poster');onLoad?.();};
+      const failed=()=>{img.closest('.diary-card').classList.remove('has-poster','poster-card');img.hidden=true;onError?.();};
+      img.addEventListener('load',loaded,{once:true});img.addEventListener('error',failed,{once:true});
+      if(img.complete&&img.naturalWidth)loaded();
+    });
+  }
   $('#journalTitles').innerHTML=[...new Set(catalogue.map(f=>f.title))].map(t=>`<option value="${esc(t)}"></option>`).join('');
   function choose(f){
+    artRequest++;artBusy=false;
     selected=f;
     form.elements.title.value=f.title;
     form.elements.year.value=f.year||'';
@@ -20,6 +36,8 @@
     form.elements.posterSourceURL.value=core.imageURL(f.posterSourceURL);
     form.elements.posterCredit.value=f.posterCredit||'';
     form.elements.posterHidden.checked=!!f.posterHidden;
+    form.elements.posterData.value=core.posterData(f.posterData);
+    setColours(core.poster({...f,posterHidden:false})?.palette||{ink:'#111111',text:'#ffffff',accent:'#ff9b86'});
     clearPreview();
     $('#journalIdentity').textContent=f.wikidataId?`Selected Wikidata ${f.wikidataId} · check the edition/year before saving.`:'Selected from your shelf · confirm the edition/year if known.';
   }
@@ -32,25 +50,19 @@
     const sessions=store.read(),diary=sessions.filter(s=>s.mode==='Film diary').slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))),list=core.watchlist(window.ACTING_BUCKET.films,sessions,store.watched());
     const q=$('#journalFilter').value.trim().toLowerCase(),shown=diary.filter(s=>`${s.title} ${s.year} ${(s.genres||[]).join(' ')} ${s.note}`.toLowerCase().includes(q));
     $('#journalCount').textContent=`${diary.length} viewings · ${list.length} on your watchlist · pleasure is not productivity`;
-    $('#journalCards').innerHTML=shown.length?shown.map((s,i)=>`<article class="diary-card" data-card="${i%4}">${artMarkup(s)}<div class="diary-ticket"><span>ADMIT ONE / ${esc(s.date)}</span><span>${s.rewatch?'REWATCH':'A VIEWING'}</span></div><span class="diary-reel" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><h3>${esc(s.title)}</h3><p class="diary-year">${esc(s.year||'Edition not specified')}</p><p class="diary-rating" aria-label="${s.rating==null?'No rating':esc(s.rating)+' out of five stars'}">${s.rating==null?'UNRATED':esc(s.rating)+' / 5 ★'}</p><div class="meta">${(s.genres||[]).map(g=>`<span class="tag">${esc(g)}</span>`).join('')}</div>${s.note?`<p class="diary-moment">${esc(s.note)}</p>`:'<p class="diary-moment">A film can stay with you without a note.</p>'}<details><summary>Letterboxd handoff</summary><p>${s.letterboxdStatus==='confirmed'?'Marked imported by you — not remotely verified.':'Not posted to Letterboxd. Export the pending diary CSV, check its matches, then confirm there.'}</p><button type="button" class="text-btn" data-journal-confirm="${esc(s.id)}">${s.letterboxdStatus==='confirmed'?'Return to pending':'I imported this entry'}</button></details><button type="button" class="text-btn" data-journal-edit="${esc(s.id)}">Edit this card ↗</button></article>`).join(''):'<div class="journal-empty"><span aria-hidden="true">✳</span><h3>THE END.<br>OR A BEGINNING.</h3><p>Your first film card goes here. Nothing to analyse. Just your cinema.</p></div>';
-    $('#journalCards').querySelectorAll('.diary-poster').forEach(img=>{
-      const source=img.dataset.artSource,credit=img.dataset.artCredit;
-      img.closest('.diary-card').insertAdjacentHTML('beforeend',`<small class="diary-art-credit">${source?`<a href="${esc(source)}" target="_blank" rel="noopener noreferrer">${esc(credit)} ↗</a>`:esc(credit)}</small>`);
-      const loaded=()=>img.closest('.diary-card').classList.add('has-poster');
-      const failed=()=>{img.closest('.diary-card').classList.remove('has-poster');img.hidden=true;};
-      img.addEventListener('load',loaded,{once:true});img.addEventListener('error',failed,{once:true});
-      if(img.complete){if(img.naturalWidth)loaded();else failed();}
-    });
+    $('#journalCards').innerHTML=shown.length?shown.map(cardMarkup).join(''):'<div class="journal-empty"><span aria-hidden="true">✳</span><h3>THE END.<br>OR A BEGINNING.</h3><p>Your first film card goes here. Nothing to analyse. Just your cinema.</p></div>';
+    loadArtwork($('#journalCards'));
     $('#journalWatchlist').innerHTML=list.map(f=>`<div class="watch-ticket"><div><strong>${esc(f.title)}</strong><small>${esc(f.year||'Confirm edition in Letterboxd')}${f.genres?.length?' · '+esc(f.genres.join(', ')):''}</small></div><button type="button" class="text-btn" data-journal-watch="${esc(f.filmKey)}">Watched ↗</button></div>`).join('')||'<p class="empty">An empty watchlist is fine too.</p>';
     $('#journalPending').textContent=`${diary.filter(s=>s.letterboxdStatus!=='confirmed').length} diary entries pending handoff. Exports never include your private moments or genres as reviews/tags.`;
   }
   function values(){
-    const v=Object.fromEntries(new FormData(form));
+    const v=artworkValues();
     const f=selected?.title===v.title?selected:catalogue.find(f=>f.title.toLowerCase()===v.title.trim().toLowerCase());
     return {...v,filmKey:f?.filmKey,wikidataId:f?.wikidataId,entryNote:f?.entryNote};
   }
   function save(watchlist=false){
     try{
+      if(artBusy)throw Error('Please wait for the poster to finish processing before saving.');
       const v=values(),editing=form.elements.entryId.value;
       const record=core.entry(v,{id:watchlist?crypto.randomUUID():editing||crypto.randomUUID(),date:store.today(),watchlist});
       if(!watchlist && store.read().some(s=>s.mode==='Film diary'&&s.id!==record.id&&s.filmKey===record.filmKey&&s.date===record.date)){throw Error('You already have this film on this date. Edit that card; Letterboxd combines same-film, same-day imports.');}
@@ -63,15 +75,50 @@
   }
   form.addEventListener('submit',e=>{e.preventDefault();save();});
   $('#journalAddWatchlist').onclick=()=>save(true);
-  form.elements.title.addEventListener('input',()=>{request++;selected=null;form.elements.entryId.value='';form.elements.posterURL.value='';form.elements.posterSourceURL.value='';form.elements.posterCredit.value='';form.elements.posterHidden.checked=false;clearPreview();$('#journalMatches').innerHTML='';$('#journalIdentity').textContent='Manual entry works offline. Metadata is optional.';});
+  form.elements.title.addEventListener('input',()=>{request++;artRequest++;artBusy=false;selected=null;form.elements.entryId.value='';form.elements.posterURL.value='';form.elements.posterSourceURL.value='';form.elements.posterCredit.value='';form.elements.posterData.value='';form.elements.posterHidden.checked=false;clearPreview();$('#journalMatches').innerHTML='';$('#journalIdentity').textContent='Manual entry works offline. Metadata is optional.';});
   form.elements.title.addEventListener('change',()=>{const f=catalogue.find(f=>f.title.toLowerCase()===form.elements.title.value.trim().toLowerCase());if(f)choose(f);});
-  $('#journalReset').onclick=()=>{form.reset();clearPreview();selected=null;form.elements.date.value=store.today();$('#journalStatus').textContent='New card — previous saved cards are unchanged.';};
+  $('#journalReset').onclick=()=>{artRequest++;artBusy=false;form.reset();clearPreview();selected=null;form.elements.date.value=store.today();$('#journalStatus').textContent='New card — previous saved cards are unchanged.';};
+  function readImage(url,cors=false){return new Promise((resolve,reject)=>{
+    const img=new Image(),timer=setTimeout(()=>{img.src='';reject(Error('Image lookup timed out. Upload the poster instead.'));},12000);
+    if(cors)img.crossOrigin='anonymous';img.referrerPolicy='no-referrer';
+    img.onload=()=>{clearTimeout(timer);resolve(img);};img.onerror=()=>{clearTimeout(timer);reject(Error('This host blocks image loading or colour sampling. Upload the poster or choose colours manually.'));};img.src=url;
+  });}
+  function sampleColours(img){const canvas=document.createElement('canvas');canvas.width=64;canvas.height=96;const context=canvas.getContext('2d',{willReadFrequently:true});context.drawImage(img,0,0,64,96);return core.paletteFromPixels(context.getImageData(0,0,64,96).data);}
+  function compactJPEG(img){
+    if(img.naturalWidth*img.naturalHeight>24000000)throw Error('Please choose a poster smaller than 24 megapixels.');
+    const canvas=document.createElement('canvas'),context=canvas.getContext('2d');
+    for(const longest of [720,600,480,360,280]){
+      const scale=Math.min(1,longest/Math.max(img.naturalWidth,img.naturalHeight));canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));context.fillStyle='#111111';context.fillRect(0,0,canvas.width,canvas.height);context.drawImage(img,0,0,canvas.width,canvas.height);
+      for(const quality of [.8,.65,.5,.35]){const data=canvas.toDataURL('image/jpeg',quality);if(core.posterData(data))return data;}
+    }
+    throw Error('Could not fit this artwork into a safe sync-sized thumbnail. Try a smaller image.');
+  }
+  $('#journalPosterFile').onchange=async e=>{
+    const file=e.target.files[0];if(!file)return;const mine=++artRequest;artBusy=true;clearPreview();$('#journalPosterStatus').textContent='Preparing your private poster and picking its colours…';let url;
+    try{
+      if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>12000000)throw Error('Choose a JPG, PNG or WebP image smaller than 12 MB.');
+      url=URL.createObjectURL(file);const img=await readImage(url),data=compactJPEG(img),p=sampleColours(img);if(mine!==artRequest)return;
+      form.elements.posterData.value=data;form.elements.posterURL.value='';form.elements.posterSourceURL.value='';form.elements.posterCredit.value='Your chosen poster · rights belong to its owner';form.elements.posterHidden.checked=false;setColours(p);
+      $('#journalPreviewPoster').click();$('#journalPosterStatus').textContent='Poster and palette ready. Save the card to keep this choice; no original file has been uploaded.';
+    }catch(error){if(mine===artRequest)$('#journalPosterStatus').textContent=error.message;}
+    finally{if(url)URL.revokeObjectURL(url);if(mine===artRequest)artBusy=false;}
+  };
+  $('#journalRemovePosterFile').onclick=()=>{artRequest++;artBusy=false;form.elements.posterData.value='';$('#journalPosterFile').value='';clearPreview();$('#journalPosterStatus').textContent='Uploaded artwork removed from this draft. Save to update the card; an existing default cover may return.';};
+  $('#journalMatchPosterColours').onclick=async()=>{
+    if(artBusy)return;const art=core.poster({...artworkValues(),posterHidden:false});if(!art){$('#journalPosterStatus').textContent='Upload or link a poster first.';return;}const mine=++artRequest;artBusy=true;$('#journalPosterStatus').textContent='Picking contrasting colours from your poster…';
+    try{const img=await readImage(art.url,!art.uploaded);const p=sampleColours(img);if(mine!==artRequest)return;setColours(p);$('#journalPreviewPoster').click();}
+    catch(error){if(mine===artRequest)$('#journalPosterStatus').textContent=error.message;}
+    finally{if(mine===artRequest)artBusy=false;}
+  };
+  form.elements.posterURL.addEventListener('input',()=>{artRequest++;artBusy=false;form.elements.posterData.value='';$('#journalPosterFile').value='';clearPreview();});
   $('#journalPreviewPoster').onclick=()=>{
-    clearPreview();const v=Object.fromEntries(new FormData(form));
+    clearPreview();const v=artworkValues();
     if(v.posterURL?.trim()&&!core.imageURL(v.posterURL)){$('#journalPosterStatus').textContent='Use a public HTTPS image URL without credentials or a custom port.';return;}
     const art=core.poster(v);if(!art){$('#journalPosterStatus').textContent=v.posterHidden?'Text-only selected.':'No built-in cover for this film yet. Paste a direct poster-image link, or keep your paper card.';return;}
-    const p=$('#journalPosterPreview');p.hidden=false;p.innerHTML=`<img src="${esc(art.url)}" alt="Poster backdrop preview" referrerpolicy="no-referrer"><small>${esc(art.credit)}</small>`;
-    const img=p.querySelector('img');img.addEventListener('load',()=>{$('#journalPosterStatus').textContent='Backdrop preview only — save the card to keep your choice.';},{once:true});img.addEventListener('error',()=>{p.hidden=true;$('#journalPosterStatus').textContent='Image unavailable or blocked by its host. The paper card still works; try another image link.';},{once:true});
+    if(!core.palette(v.posterPalette)){$('#journalPosterStatus').textContent='These colours need more contrast. Match poster colours or choose lighter text and a darker background.';return;}
+    const p=$('#journalPosterPreview');p.hidden=false;p.innerHTML=cardMarkup({...v,id:'preview-only',title:v.title||'Your film',date:v.date||store.today(),rating:v.rating&&v.rating!=='none'?Number(v.rating):null,genres:[]});
+    p.querySelectorAll('button').forEach(b=>b.remove());p.querySelector('details')?.remove();
+    loadArtwork(p,()=>{$('#journalPosterStatus').textContent='Backdrop preview only — save the card to keep your choice.';},()=>{$('#journalPosterStatus').textContent='Image unavailable or blocked by its host. The paper card still works; try another image link.';});
   };
   $('#journalFilter').addEventListener('input',render);
   $('#journalWatchlist').addEventListener('click',e=>{const key=e.target.closest('[data-journal-watch]')?.dataset.journalWatch;const f=core.watchlist(window.ACTING_BUCKET.films,store.read(),store.watched()).find(f=>f.filmKey===key);if(f)offer(f);});
