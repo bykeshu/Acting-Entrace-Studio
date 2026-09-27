@@ -14,16 +14,17 @@ the existing account sync and JSON backup. Nothing private is committed to GitHu
 
 ## Optional personal afterwords
 
-Each film deck has an attached “AFTER THE CREDITS / JUST FOR YOU” strip below its
-2:3 poster. Leave a thought opens a small journal; Save thought carves the text
-into the strip in the poster's palette and the deck's editorial typography.
-Existing feeling/meaning notes appear here automatically, with no data migration.
-Edit my thought lets you revise it; saving a blank thought clears it. Cancel
+Each film deck contains a collapsed Leave a thought control, inside the poster
+card itself. It unfolds the journal within the same 2:3 canvas, using the poster's
+palette and the deck's editorial typography. There is no separate panel below
+the card. Other card details return when the journal closes.
+Existing feeling/meaning notes remain intact and appear under My thought when
+expanded, with no data migration. Saving a blank thought clears it. Cancel
 discards the draft, not the last saved thought. All controls work by keyboard.
 
 This uses the existing private `note` field (3,000 characters) and session sync,
 not new records, grades, practice minutes or Letterboxd reviews. Unfinished
-drafts survive in-page re-renders but are not saved across closing/reloading the
+drafts and their collapsed/expanded state survive in-page re-renders but are not saved across closing/reloading the
 app; press Save thought to persist them. A concurrent change from another device
 blocks overwriting and preserves your local draft so you can copy it before
 Cancel reloads the latest thought. Saved thoughts are included only in private

@@ -8,7 +8,7 @@
   const thoughtDrafts=new Map();
   function thoughtMarkup(s,i){
     const draft=thoughtDrafts.get(s.id);
-    return `<section class="diary-afterword" aria-label="Personal thoughts for ${esc(s.title)}"><p class="diary-afterword-kicker">AFTER THE CREDITS / JUST FOR YOU</p>${s.note?`<blockquote class="diary-carved" tabindex="0">${esc(s.note)}</blockquote>`:'<p class="diary-afterword-empty">Some films leave a feeling. There’s room for it here, if you want.</p>'}<details data-journal-thought="${esc(s.id)}"${draft?' open':''}><summary>${s.note?'Edit my thought ↗':'Leave a thought ↗'}</summary><form data-journal-note="${esc(s.id)}"><label for="journalThought-${i}">What stayed with me?</label><textarea id="journalThought-${i}" name="thought" rows="4" maxlength="3000" placeholder="A realization, an epiphany, a moment. Or nothing at all.">${esc(draft?draft.value:s.note||'')}</textarea><small>Optional · private · up to 3,000 characters. Not homework or a Letterboxd review.</small><div class="diary-thought-actions"><button type="submit">Save thought ↗</button><button type="button" data-thought-cancel>Cancel</button></div><p class="diary-thought-status" role="status"></p></form></details></section>`;
+    return `<details class="diary-afterword" data-journal-thought="${esc(s.id)}"${draft?.open?' open':''}><summary>${s.note?'My thought ↗':'Leave a thought ↗'}</summary>${s.note?`<blockquote class="diary-carved" tabindex="0">${esc(s.note)}</blockquote>`:''}<form data-journal-note="${esc(s.id)}"><label for="journalThought-${i}">What stayed with me?</label><textarea id="journalThought-${i}" name="thought" rows="4" maxlength="3000" placeholder="A realization, an epiphany, a moment. Or nothing at all.">${esc(draft?draft.value:s.note||'')}</textarea><small>Optional · private · not homework.</small><div class="diary-thought-actions"><button type="submit">Save thought ↗</button><button type="button" data-thought-cancel>Cancel</button></div><p class="diary-thought-status" role="status"></p></form></details>`;
   }
   const posterDialog=$('#journalPosterDialog'),fullPoster=$('#journalFullPoster');
   function viewPoster(s){
@@ -39,8 +39,7 @@
   function cardMarkup(s,i=0,withJournal=true){
     const art=artwork(s),p=art?.palette;
     const credit=art?`<small class="diary-art-credit">${art.source?`<a href="${esc(art.source)}" target="_blank" rel="noopener noreferrer">${esc(art.credit)} ↗</a>`:esc(art.credit)}</small>`:'';
-    const card=`<article class="diary-card${art?' poster-card':''}" data-card="${i%4}"${art?` data-journal-art="${esc(s.id)}"`:''}${p?` style="--poster-ink:${p.ink};--poster-text:${p.text};--poster-accent:${p.accent}"`:''}>${artMarkup(s)}<div class="diary-ticket"><span>${s.watchedDateUnknown?'WATCHED / DATE NOT RECORDED':'ADMIT ONE / '+esc(s.date)}</span><span>${s.rewatch?'REWATCH':'A VIEWING'}</span></div><span class="diary-reel" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="diary-content"><h3>${esc(s.title)}</h3><p class="diary-year">${esc(s.year||'Edition not specified')}</p><p class="diary-rating" aria-label="${s.rating==null?'No rating':esc(s.rating)+' out of five stars'}">${s.rating==null?'UNRATED':esc(s.rating)+' / 5 ★'}</p><div class="meta">${(s.genres||[]).map(g=>`<span class="tag">${esc(g)}</span>`).join('')}</div>${handoff(s)}<button type="button" class="text-btn" data-journal-edit="${esc(s.id)}">Edit this card ↗</button>${s.posterVariants?.length?`<button type="button" class="text-btn" data-journal-poster="${esc(s.id)}">Change poster ↻</button>`:''}${art?`<button type="button" class="text-btn" data-journal-view="${esc(s.id)}">View poster ↗</button>`:''}${credit}</div></article>`;
-    return withJournal?`<div class="diary-leaf"${p?` style="--poster-ink:${p.ink};--poster-text:${p.text};--poster-accent:${p.accent}"`:''}>${card}${thoughtMarkup(s,i)}</div>`:card;
+    return `<article class="diary-card${art?' poster-card':''}" data-card="${i%4}"${art?` data-journal-art="${esc(s.id)}"`:''}${p?` style="--poster-ink:${p.ink};--poster-text:${p.text};--poster-accent:${p.accent}"`:''}>${artMarkup(s)}<div class="diary-ticket"><span>${s.watchedDateUnknown?'WATCHED / DATE NOT RECORDED':'ADMIT ONE / '+esc(s.date)}</span><span>${s.rewatch?'REWATCH':'A VIEWING'}</span></div><span class="diary-reel" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><div class="diary-content"><h3>${esc(s.title)}</h3>${withJournal?thoughtMarkup(s,i):''}<p class="diary-year">${esc(s.year||'Edition not specified')}</p><p class="diary-rating" aria-label="${s.rating==null?'No rating':esc(s.rating)+' out of five stars'}">${s.rating==null?'UNRATED':esc(s.rating)+' / 5 ★'}</p><div class="meta">${(s.genres||[]).map(g=>`<span class="tag">${esc(g)}</span>`).join('')}</div>${handoff(s)}<button type="button" class="text-btn" data-journal-edit="${esc(s.id)}">Edit this card ↗</button>${s.posterVariants?.length?`<button type="button" class="text-btn" data-journal-poster="${esc(s.id)}">Change poster ↻</button>`:''}${art?`<button type="button" class="text-btn" data-journal-view="${esc(s.id)}">View poster ↗</button>`:''}${credit}</div></article>`;
   }
   function loadArtwork(root,onLoad,onError){
     root.querySelectorAll('.diary-poster').forEach(img=>{
@@ -156,14 +155,14 @@
   };
   $('#journalFilter').addEventListener('input',render);
   $('#journalCards').addEventListener('toggle',e=>{
-    const details=e.target;if(!details.matches('[data-journal-thought]')||!details.open||!details.isConnected)return;
+    const details=e.target;if(!details.matches('[data-journal-thought]')||!details.isConnected)return;
     const id=details.dataset.journalThought,s=store.read().find(s=>s.id===id&&s.mode==='Film diary');
-    if(s&&!thoughtDrafts.has(id))thoughtDrafts.set(id,{value:s.note||'',baseNote:s.note||''});
+    if(s&&(details.open||thoughtDrafts.has(id)))thoughtDrafts.set(id,{...(thoughtDrafts.get(id)||{value:s.note||'',baseNote:s.note||''}),open:details.open});
   },true);
   $('#journalCards').addEventListener('input',e=>{
     const f=e.target.closest('[data-journal-note]');if(!f||e.target.name!=='thought')return;
     const id=f.dataset.journalNote,s=store.read().find(s=>s.id===id&&s.mode==='Film diary');
-    if(s)thoughtDrafts.set(id,{value:e.target.value,baseNote:thoughtDrafts.get(id)?.baseNote??s.note??''});
+    if(s)thoughtDrafts.set(id,{value:e.target.value,baseNote:thoughtDrafts.get(id)?.baseNote??s.note??'',open:true});
   });
   $('#journalCards').addEventListener('submit',e=>{
     const f=e.target.closest('[data-journal-note]');if(!f)return;e.preventDefault();
