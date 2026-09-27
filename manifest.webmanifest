@@ -6,24 +6,24 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f3f1e6",
-  "theme_color": "#093876",
+  "background_color": "#f5f0de",
+  "theme_color": "#19234b",
   "orientation": "any",
   "icons": [
     {
-      "src": "icons/cinema-studio-192.png?v=weekly-20260927041607-620d1f2e",
+      "src": "icons/cinema-studio-192.png?v=weekly-20260927043854-0ebc2dde",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icons/cinema-studio-512.png?v=weekly-20260927041607-620d1f2e",
+      "src": "icons/cinema-studio-512.png?v=weekly-20260927043854-0ebc2dde",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icons/cinema-studio.svg?v=weekly-20260927041607-620d1f2e",
+      "src": "icons/cinema-studio.svg?v=weekly-20260927043854-0ebc2dde",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
