@@ -97,10 +97,11 @@ function refresh({repo=root,date=new Date(),random,design=null,runner='local',pr
   if(!html.includes('weekly-theme.css?v='))throw Error('Weekly stylesheet link is missing');
   html=html.replace(/weekly-theme\.css\?v=[^"\s]+/g,url);
   html=html.replace(/<meta name="theme-color" content="[^"]+">/,`<meta name="theme-color" content="${tokens.stage}">`);
-  html=html.replace(/href="manifest\.webmanifest(?:\?v=[^"]+)?"/,`href="manifest.webmanifest?v=${revision}"`);
+  // Chrome tracks the manifest's stable URL; revision only its icon URLs.
+  html=html.replace(/href="manifest\.webmanifest(?:\?v=[^"]+)?"/,'href="manifest.webmanifest"');
   html=html.replace(/(icons\/cinema-studio(?:-192\.png|-512\.png|\.svg))(?:\?v=[^"\s]+)?/g,`$1?v=${revision}`);
   sw=sw.replace(/weekly-theme\.css\?v=[^"\s]+/g,url).replace(/const CACHE_NAME = "[^"]+";/,`const CACHE_NAME = "acting-entrance-studio-shell-${revision}";`);
-  sw=sw.replace(/(manifest\.webmanifest|icons\/cinema-studio(?:-192\.png|-512\.png|\.svg))(?:\?v=[^"\s]+)?/g,`$1?v=${revision}`);
+  sw=sw.replace(/manifest\.webmanifest(?:\?v=[^"\s]+)?/g,'manifest.webmanifest').replace(/(icons\/cinema-studio(?:-192\.png|-512\.png|\.svg))(?:\?v=[^"\s]+)?/g,`$1?v=${revision}`);
   manifest.theme_color=tokens.stage;manifest.background_color=tokens.paper;
   for(const icon of manifest.icons)icon.src=icon.src.replace(/\?v=.*$/,'')+`?v=${revision}`;
   // Nine public design outputs. Manifest appearance changes, never its identity.

@@ -49,7 +49,8 @@ The app now rotates compositions, not just palettes: cut-paper collage, editoria
 broadsheet, electric ribbon, and oversized type specimen. A cloud AI proposal can
 author additional original responsive CSS. All room forms and private records
 remain intact. The original app icon changes its film/ticket/aperture motif and
-palette with each composition; SVG and PNG assets and manifest URLs are revisioned.
+palette with each composition; SVG/PNG icon URLs are revisioned, while the manifest
+URL stays stable as required by Chrome's update process.
 Browser/WebAPK launcher refresh timing is controlled by Android/Chrome, so an
 installed icon may lag behind the in-app mark. Updating the app does not require
 clearing data or reinstalling. See WEEKLY_DESIGN.md for the cloud release gate.

@@ -64,7 +64,8 @@ GitHub's installed Chrome performs the actual layout/functional release gate.
    manifest.webmanifest, icons/cinema-studio.svg, icons/cinema-studio-192.png and
    icons/cinema-studio-512.png. Manifest appearance may change, never id/start_url/
    scope. Weekly icons are original film/aperture/ticket/star motifs, mask-safe
-   geometry, PNG 192/512, and revisioned URLs. Android may delay installed launcher
+   geometry, PNG 192/512, and revisioned icon URLs. Keep the manifest URL stable.
+   Android may delay installed launcher
    icon updates; do not promise immediate OS icon replacement or reset progress.
 9. Confirm successful Actions deployment and the public design/active.json revision
    independently. Report the source pin/date, actual mode, originalComposition,

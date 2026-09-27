@@ -35,7 +35,7 @@ const APP_SHELL = [
   "./journal-ui.js?v=20260927-logbook",
   "./cloud.bundle.js",
   "./pwa.js",
-  "./manifest.webmanifest?v=weekly-20260927041607-620d1f2e",
+  "./manifest.webmanifest",
   "./icons/rehearsal-frame.svg",
   "./icons/cinema-studio.svg?v=weekly-20260927041607-620d1f2e",
   "./icons/cinema-studio-192.png?v=weekly-20260927041607-620d1f2e",
