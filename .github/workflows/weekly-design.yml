@@ -17,8 +17,6 @@ permissions:
 jobs:
   refresh:
     runs-on: ubuntu-24.04
-    env:
-      NODE_PATH: ${{ runner.temp }}/acting-layout-runtime/node_modules
     timeout-minutes: 15
     permissions:
       contents: write
@@ -34,6 +32,8 @@ jobs:
       - name: Install pinned RSS parser for synthetic unit tests
         run: npm install --prefix "$RUNNER_TEMP/acting-layout-runtime" --no-save --package-lock=false sax@1.4.4
       - name: Verify existing app
+        env:
+          NODE_PATH: ${{ runner.temp }}/acting-layout-runtime/node_modules
         run: node --test tests/*.test.cjs
       - name: Rotate verified saved-pin snapshot
         if: github.event_name != 'push' || contains(github.event.head_commit.message, '[run-weekly-design]')
@@ -46,6 +46,8 @@ jobs:
         run: |
           echo "revision=$(node -p 'require("./design/active.json").revision')" >> "$GITHUB_OUTPUT"
       - name: Verify generated release
+        env:
+          NODE_PATH: ${{ runner.temp }}/acting-layout-runtime/node_modules
         run: node --test tests/*.test.cjs
       - name: Check all rooms in installed CI Chrome
         env:

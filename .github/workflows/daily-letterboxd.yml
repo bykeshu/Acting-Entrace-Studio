@@ -1,6 +1,14 @@
 name: Daily private Letterboxd import
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/daily-letterboxd.yml'
+      - 'scripts/import-letterboxd.cjs'
+      - 'scripts/letterboxd-feed.cjs'
+      - 'letterboxd-core.js'
+      - 'tests/letterboxd.test.cjs'
   schedule:
     - cron: '30 3 * * *' # Daily 09:00 Asia/Kolkata; GitHub can delay schedules.
   workflow_dispatch:
@@ -18,7 +26,7 @@ concurrency:
 
 jobs:
   import:
-    if: vars.LETTERBOXD_IMPORT_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.check_only)
+    if: (github.event_name == 'schedule' && vars.LETTERBOXD_IMPORT_ENABLED == 'true') || (github.event_name == 'workflow_dispatch' && (inputs.check_only || vars.LETTERBOXD_IMPORT_ENABLED == 'true')) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[check-letterboxd-rss]'))
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -35,7 +43,7 @@ jobs:
       - name: Refresh private inbox (no history artifacts or public commits)
         env:
           NODE_PATH: ${{ runner.temp }}/letterboxd-runtime/node_modules
-          LETTERBOXD_CHECK_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.check_only && 'true' || 'false' }}
+          LETTERBOXD_CHECK_ONLY: ${{ (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.check_only)) && 'true' || 'false' }}
           LETTERBOXD_IMPORT_EMAIL: ${{ secrets.LETTERBOXD_IMPORT_EMAIL }}
           LETTERBOXD_IMPORT_PASSWORD: ${{ secrets.LETTERBOXD_IMPORT_PASSWORD }}
           LETTERBOXD_OWNER_UID: ${{ secrets.LETTERBOXD_OWNER_UID }}
