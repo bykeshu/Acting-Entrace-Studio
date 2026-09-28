@@ -155,6 +155,14 @@ window.ACTING_STUDY = {
       ],
       "access": "buy_or_borrow",
       "accessUrl": "https://www.routledge.com/An-Actors-Work/Stanislavski/p/book/9781138688384",
+      "publisherPreview": {
+        "url": "https://api.pageplace.de/preview/DT0400.9781315474243_A28398326/preview-9781315474243_A28398326.pdf",
+        "label": "Publisher preview (77 pages)",
+        "pages": 77,
+        "accessType": "publisher_excerpt",
+        "note": "Excerpt, not the full book. Opens on the distributor's website; not hosted in this app.",
+        "verifiedOn": "2026-09-28"
+      },
       "internetArchive": {
         "url": "https://archive.org/details/actorprepares0000cons_i2o6",
         "accessType": "preview_or_borrow",

@@ -6,6 +6,8 @@ The 34 book/play cards use the public 2026-09-28 research snapshot from `../data
 
 No progress schema, stable record ID, authentication, Firebase rules, film history or notes are changed. Viewing, searching, filtering and opening a book do not mark it read or write progress.
 
+An Actor's Work also has a secondary **Publisher preview (77 pages)** link to the Pageplace distributor PDF, checked 2026-09-28. It is an excerpt, not the full book. The downloaded private/local preview is not copied into this repository or precached. Its original Archive borrowing and edition actions are unchanged. The Deccan College Ghosh Natyasastra Volume 2 PDF lead redirects to an error page and is not presented as a working download.
+
 ## Public-domain editions
 
 Only six previously verified historical/public-domain PDFs were copied, byte-for-byte, from `../study-material/open-texts/` into the same relative directory inside the dashboard. Originals were left untouched. They were validated as PDFs by the research workflow on 2026-09-28. Each card links its provenance in the catalogue's Internet Archive record; modern copyrighted books remain external preview/borrow, publisher or catalogue links, never hosted copies. A rights-unverified Archive record is labelled View record, never Download.

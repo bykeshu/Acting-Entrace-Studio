@@ -30,7 +30,12 @@ test('Action precedence preserves PDF, Archive borrowing/preview, rights-unverif
 });
 test('Library shell is offline, separately navigable and has no progress/storage writes',()=>{
  const html=source('index.html'),sw=source('sw.js'),ui=source('study-material-ui.js');
- for(const f of ['library-core.js','library.css','study-material-data.js','study-material-ui.js']){assert.ok(html.includes(f+'?v=20260928-library'));assert.ok(sw.includes('./'+f+'?v=20260928-library'));}
+ for(const f of ['library-core.js','library.css','study-material-data.js','study-material-ui.js']){const v=f.startsWith('study-material-')?'20260928-library-preview':'20260928-library';assert.ok(html.includes(f+'?v='+v));assert.ok(sw.includes('./'+f+'?v='+v));}
  assert.match(html,/data-view="study"/);assert.match(html,/value="study">12 · Study Material/);assert.match(html,/data-view="resources"/);
  assert.ok(!/localStorage|store\.put|completedTopics|\.mark\(|fetch\(/.test(ui));assert.ok(html.indexOf('src="library-core.js')<html.indexOf('src="app.js'));
+});
+test('An Actor’s Work preview remains a clearly labelled external excerpt, not a locally hosted full book',()=>{
+ const r=data.materials.find(r=>r.id==='stanislavski-actors-work'),p=r.publisherPreview;
+ assert.equal(p.label,'Publisher preview (77 pages)');assert.equal(p.pages,77);assert.equal(p.accessType,'publisher_excerpt');assert.match(p.note,/not the full book/);assert.equal(new URL(p.url).hostname,'api.pageplace.de');assert.equal(core.action(r).url,r.internetArchive.url);assert.ok(!r.localPdf);
+ assert.ok(!fs.existsSync(path.join(root,'study-material/publisher-previews')));assert.ok(!source('sw.js').includes('api.pageplace.de'));assert.ok(!source('study-material-data.js').includes('082176.pdf'));assert.match(source('study-material-ui.js'),/publisherPreview\.label/);
 });

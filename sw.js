@@ -1,4 +1,4 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310-library";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310-library-preview";
 const PDF_CACHE = "acting-entrance-studio-library-pdf-v1";
 const APP_SHELL = [
   "./",
@@ -6,8 +6,8 @@ const APP_SHELL = [
   "./styles.css",
   "./library.css?v=20260928-library",
   "./library-core.js?v=20260928-library",
-  "./study-material-data.js?v=20260928-library",
-  "./study-material-ui.js?v=20260928-library",
+  "./study-material-data.js?v=20260928-library-preview",
+  "./study-material-ui.js?v=20260928-library-preview",
   "./daily.css",
   "./cinema.css?v=20260927",
   "./poster-theme.css?v=20260927-cinema",
