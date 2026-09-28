@@ -27,7 +27,7 @@ function harness(initial = {}) {
     FormData:class {constructor(form){this.values=form.values;}[Symbol.iterator](){return Object.entries(this.values)[Symbol.iterator]();}},
     structuredClone,Date,console,scrollTo(){},confirm:()=>true,alert(){}};
   vm.createContext(context);
-  for(const name of ['seed-data.js','cinema-data.js','bucket-data.js','app.js'])vm.runInContext(source(name),context,{filename:name});
+  for(const name of ['seed-data.js','cinema-data.js','bucket-data.js','library-core.js','app.js'])vm.runInContext(source(name),context,{filename:name});
   return {get,context,storage,state:()=>JSON.parse(storage.get('acting-entrance-studio-v1')),
     fire(selector,type,event){return get(selector).listeners[type](event);}};
 }
@@ -136,7 +136,7 @@ test('PWA precaches the new files and course, and scripts load in dependency ord
   assert.ok(html.indexOf('src="seed-data.js?')<html.indexOf('src="cinema-data.js?'));
   assert.ok(html.indexOf('src="cinema-data.js?')<html.indexOf('src="bucket-data.js?'));
   assert.ok(html.indexOf('src="bucket-data.js?')<html.indexOf('src="app.js?'));
-  for(const [name,version]of [['app.js','20260927-sharp-posters'],['bucket-data.js','20260927-van-gogh'],['journal-core.js','20260927-film-sort'],['journal-ui.js','20260927-sort-fix'],['deck.css','20260927-sort-fix']]){assert.ok(html.includes(`${name}?v=${version}`));assert.ok(sw.includes(`./${name}?v=${version}`));}
+  for(const [name,version]of [['app.js','20260928-library'],['bucket-data.js','20260927-van-gogh'],['journal-core.js','20260927-film-sort'],['journal-ui.js','20260927-sort-fix'],['deck.css','20260927-sort-fix']]){assert.ok(html.includes(`${name}?v=${version}`));assert.ok(sw.includes(`./${name}?v=${version}`));}
   const revision=JSON.parse(source('design/active.json')).revision;
   assert.ok(revision.startsWith('weekly-'));
   assert.ok(sw.includes(`acting-entrance-studio-shell-${revision}`));
@@ -241,7 +241,7 @@ test('optional forms are collapsed and imported titles do not carry automatic as
 
 test('mobile room selector reaches every existing view and ignores unknown rooms',()=>{
   const h=harness();
-  for(const [id,title] of Object.entries({today:'Today’s rehearsal room',daily:'Daily assessment ledger',roadmap:'Your 24-week route',syllabus:'Syllabus studio',practice:'Practice log',tests:'Test and error lab',resources:'Linked resource library',evidence:'NSD evidence file',cinema:'World cinema studio',bucket:'My movie bucket list'})){
+  for(const [id,title] of Object.entries({today:'Today’s rehearsal room',daily:'Daily assessment ledger',roadmap:'Your 24-week route',syllabus:'Syllabus studio',practice:'Practice log',tests:'Test and error lab',resources:'Papers & official guidance',study:'Study Material library',evidence:'NSD evidence file',cinema:'World cinema studio',bucket:'My movie bucket list'})){
     h.fire('#mobileView','change',{target:{value:id}});assert.equal(h.get('#viewTitle').textContent,title);assert.equal(h.context.document.body.dataset.room,id);assert.equal(h.get('#mobileView').value,id);
   }
   h.fire('#mobileView','change',{target:{value:'unknown'}});assert.equal(h.get('#viewTitle').textContent,'My movie bucket list');

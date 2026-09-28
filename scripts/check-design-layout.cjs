@@ -10,7 +10,7 @@ async function main(){
  if(process.env.GITHUB_ACTIONS!=='true')throw Error('Use the normal browser preview locally; this test is CI-only');
  const {chromium}=require('playwright-core');
  const output=path.join(root,'_design-checks');fs.mkdirSync(output,{recursive:true});
- const mime={'.html':'text/html','.css':'text/css','.js':'text/javascript','.json':'application/json','.svg':'image/svg+xml','.woff2':'font/woff2','.png':'image/png','.webmanifest':'application/manifest+json'};
+ const mime={'.html':'text/html','.css':'text/css','.js':'text/javascript','.json':'application/json','.svg':'image/svg+xml','.woff2':'font/woff2','.png':'image/png','.pdf':'application/pdf','.webmanifest':'application/manifest+json'};
  let candidateCss=null;
  const server=http.createServer((req,res)=>{
   const pathname=decodeURIComponent(new URL(req.url,'http://127.0.0.1').pathname);
@@ -29,7 +29,7 @@ async function main(){
   await page.goto(`http://127.0.0.1:${server.address().port}`,{waitUntil:'load'});
   await page.locator('.nav-item').last().waitFor({state:'visible'});
   await page.evaluate(()=>document.fonts.ready);
-  const rooms=['today','daily','roadmap','syllabus','practice','tests','resources','evidence','cinema','bucket','journal'],checks=[];
+  const rooms=['today','daily','roadmap','syllabus','practice','tests','resources','evidence','cinema','bucket','journal','study'],checks=[];
   const candidates=[{id:'release',css:null},...require('../design/presets.json').presets.map(p=>({id:p.id,css:renderCss(p.tokens)}))];
   for(const candidate of candidates){
   candidateCss=candidate.css;
@@ -59,6 +59,11 @@ async function main(){
   // Separate fresh context actually installs the service worker and reloads offline.
   const offlineContext=await browser.newContext({viewport:{width:360,height:800}}),offline=await offlineContext.newPage();
   await offline.goto(`http://127.0.0.1:${server.address().port}`,{waitUntil:'load'});await offline.evaluate(()=>navigator.serviceWorker.ready);await offline.waitForFunction(()=>navigator.serviceWorker.controller);
+  const pdfPaths=await offline.evaluate(()=>window.ACTING_STUDY.materials.filter(r=>r.localPdf).map(r=>r.localPdf));
+  for(const url of pdfPaths)assert.equal(await offline.evaluate(async url=>{const r=await fetch(url);return r.ok&&(await r.arrayBuffer()).byteLength>1000;},url),true,'Online PDF caches in full');
+  await offlineContext.setOffline(true);
+  for(const url of pdfPaths)assert.equal(await offline.evaluate(async url=>{const r=await fetch(url,{headers:{Range:'bytes=0-1023'}});return r.ok&&new TextDecoder().decode((await r.arrayBuffer()).slice(0,5))==='%PDF-';},url),true,'Offline PDF range request uses complete cached file');
+  await offline.reload({waitUntil:'load'});await offline.getByLabel('Choose a room',{exact:true}).selectOption('study');assert.equal(await offline.locator('.study-book').count(),34,'Study catalogue available offline');
   await offlineContext.setOffline(true);await offline.reload({waitUntil:'load'});await offline.getByLabel('Choose a room',{exact:true}).selectOption('journal');assert.ok(await offline.locator('#journalForm').isVisible(),'Offline film log available');await offline.locator('#journalForm input[name="title"]').fill('CI offline viewing');await offline.locator('#journalForm select[name="rating"]').selectOption('none');await offline.locator('#journalForm button[type="submit"]').click();assert.equal(await offline.locator('.diary-card').count(),1,'Offline diary save');await offlineContext.close();
   const report={runner:'github-actions',release:JSON.parse(fs.readFileSync(path.join(root,'design/active.json'),'utf8')).revision,checks,functions,offline:true,keyboard:true,uncaughtErrors:errors};
   fs.writeFileSync(path.join(output,'metrics.json'),JSON.stringify(report,null,2));

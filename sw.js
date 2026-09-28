@@ -1,8 +1,13 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310-library";
+const PDF_CACHE = "acting-entrance-studio-library-pdf-v1";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
+  "./library.css?v=20260928-library",
+  "./library-core.js?v=20260928-library",
+  "./study-material-data.js?v=20260928-library",
+  "./study-material-ui.js?v=20260928-library",
   "./daily.css",
   "./cinema.css?v=20260927",
   "./poster-theme.css?v=20260927-cinema",
@@ -33,7 +38,7 @@ const APP_SHELL = [
   "./DESIGN_NOTES.md",
   "./journal-core.js?v=20260927-film-sort",
   "./letterboxd-core.js?v=20260927-daily-inbox",
-  "./app.js?v=20260927-sharp-posters",
+  "./app.js?v=20260928-library",
   "./journal-ui.js?v=20260927-sort-fix",
   "./cloud.bundle.js",
   "./pwa.js",
@@ -65,17 +70,24 @@ self.addEventListener("fetch", event => {
   const url = new URL(request.url);
   if (request.method !== "GET" || url.origin !== self.location.origin || !url.href.startsWith(self.registration.scope)) return;
   event.respondWith((async () => {
+    const isLibraryPdf=url.pathname.includes('/study-material/open-texts/')&&url.pathname.endsWith('.pdf');
+    // These fixed historical editions are cached in full on first opening, independently of weekly themes.
+    const pdfCache=isLibraryPdf?await caches.open(PDF_CACHE):null;
+    if(pdfCache){const saved=await pdfCache.match(url.href);if(saved)return saved;}
     try {
-      const response = await fetch(request);
-      if (response.ok) {
-        const cache = await caches.open(CACHE_NAME);
-        await cache.put(request, response.clone());
+      let networkRequest=request;
+      if(isLibraryPdf&&request.headers.has('range')){const headers=new Headers(request.headers);headers.delete('range');networkRequest=new Request(request,{headers});}
+      const response = await fetch(networkRequest);
+      // PDF viewers may request byte ranges; CacheStorage cannot store a 206 response.
+      if (response.status === 200) {
+        const cache = pdfCache||await caches.open(CACHE_NAME);
+        try{await cache.put(pdfCache?url.href:request, response.clone());}catch{/* A full or unavailable cache must not prevent online reading. */}
       }
       return response;
     } catch {
       const cached = await caches.match(request);
       if (cached) return cached;
-      if (request.mode === "navigate") return caches.match("./index.html");
+      if (request.mode === "navigate" && !url.pathname.endsWith('.pdf')) return caches.match("./index.html");
       return Response.error();
     }
   })());

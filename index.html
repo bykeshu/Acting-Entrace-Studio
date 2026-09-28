@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="poster-theme.css?v=20260927-cinema">
   <link rel="stylesheet" href="deck.css?v=20260927-sort-fix">
   <link rel="stylesheet" href="weekly-theme.css?v=weekly-20260928034844-1e770310">
+  <link rel="stylesheet" href="library.css?v=20260928-library">
 </head>
 <body data-room="today">
   <a class="skip" href="#workspace">Skip to workspace</a>
@@ -35,6 +36,7 @@
         <button class="nav-item" data-view="cinema"><span>09</span>World cinema</button>
         <button class="nav-item" data-view="bucket"><span>10</span>Movie bucket list</button>
         <button class="nav-item" data-view="journal"><span>11</span>Film logbook</button>
+        <button class="nav-item" data-view="study"><span>12</span>Study Material</button>
       </nav>
       <label class="mobile-room">Choose a room<select id="mobileView" aria-label="Choose a room">
         <option value="today">01 · Today</option><option value="daily">02 · Daily review</option>
@@ -43,6 +45,7 @@
         <option value="resources">07 · Resources</option><option value="evidence">08 · NSD evidence</option>
         <option value="cinema">09 · World cinema</option><option value="bucket">10 · Movie bucket list</option>
         <option value="journal">11 · Film logbook</option>
+        <option value="study">12 · Study Material</option>
       </select></label>
       <div class="sidebar-foot">
         <button id="cloudAccount" class="quiet" type="button">Sign in to sync</button>
@@ -179,9 +182,18 @@
       </section>
 
       <section class="view" id="view-resources">
+        <div class="panel intro-panel"><p class="eyebrow">EXAM DESK / NOT THE READING LIBRARY</p><h2>Papers, prospectuses & official guidance</h2><p>Admission documents and research evidence stay here. Books, play texts and learning material have their own Study Material library.</p><button class="quiet" type="button" data-go="study">Open Study Material library ↗</button></div>
+        <div class="resource-shelves" aria-label="Resource shelves"><button type="button" data-resource-shelf="exam" aria-pressed="true">Papers & official guidance</button><button type="button" data-resource-shelf="research" aria-pressed="false">Research & institutional references</button></div>
         <div class="filter-row"><label>Track<select id="resourceTrack"><option value="all">All tracks</option><option>FTII</option><option>NSD</option><option>Bengal</option><option>Shared</option><option>International</option></select></label><label>Search<input id="resourceSearch" type="search" placeholder="Paper, play, institution"></label><label>Access<select id="resourceAccess"><option value="all">All access</option><option value="open">Open</option><option value="portal">Portal</option><option value="reference">Reference</option><option value="unstable">Unstable</option></select></label></div>
         <div id="resourceCount" class="summary-line"></div>
         <div id="resourceList" class="resource-list"></div>
+      </section>
+
+      <section class="view" id="view-study" aria-label="Study Material library">
+        <div class="panel study-intro"><p class="eyebrow">THE LEARNING LIBRARY / BOOKS & PLAY TEXTS</p><h2>A shelf to learn from.</h2><p>No question papers, prospectuses or admission guidelines mixed into this library. Those are in Resources.</p><p>Start here = compact foundations · Add next = companions · Extended = deeper exploration · Prescribed play = NSD 2026 discussion-list text, cycle-specific. Relevance to exam questions or a curriculum does not make every book officially prescribed.</p><button class="quiet" type="button" data-go="resources">Open papers & official guidance ↗</button><p>Opening a text never marks it read or earns a learning streak. Modern books stay on publisher, library or Archive preview/borrow pages. The six historical PDFs can be read offline after opening them online once.</p></div>
+        <div class="study-filters"><label>Priority<select id="studyPriority" aria-label="Priority"><option value="all">All priorities</option><option value="start_here">Start here</option><option value="add_next">Add next</option><option value="extended">Extended</option><option value="prescribed_play">Prescribed plays · NSD 2026</option></select></label><label>Language<select id="studyLanguage" aria-label="Language"><option value="all">All languages</option></select></label><label>Topic<select id="studyTopic" aria-label="Topic"><option value="all">All topics</option></select></label><label>Track<select id="studyTrack" aria-label="Track"><option value="all">All tracks</option><option>FTII</option><option>NSD</option><option>Bengal</option></select></label><label>Access<select id="studyAccess" aria-label="Access"><option value="all">All access</option><option value="local_pdf">Local public-domain PDF</option></select></label><label>Search the library<input id="studySearch" type="search" placeholder="Book, author, concept…"></label></div>
+        <p id="studyCount" class="summary-line" role="status" aria-live="polite"></p><div id="studyCards" class="study-grid"></div>
+        <details class="panel"><summary>Further reading & archive references</summary><p>Original learning links, preserved separately from exam documents. The filters above apply to the book catalogue.</p><div id="studyFurtherReading" class="resource-list"></div></details>
       </section>
 
       <section class="view" id="view-evidence">
@@ -304,7 +316,10 @@
   </script>
   <script src="journal-core.js?v=20260927-film-sort"></script>
   <script src="letterboxd-core.js?v=20260927-daily-inbox"></script>
-  <script src="app.js?v=20260927-sharp-posters"></script>
+  <script src="library-core.js?v=20260928-library"></script>
+  <script src="study-material-data.js?v=20260928-library"></script>
+  <script src="app.js?v=20260928-library"></script>
+  <script src="study-material-ui.js?v=20260928-library"></script>
   <script src="journal-ui.js?v=20260927-sort-fix"></script>
   <script src="pwa.js"></script>
   <script>

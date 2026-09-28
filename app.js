@@ -131,7 +131,7 @@
     const value=type=>parts.find(p=>p.type===type).value;
     return `${value('year')}-${value('month')}-${value('day')}`;
   };
-  const viewNames = {today:"Today’s rehearsal room",daily:"Daily assessment ledger",roadmap:"Your 24-week route",syllabus:"Syllabus studio",practice:"Practice log",tests:"Test and error lab",resources:"Linked resource library",evidence:"NSD evidence file",cinema:"World cinema studio",bucket:"My movie bucket list",journal:"My life in films"};
+  const viewNames = {today:"Today’s rehearsal room",daily:"Daily assessment ledger",roadmap:"Your 24-week route",syllabus:"Syllabus studio",practice:"Practice log",tests:"Test and error lab",resources:"Papers & official guidance",study:"Study Material library",evidence:"NSD evidence file",cinema:"World cinema studio",bucket:"My movie bucket list",journal:"My life in films"};
 
   function switchView(id){
     if(!viewNames[id])return;
@@ -144,6 +144,7 @@
     if(id==="cinema") renderCinema();
     if(id==="bucket") renderBucket();
     if(id==="journal") window.ACTING_LOGBOOK?.render();
+    if(id==="study") window.ACTING_STUDY_UI?.render();
     scrollTo({top:0,behavior:"smooth"});
   }
   $("#nav").addEventListener("click",e=>{const b=e.target.closest("[data-view]");if(b)switchView(b.dataset.view)});
@@ -216,13 +217,15 @@
     $("#testList").innerHTML=state.tests.slice().reverse().map(t=>`<article class="history-item"><div class="history-item-head"><strong>${esc(t.exam)}</strong><span class="tag">${t.score}/${t.max}</span></div><div class="meta"><span>${esc(t.date)}</span><span>${esc(t.error)}</span></div>${t.repair?`<p>Repair: ${esc(t.repair)}</p>`:''}</article>`).join('');
   }
 
+  let resourceShelf='exam';
   function renderResources(){
     const track=$("#resourceTrack").value, access=$("#resourceAccess").value, q=$("#resourceSearch").value.trim().toLowerCase();
-    const rows=seed.resources.filter(r=>(track==='all'||r.track.includes(track))&&(access==='all'||r.access===access)&&(!q||`${r.title} ${r.category} ${r.publisher}`.toLowerCase().includes(q)));
-    $("#resourceCount").textContent=`${rows.length} resources · check dates shown per source; reference links do not guarantee streaming access`;
+    const rows=seed.resources.filter(r=>window.ACTING_LIBRARY.shelf(r)===resourceShelf&&(track==='all'||r.track.includes(track))&&(access==='all'||r.access===access)&&(!q||`${r.title} ${r.category} ${r.publisher}`.toLowerCase().includes(q)));
+    $("#resourceCount").textContent=`${rows.length} ${resourceShelf==='exam'?'papers & official documents':'research references'} · books and learning texts are in Study Material · check dates shown per source`;
     $("#resourceList").innerHTML=rows.map(r=>`<article class="resource"><div><h3>${esc(r.title)}</h3><p>${esc(r.publisher)} · ${esc(r.category)} · checked ${esc(r.verifiedOn)}</p></div><span class="status">${esc(r.track)} · ${esc(r.access)}</span><a href="${esc(r.url)}" target="_blank" rel="noopener">Open ↗</a></article>`).join('')||`<p class="empty">No resources match.</p>`;
   }
   $("#resourceTrack").onchange=renderResources; $("#resourceAccess").onchange=renderResources; $("#resourceSearch").oninput=renderResources;
+  $$('[data-resource-shelf]').forEach(button=>button.addEventListener('click',()=>{resourceShelf=button.dataset.resourceShelf;$$('[data-resource-shelf]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));renderResources();}));
 
   const filmWatched = id => Boolean(state.completedTopics[`cinema-watched:${id}`]);
   const filmReviews = id => state.sessions.filter(s=>s.filmId===id && s.mode==="Film-performance analysis");

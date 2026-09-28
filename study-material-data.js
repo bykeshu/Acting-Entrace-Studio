@@ -1,0 +1,1044 @@
+// Public catalogue snapshot from ../data/study-material.json; no personal progress.
+window.ACTING_STUDY = {
+  "version": "2026-09-28",
+  "verifiedOn": "2026-09-28",
+  "scope": "English- and Bengali-language study material for FTII Screen Acting, NSD Dramatics, and the Bengal theatre curriculum layer.",
+  "languagePolicy": {
+    "preferred": [
+      "English",
+      "Bengali"
+    ],
+    "hindiUse": "Oral comprehension and supplied-passage practice only; do not make complex Hindi reading the primary study route."
+  },
+  "disclaimer": "Curriculum evidence and entrance-paper relevance do not mean FTII or NSD officially prescribes every title. Do not host copyrighted book files.",
+  "sources": [
+    {
+      "sourceId": "ftii-prospectus-2025-26",
+      "title": "FTII Entrance Test 2025-26 Admission Prospectus",
+      "url": "https://ftii.ac.in/api/serve/2026/04/09/Admission_Prospectus_FTII-ET-2025-26_1775711545_939f5b95.pdf",
+      "sourceType": "official_prospectus",
+      "examCycle": "2025-26",
+      "access": "open",
+      "verifiedOn": "2026-09-28"
+    },
+    {
+      "sourceId": "ftii-paper-2024-25",
+      "title": "FTII MFA Screen Acting Entrance Paper 2024-25",
+      "url": "https://ftii.ac.in/api/serve/2026/03/12/MFA_Screen-Acting.pdf",
+      "sourceType": "official_exam_paper",
+      "examCycle": "2024-25",
+      "access": "open",
+      "verifiedOn": "2026-09-28"
+    },
+    {
+      "sourceId": "ftii-paper-2022-23",
+      "title": "FTII Screen Acting Paper I 2022-23",
+      "url": "https://ftii.ac.in/api/serve/2026/03/13/Two_Year_Post_Graduate_Diploma_in_Screen_Acting_-Paper-I.pdf",
+      "sourceType": "official_exam_paper",
+      "examCycle": "2022-23",
+      "access": "open",
+      "verifiedOn": "2026-09-28"
+    },
+    {
+      "sourceId": "ftii-paper-2021",
+      "title": "FTII Screen Acting Film Wing Paper 2021",
+      "url": "https://ftii.ac.in/api/serve/2026/03/16/Part_I_Screen_Acting__Film_Wing__FTII__2021.pdf",
+      "sourceType": "official_exam_paper",
+      "examCycle": "2021",
+      "access": "open",
+      "verifiedOn": "2026-09-28"
+    },
+    {
+      "sourceId": "nsd-guideline-2026",
+      "title": "NSD Admission Guideline 2026",
+      "url": "https://admission.nsd.gov.in/assets/Guidelines_for_female_candidates-2026-BWsVR0Xy.pdf",
+      "sourceType": "official_admission_guideline",
+      "examCycle": "2026",
+      "access": "open",
+      "verifiedOn": "2026-09-28"
+    },
+    {
+      "sourceId": "rbu-drama-cbcs",
+      "title": "Rabindra Bharati University Drama UG CBCS Syllabus",
+      "url": "https://www.rbu.ac.in/home/avz9s6ve0gq6/public_html/ckfinder/userfiles/files/DRAMA%20UG%20CBCS.pdf",
+      "sourceType": "official_curriculum",
+      "examCycle": "2017-onward document",
+      "access": "open",
+      "verifiedOn": "2026-09-28"
+    },
+    {
+      "sourceId": "visva-bharati-bpa-2025",
+      "title": "Visva-Bharati BPA Drama and Theatre Arts Curriculum",
+      "url": "https://www.visvabharati.ac.in/home/wp-content/uploads/2025/08/RSDD-NEP-BPA-Drama-Syllabus-Fresh-IKS.pdf",
+      "sourceType": "official_curriculum_bibliography",
+      "examCycle": "2025 curriculum",
+      "access": "open",
+      "verifiedOn": "2026-09-28"
+    }
+  ],
+  "materials": [
+    {
+      "id": "bharata-natyashastra-bn-v1",
+      "title": "ভরত নাট্যশাস্ত্র, খণ্ড ১",
+      "romanTitle": "Bharata Natyashastra, Volume 1",
+      "author": "Bharata; Bengali edition credited to Suresh Chandra Bandyopadhyay and Chhanda Chakraborty",
+      "language": "Bengali",
+      "priority": "start_here",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Natyashastra",
+        "Rasa-bhava",
+        "Abhinaya",
+        "Indian theatre"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://deybooks.com/products/bharat-natyashastra-volume-1",
+      "publisher": "Nabapatra Prakashan",
+      "isbn": "81-8065-048-0",
+      "why": "The principal Bengali deep text for the Natyashastra topics repeatedly tested by FTII and central to theatre curricula.",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "ftii-paper-2022-23",
+        "ftii-paper-2021",
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ],
+      "availabilityNote": "Retail listings were verified for Volumes 1, 2 and 4. Volume 3 was not verified; confirm credits on the title page."
+    },
+    {
+      "id": "bharata-natyasastra-vatsyayan",
+      "title": "Bharata: The Natyasastra",
+      "author": "Edited by Kapila Vatsyayan",
+      "language": "English",
+      "priority": "add_next",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Natyashastra",
+        "Indian theatre"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://sahitya-akademi.gov.in/publications/book-73.jsp",
+      "publisher": "Sahitya Akademi",
+      "isbn": "978-81-260-1808-9",
+      "why": "A concise English companion for concepts and terminology; not a replacement for the fuller Bengali volumes.",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "ftii-paper-2022-23",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "stanislavski-actors-work",
+      "title": "An Actor's Work",
+      "author": "Konstantin Stanislavski; translated by Jean Benedetti",
+      "language": "English",
+      "priority": "start_here",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Acting system",
+        "Given circumstances",
+        "Magic If",
+        "Actions",
+        "Tempo-rhythm"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.routledge.com/An-Actors-Work/Stanislavski/p/book/9781138688384",
+      "internetArchive": {
+        "url": "https://archive.org/details/actorprepares0000cons_i2o6",
+        "accessType": "preview_or_borrow",
+        "label": "Open legacy edition: An Actor Prepares"
+      },
+      "publisher": "Routledge",
+      "isbn": "9781138688384",
+      "why": "Modern combined translation covering material historically published in English as An Actor Prepares and Building a Character.",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "ftii-paper-2022-23",
+        "ftii-paper-2021",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "stanislavski-work-on-role",
+      "title": "An Actor's Work on a Role",
+      "author": "Konstantin Stanislavski; translated by Jean Benedetti",
+      "language": "English",
+      "priority": "add_next",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Acting system",
+        "Role analysis",
+        "Character"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.routledge.com/An-Actors-Work-on-a-Role/Stanislavski/p/book/9781138988262",
+      "internetArchive": {
+        "url": "https://archive.org/details/creatingrole00stan_0",
+        "accessType": "preview_or_borrow",
+        "label": "Borrow legacy edition: Creating a Role"
+      },
+      "publisher": "Routledge",
+      "isbn": "9781138988262",
+      "why": "Role-construction companion and modern counterpart to the legacy title Creating a Role.",
+      "evidenceSourceIds": [
+        "ftii-paper-2021",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "meisner-on-acting",
+      "title": "Sanford Meisner on Acting",
+      "author": "Sanford Meisner and Dennis Longwell",
+      "language": "English",
+      "priority": "start_here",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Acting system",
+        "Listening",
+        "Repetition",
+        "Impulse"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.penguinrandomhouse.com/books/113022/sanford-meisner-on-acting-by-sanford-meisner-and-dennis-longwell-with-an-introduction-by-sydney-pollack/",
+      "internetArchive": {
+        "url": "https://archive.org/details/sanfordmeisneron00meis",
+        "accessType": "preview_or_borrow",
+        "label": "Open on Internet Archive"
+      },
+      "publisher": "Vintage",
+      "why": "Direct study source for FTII questions on Meisner and truthful listening.",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "ftii-paper-2022-23",
+        "ftii-paper-2021"
+      ]
+    },
+    {
+      "id": "chekhov-to-the-actor",
+      "title": "To the Actor: On the Technique of Acting",
+      "author": "Michael Chekhov",
+      "language": "English",
+      "priority": "start_here",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Acting system",
+        "Psychological gesture",
+        "Imagination"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.routledge.com/To-the-Actor-On-the-Technique-of-Acting/Powers-Chekhov/p/book/9780415258760",
+      "internetArchive": {
+        "url": "https://archive.org/details/toactorontechniq0000chek",
+        "accessType": "preview_or_borrow",
+        "label": "Open on Internet Archive"
+      },
+      "publisher": "Routledge",
+      "isbn": "9780415258760",
+      "why": "Primary technique book for the psychological gesture explicitly tested by FTII.",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "ftii-paper-2021"
+      ]
+    },
+    {
+      "id": "brecht-on-theatre",
+      "title": "Brecht on Theatre",
+      "author": "Bertolt Brecht; edited and translated by John Willett",
+      "language": "English",
+      "priority": "start_here",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Epic theatre",
+        "Alienation effect",
+        "Theatre theory"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.bloomsbury.com/uk/brecht-on-theatre-9781472558633/",
+      "internetArchive": {
+        "url": "https://archive.org/details/brechtontheatre0000unse",
+        "accessType": "preview_or_borrow",
+        "label": "Open on Internet Archive"
+      },
+      "publisher": "Bloomsbury Methuen Drama",
+      "why": "Primary source for Brecht, epic theatre and Verfremdungseffekt, all recurring exam/curriculum topics.",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "mitra-kake-bale-natyakala",
+      "title": "কাকে বলে নাট্যকলা",
+      "romanTitle": "Kake Bale Natyakala",
+      "author": "Shambhu Mitra",
+      "language": "Bengali",
+      "priority": "start_here",
+      "tracks": [
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Theatre theory",
+        "Bengali theatre"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://bookhouse.com.bd/product/%E0%A6%95%E0%A6%BE%E0%A6%95%E0%A7%87-%E0%A6%AC%E0%A6%B2%E0%A7%87-%E0%A6%A8%E0%A6%BE%E0%A6%9F%E0%A7%8D%E0%A6%AF%E0%A6%95%E0%A6%B2%E0%A6%BE",
+      "publisher": "Ananda Publishers",
+      "isbn": "9788172150501",
+      "why": "Compact Bengali theatre-thinking text in the Visva-Bharati curriculum bibliography.",
+      "evidenceSourceIds": [
+        "visva-bharati-bpa-2025"
+      ],
+      "availabilityNote": "The linked seller is a catalogue lead; confirm India availability and edition before purchase."
+    },
+    {
+      "id": "rodenburg-right-to-speak",
+      "title": "The Right to Speak",
+      "author": "Patsy Rodenburg",
+      "language": "English",
+      "priority": "add_next",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Voice",
+        "Breath",
+        "Resonance",
+        "Articulation",
+        "Text"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.bloomsbury.com/in/right-to-speak-9781350289482/",
+      "internetArchive": {
+        "url": "https://archive.org/details/righttospeakwork00rode",
+        "accessType": "preview_or_borrow",
+        "label": "Open on Internet Archive"
+      },
+      "publisher": "Bloomsbury Methuen Drama",
+      "why": "Practical coverage of the voice competencies repeatedly present in entrance papers and curricula.",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "ftii-paper-2021",
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "swar-o-bak-reeti",
+      "title": "স্বর ও বাক্‌রীতি",
+      "romanTitle": "Swar O Bak-Reeti",
+      "author": "Gouri Shankar Bhattacharya",
+      "language": "Bengali",
+      "priority": "add_next",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Voice",
+        "Speech",
+        "Bengali pronunciation"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://baatighar.com/shop/818694618-70848",
+      "publisher": "Sahitya Loka",
+      "why": "Bengali-language voice and speech reference named in a current theatre curriculum bibliography.",
+      "evidenceSourceIds": [
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ],
+      "availabilityNote": "Confirm the product page and edition before purchase; older Bengali-title metadata varies by catalogue."
+    },
+    {
+      "id": "oxford-companion-indian-theatre",
+      "title": "The Oxford Companion to Indian Theatre",
+      "author": "Edited by Ananda Lal",
+      "language": "English",
+      "priority": "add_next",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Indian theatre",
+        "People",
+        "Forms",
+        "Terminology"
+      ],
+      "access": "borrow_or_reference",
+      "accessUrl": "https://search.worldcat.org/title/oxford-companion-to-indian-theatre/oclc/56986659",
+      "internetArchive": {
+        "url": "https://archive.org/details/oxfordcompaniont0000unse_a7v4",
+        "accessType": "preview_or_borrow",
+        "label": "Borrow on Internet Archive"
+      },
+      "publisher": "Oxford University Press",
+      "why": "High-utility reference for the wide range of Indian theatre people, forms and terms in FTII/NSD preparation.",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "ftii-paper-2021",
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ],
+      "availabilityNote": "Best treated as a library/reference acquisition; current retail stock was not verified."
+    },
+    {
+      "id": "indian-cinema-vsi",
+      "title": "Indian Cinema: A Very Short Introduction",
+      "author": "Ashish Rajadhyaksha",
+      "language": "English",
+      "priority": "add_next",
+      "tracks": [
+        "FTII"
+      ],
+      "topics": [
+        "Indian cinema",
+        "Cinema history",
+        "Film culture"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://india.oup.com/product/indian-cinema-9780198723097",
+      "internetArchive": {
+        "url": "https://archive.org/details/indiancinemavery0000raja",
+        "accessType": "preview_only",
+        "label": "Preview on Internet Archive"
+      },
+      "publisher": "Oxford University Press",
+      "isbn": "9780198723097",
+      "why": "A compact historical framework for the cinema-awareness section and Stage-2 interaction.",
+      "evidenceSourceIds": [
+        "ftii-prospectus-2025-26",
+        "ftii-paper-2022-23",
+        "ftii-paper-2021"
+      ]
+    },
+    {
+      "id": "ray-our-films-their-films",
+      "title": "Our Films, Their Films",
+      "author": "Satyajit Ray",
+      "language": "English",
+      "priority": "add_next",
+      "tracks": [
+        "FTII",
+        "Bengal"
+      ],
+      "topics": [
+        "Film criticism",
+        "Indian cinema",
+        "World cinema"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.orientblackswan.com/details?format=ebook&obsin=2613",
+      "internetArchive": {
+        "url": "https://archive.org/details/ourfilmstheirfil0000rays",
+        "accessType": "preview_or_borrow",
+        "label": "Borrow on Internet Archive"
+      },
+      "publisher": "Orient BlackSwan",
+      "why": "Develops clear comparative film thinking for written answers and interviews.",
+      "evidenceSourceIds": [
+        "ftii-prospectus-2025-26",
+        "ftii-paper-2022-23",
+        "ftii-paper-2021"
+      ]
+    },
+    {
+      "id": "grotowski-poor-theatre",
+      "title": "Towards a Poor Theatre",
+      "author": "Jerzy Grotowski; edited by Eugenio Barba",
+      "language": "English",
+      "priority": "add_next",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Actor training",
+        "Physical theatre",
+        "Theatre theory"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.routledge.com/Towards-a-Poor-Theatre/Barba-Grotowski/p/book/9780878301553",
+      "internetArchive": {
+        "url": "https://archive.org/details/towardspoortheat0000jerz",
+        "accessType": "preview_or_borrow",
+        "label": "Open on Internet Archive"
+      },
+      "publisher": "Routledge",
+      "isbn": "9780878301553",
+      "why": "Primary performer-centred theatre text for Grotowski references and comparative acting-system questions.",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "hodge-actor-training",
+      "title": "Actor Training",
+      "author": "Edited by Alison Hodge",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Acting systems",
+        "Actor training",
+        "Reference"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.routledge.com/Actor-Training/Hodge/p/book/9780415471688",
+      "publisher": "Routledge",
+      "why": "A broad map of major actor-training systems for comparison and orientation.",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "ftii-paper-2022-23",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "johnstone-impro",
+      "title": "Impro",
+      "author": "Keith Johnstone",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Improvisation",
+        "Status",
+        "Spontaneity"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.bloomsbury.com/uk/impro-9781350069039/",
+      "internetArchive": {
+        "url": "https://archive.org/details/improimprovisati00john_0",
+        "accessType": "preview_or_borrow",
+        "label": "Open on Internet Archive"
+      },
+      "publisher": "Bloomsbury Methuen Drama",
+      "why": "Practical extension for improvisation required in acting training and audition work.",
+      "evidenceSourceIds": [
+        "ftii-prospectus-2025-26",
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "lecoq-moving-body",
+      "title": "The Moving Body",
+      "author": "Jacques Lecoq",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Movement",
+        "Mime",
+        "Mask",
+        "Physical theatre"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.routledge.com/The-Moving-Body-Teaching-Creative-Theatre/Lecoq-Carasso-Lallias/p/book/9780878301416",
+      "publisher": "Routledge",
+      "why": "Curricular extension for body, mime and movement training.",
+      "evidenceSourceIds": [
+        "ftii-prospectus-2025-26",
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "boal-games-actors-nonactors",
+      "title": "Games for Actors and Non-Actors",
+      "author": "Augusto Boal",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Theatre games",
+        "Ensemble",
+        "Applied theatre"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.routledge.com/Games-for-Actors-and-Non-Actors/Boal/p/book/9780367203542",
+      "publisher": "Routledge",
+      "why": "Useful extended theatre-training book for ensemble and participatory practice.",
+      "evidenceSourceIds": [
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "tucker-secrets-screen-acting",
+      "title": "Secrets of Screen Acting",
+      "author": "Patrick Tucker",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "Bengal"
+      ],
+      "topics": [
+        "Screen acting",
+        "Framing",
+        "Continuity",
+        "Eyeline"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.routledge.com/Secrets-of-Screen-Acting/Tucker/p/book/9781032356976",
+      "publisher": "Routledge",
+      "why": "Practical screen-specific supplement matching FTII and RBU camera-performance topics.",
+      "evidenceSourceIds": [
+        "ftii-prospectus-2025-26",
+        "rbu-drama-cbcs"
+      ]
+    },
+    {
+      "id": "stone-acting-camera",
+      "title": "Acting for the Camera: Back to One",
+      "author": "Peter Allen Stone",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "Bengal"
+      ],
+      "topics": [
+        "Screen acting",
+        "Camera technique",
+        "Audition"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.routledge.com/Acting-for-the-Camera-Back-to-One/Stone/p/book/9780367497682",
+      "publisher": "Routledge",
+      "why": "Contemporary practical extension for camera acting; not an official entrance prescription.",
+      "evidenceSourceIds": [
+        "ftii-prospectus-2025-26",
+        "rbu-drama-cbcs"
+      ]
+    },
+    {
+      "id": "shurtleff-audition",
+      "title": "Audition",
+      "author": "Michael Shurtleff",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Audition",
+        "Scene choices",
+        "Cold reading"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.bloomsbury.com/us/audition-9780802719027/",
+      "publisher": "Bloomsbury",
+      "why": "Practical supplement for audition choices after foundational acting study.",
+      "evidenceSourceIds": [
+        "ftii-prospectus-2025-26",
+        "nsd-guideline-2026"
+      ]
+    },
+    {
+      "id": "bangla-nataker-itihas",
+      "title": "বাংলা নাটকের ইতিহাস",
+      "romanTitle": "Bangla Nataker Itihas",
+      "author": "Ajit Kumar Ghosh",
+      "language": "Bengali",
+      "priority": "add_next",
+      "tracks": [
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Bengali theatre history",
+        "Playwrights",
+        "Practitioners"
+      ],
+      "access": "library_or_catalogue",
+      "accessUrl": "https://www.visvabharati.ac.in/home/wp-content/uploads/2025/08/RSDD-NEP-BPA-Drama-Syllabus-Fresh-IKS.pdf",
+      "internetArchive": {
+        "url": "https://archive.org/details/in.ernet.dli.2015.298355",
+        "accessType": "view_record_rights_unverified",
+        "label": "View catalogue scan on Internet Archive"
+      },
+      "why": "Curricular route into the Bengali theatre-history areas explicitly taught by RBU.",
+      "evidenceSourceIds": [
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ],
+      "availabilityNote": "Exact current edition and retail stock were not verified; locate through a university or public library first."
+    },
+    {
+      "id": "varadpande-traditions-indian-theatre",
+      "title": "Traditions of Indian Theatre",
+      "author": "M. L. Varadpande",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Indian theatre",
+        "Folk forms",
+        "Performance traditions"
+      ],
+      "access": "library_or_catalogue",
+      "accessUrl": "https://www.visvabharati.ac.in/home/wp-content/uploads/2025/08/RSDD-NEP-BPA-Drama-Syllabus-Fresh-IKS.pdf",
+      "why": "Curriculum-listed survey supporting Indian theatre and folk-form questions.",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "ftii-paper-2021",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "raha-bengali-theatre",
+      "title": "The Bengali Theatre",
+      "author": "Kironmoy Raha",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Bengali theatre history"
+      ],
+      "access": "library_or_catalogue",
+      "accessUrl": "https://www.visvabharati.ac.in/home/wp-content/uploads/2025/08/RSDD-NEP-BPA-Drama-Syllabus-Fresh-IKS.pdf",
+      "why": "English-language curricular reference for the Bengali theatre-history layer.",
+      "evidenceSourceIds": [
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "prakash-nandy-japani-natyakala",
+      "title": "জাপানি নাট্যকলা",
+      "romanTitle": "Japani Natyakala",
+      "author": "Prakash Nandy",
+      "language": "Bengali",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Japanese theatre",
+        "Kabuki",
+        "Asian theatre"
+      ],
+      "access": "library_or_catalogue",
+      "accessUrl": "https://www.visvabharati.ac.in/home/wp-content/uploads/2025/08/RSDD-NEP-BPA-Drama-Syllabus-Fresh-IKS.pdf",
+      "why": "Curriculum-listed Bengali reference useful for Kabuki and wider Asian-theatre context.",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "aristotle-poetics",
+      "title": "Poetics",
+      "author": "Aristotle",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Dramatic theory",
+        "Tragedy",
+        "Plot",
+        "Character",
+        "Catharsis"
+      ],
+      "access": "open_or_buy",
+      "accessUrl": "https://classics.mit.edu/Aristotle/poetics.html",
+      "localPdf": "study-material/open-texts/Aristotle_Poetics_Margoliouth_1911.pdf",
+      "internetArchive": {
+        "url": "https://archive.org/details/thepoeticstransl00arisuoft",
+        "accessType": "public_domain_download",
+        "label": "View source record"
+      },
+      "why": "Directly tested by FTII and part of university dramatic-theory curricula.",
+      "evidenceSourceIds": [
+        "ftii-paper-2022-23",
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "nsd-post-office",
+      "title": "The Post Office (Dak Ghar)",
+      "author": "Rabindranath Tagore",
+      "language": "English",
+      "priority": "prescribed_play",
+      "tracks": [
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Play",
+        "NSD 2026",
+        "Bengali drama"
+      ],
+      "access": "open_text",
+      "accessUrl": "https://www.gutenberg.org/ebooks/6523",
+      "localPdf": "study-material/open-texts/Tagore_The_Post_Office_1914.pdf",
+      "internetArchive": {
+        "url": "https://archive.org/details/bub_gb_9z2VMsy2f9sC",
+        "accessType": "public_domain_download",
+        "label": "View source record"
+      },
+      "why": "One of the cycle-specific plays in the official NSD 2026 discussion list; public-domain English text available.",
+      "evidenceSourceIds": [
+        "nsd-guideline-2026"
+      ]
+    },
+    {
+      "id": "nsd-macbeth",
+      "title": "Macbeth",
+      "author": "William Shakespeare",
+      "language": "English",
+      "priority": "prescribed_play",
+      "tracks": [
+        "NSD",
+        "FTII"
+      ],
+      "topics": [
+        "Play",
+        "NSD 2026",
+        "Shakespeare"
+      ],
+      "access": "open_text",
+      "accessUrl": "https://www.gutenberg.org/ebooks/2264",
+      "localPdf": "study-material/open-texts/Shakespeare_Macbeth_1900.pdf",
+      "internetArchive": {
+        "url": "https://archive.org/details/warwickshakespea0000unse_x4v4",
+        "accessType": "public_domain_download",
+        "label": "View source record"
+      },
+      "why": "Official NSD 2026 list play and useful for FTII Shakespeare/character-analysis questions.",
+      "evidenceSourceIds": [
+        "nsd-guideline-2026",
+        "ftii-paper-2024-25",
+        "ftii-paper-2022-23"
+      ]
+    },
+    {
+      "id": "nsd-dolls-house",
+      "title": "A Doll's House",
+      "author": "Henrik Ibsen",
+      "language": "English",
+      "priority": "prescribed_play",
+      "tracks": [
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Play",
+        "NSD 2026",
+        "Realism"
+      ],
+      "access": "open_text",
+      "accessUrl": "https://www.gutenberg.org/files/70566/70566-h/70566-h.htm",
+      "localPdf": "study-material/open-texts/Ibsen_A_Dolls_House_1903_collection.pdf",
+      "localPdfNote": "This historical volume contains several Ibsen plays; A Doll's House is included within the collection.",
+      "internetArchive": {
+        "url": "https://archive.org/details/leagueofyouthpil0000henr",
+        "accessType": "public_domain_download",
+        "label": "View source record"
+      },
+      "why": "Official NSD 2026 list play and a foundational modern-realist drama.",
+      "evidenceSourceIds": [
+        "nsd-guideline-2026",
+        "rbu-drama-cbcs"
+      ]
+    },
+    {
+      "id": "nsd-three-sisters",
+      "title": "Three Sisters",
+      "author": "Anton Chekhov",
+      "language": "English",
+      "priority": "prescribed_play",
+      "tracks": [
+        "NSD"
+      ],
+      "topics": [
+        "Play",
+        "NSD 2026",
+        "Realism",
+        "Subtext"
+      ],
+      "access": "open_text",
+      "accessUrl": "https://www.gutenberg.org/ebooks/7986",
+      "localPdf": "study-material/open-texts/Chekhov_Three_Sisters_1922.pdf",
+      "internetArchive": {
+        "url": "https://archive.org/details/threesistersdram00chek",
+        "accessType": "public_domain_download",
+        "label": "View source record"
+      },
+      "why": "Official NSD 2026 list play and strong material for subtext and ensemble analysis.",
+      "evidenceSourceIds": [
+        "nsd-guideline-2026"
+      ]
+    },
+    {
+      "id": "nsd-oedipus",
+      "title": "Oedipus Rex",
+      "author": "Sophocles",
+      "language": "English",
+      "priority": "prescribed_play",
+      "tracks": [
+        "NSD",
+        "FTII"
+      ],
+      "topics": [
+        "Play",
+        "NSD 2026",
+        "Greek tragedy"
+      ],
+      "access": "open_text",
+      "accessUrl": "https://www.gutenberg.org/cache/epub/31/pg31-images.html",
+      "why": "Official NSD 2026 list play and a practical companion to Aristotle's tragedy concepts.",
+      "evidenceSourceIds": [
+        "nsd-guideline-2026",
+        "ftii-paper-2022-23"
+      ]
+    },
+    {
+      "id": "nsd-shakuntala",
+      "title": "Abhijnanasakuntalam (Shakuntala)",
+      "author": "Kalidasa",
+      "language": "English",
+      "priority": "prescribed_play",
+      "tracks": [
+        "NSD",
+        "FTII",
+        "Bengal"
+      ],
+      "topics": [
+        "Play",
+        "NSD 2026",
+        "Sanskrit drama"
+      ],
+      "access": "open_text",
+      "accessUrl": "https://www.gutenberg.org/files/16659/16659-h/16659-h.htm",
+      "localPdf": "study-material/open-texts/Kalidasa_Shakuntala_Ryder_1912.pdf",
+      "localPdfNote": "The public-domain Ryder volume contains Shakuntala and other Kalidasa translations.",
+      "internetArchive": {
+        "url": "https://archive.org/details/annualreport03depagoog",
+        "accessType": "public_domain_download",
+        "label": "View source record"
+      },
+      "why": "Official NSD 2026 list play and an accessible bridge between Natyashastra theory and Sanskrit drama.",
+      "evidenceSourceIds": [
+        "nsd-guideline-2026",
+        "ftii-paper-2021",
+        "visva-bharati-bpa-2025"
+      ]
+    },
+    {
+      "id": "nsd-caucasian-chalk-circle",
+      "title": "The Caucasian Chalk Circle",
+      "author": "Bertolt Brecht",
+      "language": "English",
+      "priority": "prescribed_play",
+      "tracks": [
+        "NSD",
+        "FTII"
+      ],
+      "topics": [
+        "Play",
+        "NSD 2026",
+        "Epic theatre"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://www.bloomsbury.com/us/caucasian-chalk-circle-9781472538130/",
+      "publisher": "Bloomsbury Methuen Drama",
+      "why": "Official NSD 2026 list play and a direct application of Brechtian theory.",
+      "evidenceSourceIds": [
+        "nsd-guideline-2026",
+        "ftii-paper-2024-25",
+        "rbu-drama-cbcs"
+      ]
+    },
+    {
+      "id": "nsd-nagamandala",
+      "title": "Naga-Mandala: Play with a Cobra",
+      "author": "Girish Karnad",
+      "language": "English",
+      "priority": "prescribed_play",
+      "tracks": [
+        "NSD",
+        "FTII"
+      ],
+      "topics": [
+        "Play",
+        "NSD 2026",
+        "Modern Indian drama"
+      ],
+      "access": "buy_or_borrow",
+      "accessUrl": "https://india.oup.com/product/naga-mandala-play-with-a-cobra-9780195626223/",
+      "publisher": "Oxford University Press",
+      "isbn": "9780195626223",
+      "why": "Official NSD 2026 list play and an important modern Indian drama using folk narrative and performance conventions.",
+      "evidenceSourceIds": [
+        "nsd-guideline-2026",
+        "rbu-drama-cbcs"
+      ]
+    }
+  ]
+};
