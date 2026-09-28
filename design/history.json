@@ -192,5 +192,33 @@
     "designAuthor": "chatgpt-cloud",
     "originalComposition": true,
     "compositionSha256": "336fa99230b8bd32e85e421bae010ab23a27f8aa87ba326569364a46d351619b"
+  },
+  {
+    "revision": "weekly-20260928034326-61a79e82",
+    "createdAt": "2026-09-28T03:43:26.750Z",
+    "runner": "github-actions",
+    "presetId": "ink-room",
+    "name": "Ink Room / type specimen",
+    "pinUrl": "https://in.pinterest.com/pin/649292471323038586/",
+    "boardUrl": "https://in.pinterest.com/maddyman296/graphic-design/",
+    "sourceObservedOn": "2026-09-27",
+    "eligiblePoolSize": 1,
+    "mode": "rotation",
+    "rationale": "Near-black specimen page with warm cream oversized ink-trap lettering. Existing Archivo Black is a licensed approximation, not an ink-trap font attribution.",
+    "tokens": {
+      "stage": "#121619",
+      "accent": "#e8ddc4",
+      "paper": "#eee8dc",
+      "panel": "#fffaf0",
+      "ink": "#1c2428",
+      "line": "#c4beb0",
+      "mark": "#934522",
+      "soft": "#e1d9c7",
+      "display": "archivo",
+      "layout": "specimen"
+    },
+    "compositionVersion": 2,
+    "iconMotif": "specimen",
+    "paidApiUsed": false
   }
 ]
