@@ -1,0 +1,21 @@
+.bengali-plays{margin:0 0 32px;padding:clamp(18px,3vw,32px);border:1px solid var(--ink);background:var(--panel);color:var(--ink)}
+.bengali-plays-heading{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(240px,.8fr);gap:24px;align-items:end;border-bottom:1px solid var(--ink);padding-bottom:22px}
+.bengali-plays-heading h2{font:400 clamp(30px,4vw,54px)/1.05 var(--display);letter-spacing:-.04em;margin:8px 0 0}
+.bengali-plays-heading>p,.bengali-plays-sources{font:400 13px/1.65 var(--body);margin:0;max-width:62ch}
+.bengali-plays-key{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}
+.bengali-plays-key span{border:1px solid currentColor;padding:6px 9px;font:400 11px/1.4 var(--body)}
+.bengali-plays-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.bengali-play-card{display:flex;flex-direction:column;min-width:0;padding:18px;border:1px solid var(--ink);box-shadow:3px 3px 0 var(--weekly-soft);overflow-wrap:anywhere}
+.bengali-play-card h3{font:400 clamp(23px,2.4vw,31px)/1.1 var(--display);letter-spacing:-.025em;margin:8px 0 12px}
+.bengali-play-card .eyebrow{margin:0;font-size:10px;line-height:1.4}
+.bengali-play-card ul{list-style:none;padding:0;margin:0 0 14px}
+.bengali-play-card li{padding:9px 0;border-top:1px solid color-mix(in srgb,currentColor 25%,transparent);font:400 13px/1.4 var(--body)}
+.bengali-play-card li strong{display:block;font-weight:700}
+.bengali-play-card li small{display:block;margin-top:4px;font-size:11px;line-height:1.45;opacity:.83}
+.bengali-play-card>a{display:flex;align-items:center;min-height:44px;margin-top:auto;color:inherit;text-decoration:underline;text-underline-offset:3px;font:600 12px/1.4 var(--body)}
+.bengali-play-card>a+a{margin-top:0}
+.bengali-play-note{font:400 12px/1.55 var(--body);margin:auto 0 0}
+.bengali-plays-sources{max-width:none;margin:22px 0 0}
+.bengali-plays-sources a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:1050px){.bengali-plays-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){.bengali-plays-heading{grid-template-columns:1fr}.bengali-plays-grid{grid-template-columns:1fr}.bengali-plays{padding:16px}}

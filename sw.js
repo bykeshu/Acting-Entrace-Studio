@@ -1,10 +1,11 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310-library-preview";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310-bengali-plays-20261001";
 const PDF_CACHE = "acting-entrance-studio-library-pdf-v1";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./library.css?v=20260928-library",
+  "./bengali-plays.css?v=20261001",
   "./library-core.js?v=20260928-library",
   "./study-material-data.js?v=20260928-library-preview",
   "./study-material-ui.js?v=20260928-library-preview",

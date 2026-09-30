@@ -1,5 +1,11 @@
 # Study Material library
 
+## Bengali playwright shelf · 1 October 2026
+
+The Study Material page now has a separate, ungraded Bengali playwright shelf covering the eight existing syllabus playwrights, Dwijendralal Ray as a supplementary historical playwright, and Kazi Nazrul Islam as an unverified dramatic-writing lead. It distinguishes the one locally hosted Bengali-playwright PDF (*Dak Ghar* in English translation), external historical-text reading, and catalogue-only leads. *Dak Ghar*, *Nabanna* and *Baaki Itihaas* retain their NSD **2026** label; the other titles are Bengal study suggestions. Source research is in `../research/BOIER_THIKANA_BENGALI_PLAYWRIGHTS_2026-10-01.md`.
+
+Boier Thikana supplied discovery leads, including Badal Sircar, Utpal Dutt and Manoj Mitra collections. Its own rights statement does not establish permission to republish modern scans, so the site does not host or link directly to those PDFs. Publisher and Bengali Wikisource references are used where appropriate. The collection contents were not fully inspected, and the site does not claim that a listed title is already held locally. The shelf is static reading guidance; it makes no progress, quiz, practice-hour or private-history writes.
+
 Study Material is a separate learning shelf. Resources defaults to Papers & official guidance; its second shelf contains research and institutional references. Original learning links are preserved under the library's Further reading disclosure, not deleted from seed data.
 
 The 34 book/play cards use the public 2026-09-28 research snapshot from `../data/study-material.json`, with source notes in `../research/STUDY_MATERIAL_CATALOGUE.md`. `study-material-data.js` is the direct-file/offline-compatible snapshot. Priorities are study suggestions, except the clearly cycle-labelled NSD 2026 play category. Evidence links do not imply that every book is officially prescribed. Stock and Archive borrowing availability can change.
