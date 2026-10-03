@@ -12,6 +12,8 @@ Disconnect clears account results and playback and requests Google permission re
 
 Public deployment includes versioned music assets and a new service-worker cache. After deployment, close and reopen all installed app windows and reload the website to allow the new worker to take over; do not clear site data, which contains personal progress. A deployment to the website is required before Chrome or the installed PWA receives the feature.
 
-Daily cloud maintenance is already configured separately. It can test public source and propose repairs; it cannot run the laptop while offline or asleep, complete Google consent, or guarantee music availability.
+Daily cloud maintenance is already configured separately. It checks public source, responsive layouts, regression tests and the live PWA every day at 09:00 Asia/Kolkata (GitHub may delay scheduled runs). It reports failures; it does not automatically deploy repairs, run the laptop while offline or asleep, complete Google consent, or guarantee music availability.
 
 Official references: [IFrame player API](https://developers.google.com/youtube/iframe_api_reference), [YouTube search](https://developers.google.com/youtube/v3/docs/search/list), [owned playlists](https://developers.google.com/youtube/v3/docs/playlists/list), [Google token model](https://developers.google.com/identity/oauth2/web/guides/use-token-model).
+
+
