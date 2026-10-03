@@ -21,3 +21,16 @@ body[data-room=music] #viewTitle{font-size:clamp(36px,5vw,64px);line-height:1;ma
 .music-discovery-cards .music-track small{font-size:12px;line-height:1.4}
 .music-discovery-cards .music-track button{grid-column:2;align-self:start;margin-top:8px;background:#f6dfb9!important;color:#252027!important}
 #musicMoodOpen{font-size:12px}
+#musicVideoDock{position:fixed;left:var(--music-dock-left);top:var(--music-dock-top);width:var(--music-dock-width);z-index:35;color:#f8efe3;font:12px Arial,sans-serif;box-shadow:0 12px 40px #0006}
+#musicVideoDock[hidden]{display:none!important}
+#musicVideoDock.music-floating{left:auto;top:auto;right:16px;bottom:16px;width:min(320px,calc(100vw - 24px))}
+#musicVideoDock .music-video-caption{font-size:9px;letter-spacing:.04em}
+#musicVideoDock .music-video-caption button{display:block;min-height:32px;padding:5px 8px;border:1px solid #ffffff45;border-radius:5px;color:#f8efe3;background:#29252d;font:11px Arial,sans-serif;cursor:pointer}
+#musicVideoDock #musicReturn{display:none}
+#musicVideoDock.music-floating #musicReturn{display:block}
+#musicDockOpen{display:block;padding:10px;color:#f6dfb9;font-size:11px;text-decoration:underline}
+#musicVideoAnchor{min-height:295px}
+#musicVideoAnchor>p{padding:24px;text-align:center;font-size:12px}
+#view-music:not(.music-empty) #musicVideoAnchor>p{visibility:hidden}
+.music-dock-active main{padding-bottom:320px}
+#musicVideoDock button:focus-visible,#musicDockOpen:focus-visible{outline:3px solid #efbc71;outline-offset:2px}
