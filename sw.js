@@ -1,11 +1,11 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310-bengali-plays-20261001-music-20261003-configured";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310-bengali-plays-20261001-music-20261004-vinyl";
 const PDF_CACHE = "acting-entrance-studio-library-pdf-v1";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./library.css?v=20260928-library",
-  "./music.css?v=20261003",
+  "./music.css?v=20261004-vinyl",
   "./bengali-plays.css?v=20261001",
   "./library-core.js?v=20260928-library",
   "./study-material-data.js?v=20260928-library-preview",
@@ -40,9 +40,10 @@ const APP_SHELL = [
   "./DESIGN_NOTES.md",
   "./journal-core.js?v=20260927-film-sort",
   "./letterboxd-core.js?v=20260927-daily-inbox",
-  "./app.js?v=20261003-music",
-  "./music-player.js?v=20261003-account",
-  "./music-account.js?v=20261003-configured",
+  "./app.js?v=20261004-music",
+  "./music-core.js?v=20261004-vinyl",
+  "./music-player.js?v=20261004-vinyl",
+  "./music-account.js?v=20261004-vinyl",
   "./YOUTUBE_MUSIC_SETUP.md",
   "./journal-ui.js?v=20260927-sort-fix",
   "./cloud.bundle.js",

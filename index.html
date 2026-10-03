@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="deck.css?v=20260927-sort-fix">
   <link rel="stylesheet" href="weekly-theme.css?v=weekly-20260928034844-1e770310">
   <link rel="stylesheet" href="library.css?v=20260928-library">
-  <link rel="stylesheet" href="music.css?v=20261003">
+  <link rel="stylesheet" href="music.css?v=20261004-vinyl">
   <link rel="stylesheet" href="bengali-plays.css?v=20261001">
 </head>
 <body data-room="today">
@@ -299,32 +299,31 @@
         </details>
         <section class="panel cinema-directory"><p class="eyebrow">ONLY IF YOU WANTED TO KEEP ONE</p><h2>My movie memories</h2><div id="bucketMemories" class="history-list"></div></section>
       </section>
-      <section class="view" id="view-music" aria-label="YouTube Music">
-        <section class="panel">
-          <p class="eyebrow">YOUR LISTENING ROOM</p><h2>Music for the moment</h2>
-          <p>Paste a YouTube Music or YouTube song or playlist link, then press play. Listening adds no study minutes or learning streaks.</p>
-          <div class="dialog-actions"><button class="primary" id="musicConnect" type="button">Connect Google account</button><button class="quiet" id="musicDisconnect" type="button" hidden>Disconnect</button><button class="quiet" id="musicMore" type="button" hidden>More playlists</button></div>
-          <p id="musicAccountStatus" role="status">Connect to browse your YouTube account playlists. Read-only access; your study sign-in stays separate.</p>
-          <details><summary>Connection details</summary><p>Google connection is configured for this app. Choose Connect Google account above to sign in. <a href="YOUTUBE_MUSIC_SETUP.md" target="_blank" rel="noopener">Connection help</a></p><label for="musicClientId">Google web OAuth client ID (advanced)</label><input id="musicClientId" type="text" placeholder="…apps.googleusercontent.com"><button id="musicSaveClient" type="button" class="quiet">Save advanced connection setting on this device</button></details>
-          <div id="musicPlaylists" class="history-list"></div>
-          <form id="musicPlayerForm">
-            <label for="musicLink">Song or playlist link</label>
-            <input id="musicLink" type="url" required placeholder="https://music.youtube.com/watch?v=…">
-            <div class="dialog-actions"><button class="primary" type="submit">Load player</button><button class="quiet" id="musicStop" type="button">Stop / clear</button></div>
-          </form>
-          <p id="musicPlayerStatus" role="status">Choose a song or playlist to begin.</p>
-          <div id="musicPlayerHost"></div>
-          <div class="dialog-actions">
-            <a class="primary" href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer">Open YouTube Music ↗</a>
-            <a class="quiet" href="https://music.youtube.com/library" target="_blank" rel="noopener noreferrer">My music library ↗</a>
+      <section class="view" id="view-music" aria-label="YouTube Music listening room">
+        <div class="music-room-header"><div><p class="music-kicker">THE LISTENING ROOM / 01</p><h2>Drop the needle.</h2></div><a href="#musicBrowse" class="music-browse-link">Explore your music ↓</a></div>
+        <div class="music-deck">
+          <div class="music-turntable" aria-hidden="true"><div class="music-record"><div class="music-record-label"><img id="musicCover" alt="" hidden><span>ACTING<br>STUDIO<br><small>33⅓ / SIDE A</small></span></div></div><div class="music-tonearm"><i></i></div><span class="music-deck-brand">STUDIO / SOUND</span><span class="music-deck-led"></span></div>
+          <div class="music-now"><p class="music-kicker">ON THE TURNTABLE</p><h3 id="musicTitle">Choose your first record</h3><p id="musicArtist">A little space for whatever you feel like hearing.</p>
+            <div class="music-timeline"><input id="musicSeek" type="range" min="0" max="1" value="0" step="1" aria-label="Seek position" disabled><div><span id="musicElapsed">0:00</span><span id="musicDuration">0:00</span></div></div>
+            <div class="music-controls"><button id="musicShuffle" type="button" aria-label="Shuffle" aria-pressed="false" disabled>⇄</button><button id="musicPrevious" type="button" aria-label="Previous track" disabled>❮❮</button><button id="musicToggle" type="button" aria-label="Play" disabled>▶</button><button id="musicNext" type="button" aria-label="Next track" disabled>❯❯</button><button id="musicRepeat" type="button" aria-label="Repeat: off" aria-pressed="false" disabled>↻</button></div>
+            <div class="music-volume"><label for="musicVolume">Volume</label><input id="musicVolume" type="range" min="0" max="100" value="100" disabled><button id="musicStop" type="button">Clear</button></div>
+            <p id="musicPlayerStatus" role="status">Pick a song below or bring a link.</p>
+            <div id="musicVideoAnchor"><div id="musicVideoDock"><div class="music-video-caption"><span>PLAYBACK BY YOUTUBE</span><button id="musicReturn" type="button">Back to record ↑</button></div><div id="musicPlayerHost"><p>Your video appears here when a record is loaded.</p></div></div></div>
+            <a id="musicOpen" href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer">Open on YouTube Music ↗</a>
           </div>
-          <form action="https://music.youtube.com/search" method="get" target="_blank" rel="noopener noreferrer">
-            <label for="musicSearch">Find a song, artist, album or playlist</label>
-            <input id="musicSearch" name="q" type="search" maxlength="300" required placeholder="What do you feel like hearing?">
-            <button class="primary" type="submit">Search YouTube Music ↗</button>
-          </form>
-          <p class="cloud-note">The live player uses YouTube playback. Some songs or private playlists cannot be embedded; use Open YouTube Music for those. Internet is required. Keep this room visible while playing. Links are not saved to your study account.</p>
-        </section>
+        </div>
+        <form id="musicPlayerForm" class="music-link-form"><label for="musicLink">Bring your own record</label><div><input id="musicLink" type="url" required placeholder="Paste a YouTube Music song or playlist link"><button type="submit">Load record ↗</button></div></form>
+        <div id="musicBrowse" class="music-browse">
+          <div class="music-section-head"><div><p class="music-kicker">FIND YOUR NEXT SOUND</p><h3>What are you in the mood for?</h3></div><button id="musicConnect" type="button">Connect Google account</button><button id="musicDisconnect" type="button" hidden>Disconnect</button></div>
+          <form id="musicSearchForm" class="music-search"><label class="sr-only" for="musicSearch">Search songs and artists</label><input id="musicSearch" type="search" maxlength="300" required placeholder="Search a song, artist or a feeling…"><button type="submit">Search ↗</button></form>
+          <div class="music-moods"><button type="button" data-music-query="acoustic music">Acoustic afternoon</button><button type="button" data-music-query="jazz music">A little jazz</button><button type="button" data-music-query="Bengali songs">Bengali favourites</button><button type="button" data-music-query="ambient instrumental music">Quiet company</button></div>
+          <p id="musicSearchStatus" role="status">Connect Google to search here. Song links work without connecting.</p><div id="musicResults" class="music-track-grid"></div><button id="musicSearchMore" type="button" hidden>Next results</button>
+          <div class="music-section-head"><div><p class="music-kicker">FROM YOUR ACCOUNT</p><h3>Your playlists</h3></div><button id="musicMore" type="button" hidden>More playlists</button></div>
+          <p id="musicAccountStatus" role="status">Connect to browse your account-owned YouTube playlists with read-only access.</p><div id="musicPlaylists" class="music-playlist-grid"></div><h4 id="musicPlaylistTitle"></h4><div id="musicPlaylistTracks" class="music-track-grid"></div>
+          <div class="music-section-head"><div><p class="music-kicker">UP NEXT</p><h3>The listening queue</h3></div><span id="musicQueueCount">0 tracks · this visit</span></div><div id="musicQueue" class="music-queue"></div>
+          <p class="music-fine">Your room, YouTube playback. Internet required. Some tracks or private playlists must open on YouTube Music. Saved Music albums and personalised recommendations are not available through this connection. Listening adds no study minutes.</p>
+          <details><summary>Connection details &amp; full library</summary><p><a href="https://music.youtube.com/library" target="_blank" rel="noopener noreferrer">Full YouTube Music library ↗</a> · <a href="YOUTUBE_MUSIC_SETUP.md" target="_blank" rel="noopener">Connection help</a></p><label for="musicClientId">Google web OAuth client ID (advanced)</label><input id="musicClientId" type="text" placeholder="…apps.googleusercontent.com"><button id="musicSaveClient" type="button">Save connection setting on this device</button></details>
+        </div>
       </section>
       <footer class="studio-footer"><span>A personal acting &amp; cinema journal · made for practice and pleasure.</span><a href="DESIGN_NOTES.md" target="_blank" rel="noopener">Design inspiration &amp; font credits ↗</a></footer>
     </main>
@@ -366,9 +365,10 @@
   <script src="letterboxd-core.js?v=20260927-daily-inbox"></script>
   <script src="library-core.js?v=20260928-library"></script>
   <script src="study-material-data.js?v=20260928-library-preview"></script>
-  <script src="app.js?v=20261003-music"></script>
-  <script src="music-player.js?v=20261003-account"></script>
-  <script src="music-account.js?v=20261003-configured"></script>
+  <script src="app.js?v=20261004-music"></script>
+  <script src="music-core.js?v=20261004-vinyl"></script>
+  <script src="music-player.js?v=20261004-vinyl"></script>
+  <script src="music-account.js?v=20261004-vinyl"></script>
   <script src="study-material-ui.js?v=20260928-library-preview"></script>
   <script src="journal-ui.js?v=20260927-sort-fix"></script>
   <script src="pwa.js"></script>

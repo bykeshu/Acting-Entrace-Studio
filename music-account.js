@@ -1,109 +1,19 @@
 (() => {
-  const scope = 'https://www.googleapis.com/auth/youtube.readonly';
-  const status = document.querySelector('#musicAccountStatus');
-  const playlists = document.querySelector('#musicPlaylists');
-  const connect = document.querySelector('#musicConnect');
-  const disconnect = document.querySelector('#musicDisconnect');
-  const more = document.querySelector('#musicMore');
-  const input = document.querySelector('#musicClientId');
-  const key = 'acting-youtube-oauth-client-v1';
-  // Public browser client ID; the client secret is never needed by this app.
-  const defaultClientId = '1085322780975-maflpvek590kd8rke0rq3v6bsc7i8jll.apps.googleusercontent.com';
-  let token = '', expires = 0, generation = 0, next = '', loading = false, sdk;
-  input.value = defaultClientId;
-  try { input.value = localStorage.getItem(key) || defaultClientId; } catch {}
-  function clear(message) {
-    generation++; token = ''; expires = 0; next = ''; loading = false;
-    playlists.replaceChildren(); disconnect.hidden = true; more.hidden = true;
-    connect.disabled = false; status.textContent = message;
-  }
-  document.querySelector('#musicSaveClient').addEventListener('click', () => {
-    if (!/^[\w-]+\.apps\.googleusercontent\.com$/.test(input.value.trim())) {
-      status.textContent = 'Enter a Google web OAuth client ID, not an API key or client secret.'; return;
-    }
-    try { localStorage.setItem(key, input.value.trim()); status.textContent = 'Connection setup saved. Press Connect Google account.'; }
-    catch { status.textContent = 'Setup could not be saved; you can still connect for this visit.'; }
-  });
-  function loadSdk() {
-    if (window.google?.accounts?.oauth2) return Promise.resolve();
-    if (!sdk) sdk = new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = 'https://accounts.google.com/gsi/client';
-      script.onload = resolve;
-      script.onerror = () => { script.remove(); sdk = null; reject(new Error('Google sign-in could not load. Check your connection and try again.')); };
-      document.head.append(script);
-    });
-    return sdk;
-  }
-  async function loadPlaylists() {
-    if (loading) return;
-    if (!token || Date.now() >= expires) { clear('Your connection expired. Connect again to continue.'); return; }
-    const run = generation, access = token;
-    loading = true; more.disabled = true; status.textContent = 'Loading account playlists…';
-    try {
-      const url = new URL('https://www.googleapis.com/youtube/v3/playlists');
-      url.search = new URLSearchParams({part:'snippet,contentDetails',mine:'true',maxResults:'50',...(next ? {pageToken:next} : {})});
-      const response = await fetch(url, {headers:{Authorization:'Bearer ' + access},cache:'no-store',credentials:'omit'});
-      if (run !== generation) return;
-      if (response.status === 401) { clear('Your connection expired. Connect again.'); return; }
-      if (!response.ok) throw new Error(response.status === 403 ? 'Playlist access was denied. Check consent, API enablement and quota in the Google project.' : 'Playlists could not load. Try connecting again.');
-      const data = await response.json();
-      if (run !== generation) return;
-      for (const item of data.items || []) {
-        if (!/^[\w-]{1,200}$/.test(item.id)) continue;
-        const row = document.createElement('div'); row.className = 'panel';
-        const title = document.createElement('p'); title.textContent = item.snippet?.title || 'Untitled playlist';
-        const play = document.createElement('button'); play.type = 'button'; play.className = 'quiet'; play.textContent = 'Load in player';
-        play.addEventListener('click', () => {
-          document.querySelector('#musicLink').value = 'https://music.youtube.com/playlist?list=' + encodeURIComponent(item.id);
-          document.querySelector('#musicPlayerForm').requestSubmit();
-        });
-        const link = document.createElement('a'); link.textContent = 'Open in YouTube Music ↗';
-        link.href = 'https://music.youtube.com/playlist?list=' + encodeURIComponent(item.id); link.target = '_blank'; link.rel = 'noopener noreferrer';
-        row.append(title, play, document.createTextNode(' '), link); playlists.append(row);
-      }
-      next = data.nextPageToken || ''; more.hidden = !next;
-      status.textContent = playlists.childElementCount ? 'Account playlists loaded. Private playlists may require playback on YouTube Music.' : 'No account-owned playlists were returned. Saved Music albums and recommendations are not included.';
-    } catch (error) { if (run === generation) status.textContent = error.message; }
-    finally { if (run === generation) { loading = false; more.disabled = false; } }
-  }
-  connect.addEventListener('click', async () => {
-    if (location.protocol === 'file:') { status.textContent = 'Account linking requires localhost or the HTTPS app.'; return; }
-    const clientId = input.value.trim();
-    if (!/^[\w-]+\.apps\.googleusercontent\.com$/.test(clientId)) {
-      status.textContent = 'Google account connection needs the app’s OAuth client ID. Open Account connection setup.'; return;
-    }
-    // Load first, then require another user click so popup creation keeps a user gesture.
-    if (!window.google?.accounts?.oauth2) {
-      connect.disabled = true;
-      try { await loadSdk(); status.textContent = 'Google sign-in is ready. Press Connect Google account to choose your account.'; }
-      catch (error) { status.textContent = error.message; }
-      finally { connect.disabled = false; }
-      return;
-    }
-    clear('Choose your Google account and grant read-only YouTube access.');
-    const run = generation;
-    const client = google.accounts.oauth2.initTokenClient({
-      client_id:clientId,scope,include_granted_scopes:false,
-      callback: response => {
-        if (run !== generation) return;
-        if (response.error || !response.access_token || !google.accounts.oauth2.hasGrantedAllScopes(response, scope)) {
-          clear('Connection was not granted. You can still use song and playlist links.'); return;
-        }
-        token = response.access_token; expires = Date.now() + Number(response.expires_in || 3600) * 1000;
-        disconnect.hidden = false; loadPlaylists();
-      },
-      error_callback: () => { if (run === generation) clear('Sign-in closed or blocked. Press Connect to try again.'); }
-    });
-    client.requestAccessToken({prompt:'select_account'});
-  });
-  more.addEventListener('click', loadPlaylists);
-  disconnect.addEventListener('click', () => {
-    const access = token;
-    clear('Disconnected. Account playlists cleared from this page.');
-    document.querySelector('#musicStop').click();
-    if (access && window.google?.accounts?.oauth2) google.accounts.oauth2.revoke(access, result => {
-      if (!result.successful) status.textContent = 'Disconnected locally. To remove Google permission, visit your Google Account’s third-party connections.';
-    });
-  });
+  const M=window.ACTING_MUSIC, $=id=>document.getElementById(id), scope='https://www.googleapis.com/auth/youtube.readonly';
+  const status=$('musicAccountStatus'), playlists=$('musicPlaylists'), connect=$('musicConnect'), disconnect=$('musicDisconnect'), more=$('musicMore'), input=$('musicClientId');
+  const key='acting-youtube-oauth-client-v1', defaultClientId='1085322780975-maflpvek590kd8rke0rq3v6bsc7i8jll.apps.googleusercontent.com';
+  let token='',expires=0,generation=0,next='',loading=false,sdk,searchPage='',searchQuery='',searchRun=0,tracksRun=0;
+  input.value=defaultClientId;try{input.value=localStorage.getItem(key)||defaultClientId;}catch{}
+  function clear(message){generation++;searchRun++;tracksRun++;token='';expires=0;next='';loading=false;searchPage='';playlists.replaceChildren();$('musicResults').replaceChildren();$('musicPlaylistTracks').replaceChildren();$('musicPlaylistTitle').textContent='';$('musicSearchStatus').textContent='Connect Google to search here. Song links work without connecting.';disconnect.hidden=true;more.hidden=true;$('musicSearchMore').hidden=true;connect.disabled=false;status.textContent=message;}
+  $('musicSaveClient').addEventListener('click',()=>{if(!/^[\w-]+\.apps\.googleusercontent\.com$/.test(input.value.trim())){status.textContent='Enter a Google web OAuth client ID, not an API key or secret.';return;}const changed=input.value.trim();if(token){const access=token;clear('Connection setting changed. Connect again.');window.ACTING_MUSIC_PLAYER.stop();google.accounts.oauth2.revoke(access,()=>{});}try{localStorage.setItem(key,changed);status.textContent='Connection setting saved. Press Connect Google account.';}catch{status.textContent='Use this setting for this visit; device storage is unavailable.';}});
+  function loadSdk(){if(window.google?.accounts?.oauth2)return Promise.resolve();if(!sdk)sdk=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='https://accounts.google.com/gsi/client';script.onload=resolve;script.onerror=()=>{script.remove();sdk=null;reject(Error('Google sign-in could not load. Check your connection and try again.'));};document.head.append(script);});return sdk;}
+  async function api(resource,params){if(!token||Date.now()>=expires){clear('Your connection expired. Connect again to continue.');throw Error('Connect your Google account to search and browse playlists.');}const run=generation,access=token;const url=new URL('https://www.googleapis.com/youtube/v3/'+resource);url.search=new URLSearchParams(params);const response=await fetch(url,{headers:{Authorization:'Bearer '+access},cache:'no-store',credentials:'omit'});if(run!==generation)return null;if(response.status===401){clear('Your connection expired. Connect again.');return null;}if(!response.ok)throw Error(response.status===403?'YouTube access or quota is unavailable. Try later, or use a song link.':'YouTube could not load these items. Try again.');const data=await response.json();return run===generation?data:null;}
+  function renderTracks(items,target){target.replaceChildren();const tracks=items.map(M.track).filter(Boolean);if(!tracks.length){target.textContent='No playable tracks were returned.';return;}tracks.forEach((track,index)=>{const row=document.createElement('div');row.className='music-track';if(track.art){const img=document.createElement('img');img.src=track.art;img.alt='';img.loading='lazy';row.append(img);}const copy=document.createElement('span');const title=document.createElement('strong');title.textContent=track.title;const artist=document.createElement('small');artist.textContent=track.artist;copy.append(title,artist);const button=document.createElement('button');button.type='button';button.textContent='▶';button.setAttribute('aria-label','Load '+track.title);button.addEventListener('click',()=>{window.ACTING_MUSIC_PLAYER.loadTracks(tracks,index);$('view-music').scrollIntoView({behavior:'smooth'});});row.append(copy,button);target.append(row);});}
+  async function playlistTracks(id,title,page='',append=[]){const run=++tracksRun,target=$('musicPlaylistTracks');$('musicPlaylistTitle').textContent=title;target.textContent='Loading tracks…';try{const data=await api('playlistItems',{part:'snippet',playlistId:id,maxResults:'50',...(page?{pageToken:page}:{})});if(!data||run!==tracksRun)return;const items=append.concat(data.items||[]);renderTracks(items,target);const next=data.nextPageToken;if(next){const button=document.createElement('button');button.type='button';button.textContent='More tracks';button.addEventListener('click',()=>playlistTracks(id,title,next,items));target.append(button);}}catch(error){if(run===tracksRun)target.textContent=error.message;}}
+  async function loadPlaylists(){if(loading)return;const run=generation;loading=true;more.disabled=true;status.textContent='Loading account playlists…';try{const data=await api('playlists',{part:'snippet,contentDetails',mine:'true',maxResults:'50',...(next?{pageToken:next}:{})});if(!data)return;for(const item of data.items||[]){if(!/^[\w-]{1,200}$/.test(item.id))continue;const button=document.createElement('button');button.type='button';button.className='music-playlist-card';const img=M.artwork((item.snippet?.thumbnails?.high||item.snippet?.thumbnails?.medium)?.url||'');if(img){const art=document.createElement('img');art.src=img;art.alt='';art.loading='lazy';button.append(art);}const title=document.createElement('strong');title.textContent=item.snippet?.title||'Untitled playlist';const count=document.createElement('small');count.textContent=(item.contentDetails?.itemCount||0)+' tracks';button.append(title,count);button.addEventListener('click',()=>{playlistTracks(item.id,title.textContent);$('musicPlaylistTitle').scrollIntoView({behavior:'smooth',block:'center'});});playlists.append(button);}next=data.nextPageToken||'';more.hidden=!next;status.textContent=playlists.childElementCount?'Your account playlists are ready. Choose one to browse its tracks.':'No account-owned playlists were returned.';}catch(error){if(run===generation)status.textContent=error.message;}finally{if(run===generation){loading=false;more.disabled=false;}}}
+  async function search(page=''){const query=$('musicSearch').value.trim();if(!query)return;const run=++searchRun;const target=$('musicResults');$('musicSearchStatus').textContent='Searching YouTube music…';$('musicSearchMore').disabled=true;try{const data=await api('search',{part:'snippet',type:'video',videoCategoryId:'10',videoEmbeddable:'true',videoSyndicated:'true',maxResults:'20',q:query,...(page?{pageToken:page}:{})});if(!data||run!==searchRun){if(run===searchRun)$('musicSearchStatus').textContent='Connect your Google account to search here.';return;}renderTracks(data.items||[],target);searchPage=data.nextPageToken||'';searchQuery=query;$('musicSearchMore').hidden=!searchPage;$('musicSearchStatus').textContent='YouTube music results for “'+query+'”. Choose a track, then press Play.';}catch(error){if(run===searchRun)$('musicSearchStatus').textContent=error.message;}finally{if(run===searchRun)$('musicSearchMore').disabled=false;}}
+  $('musicSearchForm').addEventListener('submit',event=>{event.preventDefault();search();});$('musicSearchMore').addEventListener('click',()=>{if($('musicSearch').value.trim()!==searchQuery)search();else search(searchPage);});
+  document.querySelectorAll('[data-music-query]').forEach(button=>button.addEventListener('click',()=>{$('musicSearch').value=button.dataset.musicQuery;search();}));
+  connect.addEventListener('click',async()=>{if(location.protocol==='file:'){status.textContent='Account linking requires localhost or the HTTPS app.';return;}const clientId=input.value.trim();if(!/^[\w-]+\.apps\.googleusercontent\.com$/.test(clientId)){status.textContent='Enter the Google OAuth client ID in Connection details.';return;}if(!window.google?.accounts?.oauth2){connect.disabled=true;try{await loadSdk();status.textContent='Sign-in is ready. Press Connect Google account to choose your account.';}catch(error){status.textContent=error.message;}finally{connect.disabled=false;}return;}clear('Choose your Google account and grant read-only YouTube access.');const run=generation;const client=google.accounts.oauth2.initTokenClient({client_id:clientId,scope,include_granted_scopes:false,callback:response=>{if(run!==generation)return;if(response.error||!response.access_token||!google.accounts.oauth2.hasGrantedAllScopes(response,scope)){clear('Connection was not granted. You can still use song and playlist links.');return;}token=response.access_token;expires=Date.now()+Number(response.expires_in||3600)*1000;disconnect.hidden=false;loadPlaylists();},error_callback:()=>{if(run===generation)clear('Sign-in closed or blocked. Press Connect to try again.');}});client.requestAccessToken({prompt:'select_account'});});
+  more.addEventListener('click',loadPlaylists);disconnect.addEventListener('click',()=>{const access=token;clear('Disconnected. Account items cleared from this page.');window.ACTING_MUSIC_PLAYER.stop();if(access&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(access,result=>{if(!result.successful)status.textContent='Disconnected locally. Remove permission in Google Account third-party connections if needed.';});});
 })();

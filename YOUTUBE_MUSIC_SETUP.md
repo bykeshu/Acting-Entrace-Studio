@@ -1,21 +1,17 @@
-# YouTube account playlist connection
+# YouTube listening room
 
-This integration uses Google Identity Services and read-only YouTube Data API access. It lists account-owned YouTube playlists, not the full YouTube Music library. OAuth does not authenticate the embedded player: private playlists, Premium benefits and restricted tracks may still require the official YouTube Music app.
+Room 13 uses an original vinyl interface with the official YouTube IFrame player. Paste a YouTube or YouTube Music track/playlist link, load the record, then press Play. The video remains visible; a small video dock follows scrolling. Playback pauses when the room or browser tab is left. Shuffle, repeat, previous/next, seeking and volume use the official player API; queues built from search or playlist tracks also support repeat-one. A pasted playlist supports repeat-all/off.
 
-## Google project setup
+Connect Google account to search music-category YouTube videos and browse account-owned YouTube playlists. Sign-in loads on the first click; click Connect again once ready. Read-only scope: `https://www.googleapis.com/auth/youtube.readonly`. Account tokens, API results and the listening queue are held only in memory and clear on refresh or disconnect. The public browser OAuth client is configured for `https://bykeshu.github.io` and `http://localhost:8765`. No browser client secret is used. The Google app is in testing; only registered test users can currently consent.
 
-Configured on 3 October 2026: YouTube Data API v3 is enabled in the existing project, and the app includes its public web OAuth client ID. The JavaScript origins are `https://bykeshu.github.io` and `http://localhost:8765`. The Google application remains in Testing mode; only its configured test users can connect. No client secret is included or required.
+This is a custom YouTube-powered player, with limits: Google does not expose the complete YouTube Music personalised home, saved albums or Music library through these APIs. Playlist ownership differs from saved/subscribed playlists. Playback availability and embedding restrictions still apply. Track artwork uses the thumbnail supplied by YouTube and may be a video image rather than an album cover. Artwork colours are sampled locally; unavailable images fall back to the room's neutral palette. Search happens only on explicit submission or a mood-button click to conserve quota. More-results replaces the current search result page. Private playlists may require opening YouTube Music.
 
-Open Room 13 and choose **Connect Google account**. If Google sign-in needs to load, press the button again when the status says it is ready. Choose the account that was added as a test user and grant read-only YouTube access. Connection details is an optional advanced override, not a required setup step on each device. Google settings can take time to propagate after creation.
+Disconnect clears account results and playback and requests Google permission revocation. Listening never creates study credit, watched history, logs or public records. Existing study/Firebase sign-in is separate.
 
-1. In Google Cloud Console, select the existing `acting-studio-entrance` project (or a project you manage) and enable **YouTube Data API v3**.
-2. Configure Google Auth Platform branding, audience and consent for `https://www.googleapis.com/auth/youtube.readonly`. While in Testing, add your Google account as a test user. Follow any verification requirements Google displays before making this available to others.
-3. Create an OAuth client of type **Web application**. Add `https://bykeshu.github.io` as an authorized JavaScript origin. For local preview, also add the exact localhost origin, including its port. Origins do not include a path. This popup token flow does not need a redirect URI.
-4. Copy the public client ID ending in `.apps.googleusercontent.com` into Room 13 → Account connection setup. Do not enter a client secret, password or API key.
-5. Save setup, press Connect Google account, then press it again when Google sign-in is ready. Choose your account and grant read-only access.
+## Maintenance
 
-The default client ID is public app configuration shared across devices. An optional override is saved only on that device. Tokens and playlist metadata stay in page memory, are not written to local storage, study backups or Firebase, and disappear on reload. Reconnect when the token expires. Disconnect clears the page and attempts to revoke Google consent.
+Public deployment includes versioned music assets and a new service-worker cache. After deployment, close and reopen all installed app windows and reload the website to allow the new worker to take over; do not clear site data, which contains personal progress. A deployment to the website is required before Chrome or the installed PWA receives the feature.
 
-The integration needs an online HTTPS/localhost app. No real account connection is verified until Google project setup and human consent are completed.
+Daily cloud maintenance is already configured separately. It can test public source and propose repairs; it cannot run the laptop while offline or asleep, complete Google consent, or guarantee music availability.
 
-References: [Google token model](https://developers.google.com/identity/oauth2/web/guides/use-token-model), [account-owned playlists](https://developers.google.com/youtube/v3/docs/playlists/list).
+Official references: [IFrame player API](https://developers.google.com/youtube/iframe_api_reference), [YouTube search](https://developers.google.com/youtube/v3/docs/search/list), [owned playlists](https://developers.google.com/youtube/v3/docs/playlists/list), [Google token model](https://developers.google.com/identity/oauth2/web/guides/use-token-model).
