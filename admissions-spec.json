@@ -1,0 +1,709 @@
+{
+  "verifiedOn": "2026-10-03",
+  "scope": "FTII Pune Screen Acting and NSD New Delhi Diploma only. Indian-applicant fees; foreign admissions have separate terms.",
+  "sources": [
+    {
+      "sourceId": "ftii-prospectus",
+      "title": "FTII ET 2025–26 prospectus",
+      "url": "https://ftii.ac.in/api/serve/2026/04/09/Admission_Prospectus_FTII-ET-2025-26_1775711367_d6832d9b.pdf",
+      "publisher": "FTII",
+      "examCycle": "2025–26",
+      "locator": "Printed pp. 3, 55, 62–67, 75–83, 87–89, 95–97",
+      "sourceType": "official",
+      "access": "open",
+      "verificationStatus": "verified",
+      "verifiedOn": "2026-10-03"
+    },
+    {
+      "sourceId": "ftii-course",
+      "title": "FTII Screen Acting programme",
+      "url": "https://ftii.ac.in/screen-acting",
+      "publisher": "FTII",
+      "examCycle": "Institutional course page",
+      "locator": "",
+      "sourceType": "official",
+      "access": "open",
+      "verificationStatus": "verified",
+      "verifiedOn": "2026-10-03"
+    },
+    {
+      "sourceId": "ftii-scholarships",
+      "title": "FTII scholarships",
+      "url": "https://ftii.ac.in/scholarships",
+      "publisher": "FTII",
+      "examCycle": "Institutional scheme list",
+      "locator": "Acting rows; state and NSP schemes",
+      "sourceType": "official",
+      "access": "open",
+      "verificationStatus": "verified",
+      "verifiedOn": "2026-10-03"
+    },
+    {
+      "sourceId": "ftii-admissions",
+      "title": "FTII admission notices",
+      "url": "https://ftii.ac.in/admission-process-6",
+      "publisher": "FTII",
+      "examCycle": "2025–26",
+      "locator": "Later notices supersede prospectus schedules",
+      "sourceType": "official",
+      "access": "portal",
+      "verificationStatus": "verified",
+      "verifiedOn": "2026-10-03"
+    },
+    {
+      "sourceId": "nsd-notice",
+      "title": "NSD admission notice 2026",
+      "url": "https://nsd.gov.in/delhi/wp-content/uploads/2026/03/nsd_admission_2026.pdf",
+      "publisher": "NSD",
+      "examCycle": "2026–2029",
+      "locator": "PDF pp. 4–6 (English)",
+      "sourceType": "official",
+      "access": "open",
+      "verificationStatus": "verified",
+      "verifiedOn": "2026-10-03"
+    },
+    {
+      "sourceId": "nsd-prospectus",
+      "title": "NSD English prospectus 2026",
+      "url": "https://drive.google.com/file/d/1FyU4kjJz5nHCEf4f__nGvz69y492Ce9i/view",
+      "publisher": "NSD",
+      "examCycle": "2026–2029",
+      "locator": "Official link from NSD website; printed pp. 7–18; fees and scholarship p. 16",
+      "sourceType": "official",
+      "access": "open",
+      "verificationStatus": "verified",
+      "verifiedOn": "2026-10-03"
+    },
+    {
+      "sourceId": "nsd-course",
+      "title": "NSD course and prospectus links",
+      "url": "https://nsd.gov.in/delhi/index.php/course-in-dramatic-arts/",
+      "publisher": "NSD",
+      "examCycle": "Institutional course page",
+      "locator": "Older year-based curriculum differs from 2026 notice; 2026 notice takes priority",
+      "sourceType": "official",
+      "access": "open",
+      "verificationStatus": "verified",
+      "verifiedOn": "2026-10-03"
+    },
+    {
+      "sourceId": "nsd-portal",
+      "title": "NSD admission portal",
+      "url": "https://admission.nsd.gov.in/",
+      "publisher": "NSD",
+      "examCycle": "2026",
+      "locator": "Entry page confirms closed; last date 17 April 2026",
+      "sourceType": "official",
+      "access": "portal",
+      "verificationStatus": "verified",
+      "verifiedOn": "2026-10-03"
+    },
+    {
+      "sourceId": "nsd-uploads",
+      "title": "NSD portal upload guidance",
+      "url": "https://admission.nsd.gov.in/src/pages/UploadDocuments.tsx",
+      "publisher": "NSD",
+      "examCycle": "2026",
+      "locator": "Public portal client instructions retrieved without login; upload limits are portal guidance, not eligibility waivers",
+      "sourceType": "official",
+      "access": "reference",
+      "verificationStatus": "verified",
+      "verifiedOn": "2026-10-03"
+    }
+  ],
+  "facts": [
+    {
+      "section": "Course",
+      "label": "Programme",
+      "ftii": "MFA in Cinema with specialization in Screen Acting, Pune.",
+      "nsd": "Three-year full-time residential Diploma in Dramatics, New Delhi.",
+      "ftiiSources": [
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-notice"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Course",
+      "label": "Duration and intake",
+      "ftii": "2 years; 4 semesters; 80 credits; 16 seats.",
+      "nsd": "3 years; 6 semesters of 20 weeks; 32 seats, with up to 3 for fully paying foreign nationals.",
+      "ftiiSources": [
+        "ftii-course"
+      ],
+      "nsdSources": [
+        "nsd-notice"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Course",
+      "label": "Eligibility",
+      "ftii": "Bachelor’s degree or equivalent in any discipline. Final-year applicants may apply provisionally.",
+      "nsd": "Graduation in any stream from a recognised university; at least 6 different theatre productions with documentary proof; working Hindi/English.",
+      "ftiiSources": [
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-notice"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Course",
+      "label": "Age",
+      "ftii": "No upper age limit stated for Screen Acting in this prospectus. DOB must match Class 10 certificate.",
+      "nsd": "18–30 on 1 July 2026; upper-age relaxation: SC/ST 5 years, OBC-NCL 3 years under the notice.",
+      "ftiiSources": [
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-notice"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Curriculum",
+      "label": "Foundation",
+      "ftii": "Semester 1: filmmaking foundation plus improvisation, sensory work, imagination and emotional exploration.",
+      "nsd": "First 3 semesters: integrated training. Acting, theatre techniques, theatre history, literature and aesthetics form the foundation.",
+      "ftiiSources": [
+        "ftii-course"
+      ],
+      "nsdSources": [
+        "nsd-notice",
+        "nsd-prospectus"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Curriculum",
+      "label": "Specialization and projects",
+      "ftii": "Semester 2: full-length theatre production. Semester 3: character, script analysis and camera performance. Semester 4: workshops/masterclasses and thesis film.",
+      "nsd": "Next 3 semesters: Acting or Design & Direction. Design & Direction specialization is available to 5 students. Practical productions support training.",
+      "ftiiSources": [
+        "ftii-course"
+      ],
+      "nsdSources": [
+        "nsd-notice",
+        "nsd-prospectus"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Curriculum",
+      "label": "Craft training",
+      "ftii": "Voice/speech, movement, monologues, scenes, psychological gesture, yoga, Kalaripayattu, Chhau, Thangta, stunts/action and contemporary dance.",
+      "nsd": "Acting, voice/speech, movement, music, improvisation, Indian and Western theatre, classical/folk traditions and stagecraft.",
+      "ftiiSources": [
+        "ftii-course"
+      ],
+      "nsdSources": [
+        "nsd-prospectus"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Fees",
+      "label": "Application fee",
+      "ftii": "Single programme: ₹1,500 General/OBC-NCL/GEN-EWS; ₹500 SC/ST/PwD/female. Two programmes: ₹2,500 / ₹800 respectively. Non-refundable; bank charges extra.",
+      "nsd": "₹50 online application fee (2026 notice).",
+      "ftiiSources": [
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-notice"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Fees",
+      "label": "Tuition",
+      "ftii": "Semester 1 ₹46,885; semesters 2–4 ₹46,884 each.",
+      "nsd": "₹300 per month.",
+      "ftiiSources": [
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-prospectus"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Fees",
+      "label": "Hostel and other charges",
+      "ftii": "Semester 1 ₹62,689 including deposits; each remaining semester ₹19,408. Hostel rent component ₹15,241 per semester.",
+      "nsd": "Hostel ₹1,000/month; electricity/water ₹150, adjustable to consumption; lunch/dinner mess ₹4,000/month, variable. Hostel residence compulsory.",
+      "ftiiSources": [
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-prospectus"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Fees",
+      "label": "Joining payments and deposits",
+      "ftii": "Security ₹25,393; hostel ₹6,348; mess ₹5,084; library ₹6,327 (included in semester-1 charges). Handbook ₹129 one time.",
+      "nsd": "Admission ₹500; union membership ₹100/year; caution/library deposit ₹10,000 refundable after settlement; stationery ₹2,500; insurance listed ₹650/month. Keep ₹1,000 additional joining provision.",
+      "ftiiSources": [
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-prospectus"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Fees",
+      "label": "Budget boundary",
+      "ftii": "Semester 1 total ₹1,09,574; later semester ₹66,292 each. Four-semester sum ₹3,08,450, calculated at the published unchanged rates. Includes deposits; excludes application, ongoing mess, travel/personal expenses.",
+      "nsd": "No official all-in three-year total stated. Tuition, hostel, mess, insurance and other dues are separate. Insurance is deducted from scholarship; confirm billing and deductions at joining.",
+      "ftiiSources": [
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-prospectus"
+      ],
+      "status": "official + calculated budget"
+    },
+    {
+      "section": "Funding",
+      "label": "Monthly stipend / scholarship",
+      "ftii": "No universal monthly stipend verified for Screen Acting in the reviewed sources. Competitive awards and eligible external schemes are listed separately.",
+      "nsd": "₹9,500/month scholarship to selected admitted diploma students for academic/training expenses. Foreign seats are fully paid; embassy/ICCR funding has separate rules.",
+      "ftiiSources": [
+        "ftii-scholarships",
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-notice",
+        "nsd-prospectus"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Funding",
+      "label": "Merit scholarships",
+      "ftii": "Acting entrance: Bachchan Patra ₹50,000 (1st), FTII ₹25,000 (2nd), ₹22,500 (3rd). Semester 1: ₹25,000/₹22,500 top two. Semester 2: Shatrughan Sinha ₹75,000; Sonakshi Sinha ₹75,000 (female topper, male fallback); Kaifi Azmi ₹50,000 merit + income; FTII ₹25,000/₹22,500 excluding those awardees. Semester 3 top two ₹25,000/₹22,500. Semester 4 Sanjeev Kumar ₹51,000 topper. These are awards, not monthly payments.",
+      "nsd": "The monthly scholarship is the main published support for this diploma; no separate universal stipend verified.",
+      "ftiiSources": [
+        "ftii-scholarships"
+      ],
+      "nsdSources": [
+        "nsd-prospectus"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Funding",
+      "label": "Fee concession / external schemes",
+      "ftii": "EWS freeship: 30% of tuition + hostel rent only; apply after admission, renew each semester with supporting evidence and satisfactory progress/attendance/discipline. State/NSP schemes depend on domicile/category/income and active scheme rules; verify applicability before budgeting.",
+      "nsd": "Selected students must submit a prescribed undertaking that they receive no scholarship from another source.",
+      "ftiiSources": [
+        "ftii-prospectus",
+        "ftii-scholarships"
+      ],
+      "nsdSources": [
+        "nsd-prospectus"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Funding",
+      "label": "State scholarships listed by FTII",
+      "ftii": "Bihar: actual tuition fees for eligible state-domicile students. Telangana: ₹20,000/year for eligible state-domicile students. No West Bengal-specific scholarship is listed in the reviewed FTII table; this does not establish that no external Bengal scheme exists. Confirm current state rules and sanction.",
+      "nsd": "The diploma’s own monthly scholarship has a non-receipt-of-other-scholarship undertaking.",
+      "ftiiSources": [
+        "ftii-scholarships"
+      ],
+      "nsdSources": [
+        "nsd-prospectus"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Funding",
+      "label": "NSP schemes listed by FTII",
+      "ftii": "FTII’s table lists Top Class ST (family income below ₹6 lakh/year), Top Class SC (below ₹8 lakh/year; 1 slot shown), and PM YASASVI OBC/EBC/DNT (table’s OBC income below ₹2.5 lakh/year; 5 slots shown). Each lists ₹86,000 in year 1 and ₹41,000 in later years for accessories/stationery/stipend, plus actual paid fees. These are annual packages, not monthly stipends. Scheme ministry rules, available slots and active NSP eligibility must be confirmed before applying.",
+      "nsd": "No additional universal stipend verified. Foreign students can seek embassy/ICCR assistance under their separate rules.",
+      "ftiiSources": [
+        "ftii-scholarships"
+      ],
+      "nsdSources": [
+        "nsd-prospectus"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Funding",
+      "label": "Conditions",
+      "ftii": "Merit awards are competitive. Do not assume all awards can be combined or deducted from joining fees. Confirm the scheme’s current award letter.",
+      "nsd": "Scholarship bond ₹3,42,000: repay money received if leaving before 3 years or discontinued for discipline. 85% semester attendance mandatory; 75–84% loses scholarship/facilities. Insurance and materials may be deducted.",
+      "ftiiSources": [
+        "ftii-scholarships"
+      ],
+      "nsdSources": [
+        "nsd-prospectus"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Timeline",
+      "label": "Cycle covered",
+      "ftii": "ET 2025–26, applications held in calendar 2026.",
+      "nsd": "Diploma 2026–2029, applications held in calendar 2026.",
+      "ftiiSources": [
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-notice"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Timeline",
+      "label": "Form release",
+      "ftii": "11 March 2026.",
+      "nsd": "17 March 2026.",
+      "ftiiSources": [
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-notice"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Timeline",
+      "label": "Submission deadline",
+      "ftii": "7 April 2026, 6 pm (India time), published registration deadline.",
+      "nsd": "17 April 2026; notice gives no closing hour. Portal confirms this date and that applications are closed.",
+      "ftiiSources": [
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-notice"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Timeline",
+      "label": "Selection schedule",
+      "ftii": "Original written-test schedule: 26 April 2026; admit cards 18–25 April. Audition June–July was tentative. A later re-examination notice exists; use the notices page and individual call letter for revised dates.",
+      "nsd": "Preliminary auditions: 16 May–2 June 2026 by centre; Kolkata 19–20 May. Final workshop in Delhi 15–19 June; scheduled course start 15 July 2026.",
+      "ftiiSources": [
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-notice"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Timeline",
+      "label": "Pending documents",
+      "ftii": "If OBC-NCL/EWS certificate pending: upload timely application acknowledgement; valid certificate due 7 May 2026, 4 pm. Final-year degree passing proof due 31 July 2026, 4 pm. These are past-cycle conditions.",
+      "nsd": "Public portal provides a final-year graduation undertaking upload. The notice requires graduation; obtain explicit NSD confirmation of the final passing-proof deadline before relying on provisional eligibility.",
+      "ftiiSources": [
+        "ftii-prospectus"
+      ],
+      "nsdSources": [
+        "nsd-notice",
+        "nsd-uploads"
+      ],
+      "status": "official"
+    },
+    {
+      "section": "Timeline",
+      "label": "Next application cycle",
+      "ftii": "Next release/deadline not verified as announced on 3 October 2026. Do not reuse the 2026 dates for the next intake.",
+      "nsd": "Next release/deadline not verified as announced on 3 October 2026. Do not reuse the 2026 dates for the next intake.",
+      "ftiiSources": [
+        "ftii-admissions"
+      ],
+      "nsdSources": [
+        "nsd-course",
+        "nsd-portal"
+      ],
+      "status": "not announced / not verified"
+    }
+  ],
+  "documents": [
+    {
+      "id": "admission-photo",
+      "title": "Recent passport-size colour photo",
+      "appliesTo": "Both",
+      "stage": "Application",
+      "note": "FTII: follow portal image specifications. NSD: JPG/PNG ≤500 KB; 200 DPI recommended.",
+      "sourceIds": [
+        "ftii-prospectus",
+        "nsd-uploads"
+      ],
+      "requirement": "required"
+    },
+    {
+      "id": "admission-signature",
+      "title": "Candidate signature",
+      "appliesTo": "Both",
+      "stage": "Application",
+      "note": "NSD: JPG/PNG ≤200 KB, black/blue ink on white paper. FTII: follow its portal specifications.",
+      "sourceIds": [
+        "ftii-prospectus",
+        "nsd-uploads"
+      ],
+      "requirement": "required"
+    },
+    {
+      "id": "admission-id",
+      "title": "Photo identity proof",
+      "appliesTo": "Both",
+      "stage": "Application / examination",
+      "note": "NSD upload: Aadhaar, passport or voter ID ≤500 KB. FTII examination: original photo ID (Aadhaar, voter card, driving licence, college/university ID or PAN).",
+      "sourceIds": [
+        "ftii-prospectus",
+        "nsd-uploads"
+      ],
+      "requirement": "required"
+    },
+    {
+      "id": "admission-school",
+      "title": "Class 10 / DOB and Class 12 records",
+      "appliesTo": "Both",
+      "stage": "Application / verification",
+      "note": "FTII DOB must match Class 10/SSC. Keep Class 12 qualification records. NSD portal provides separate Class 10/12 uploads ≤500 KB each; current client form makes these optional uploads. Preserve originals for verification.",
+      "sourceIds": [
+        "ftii-prospectus",
+        "nsd-uploads"
+      ],
+      "requirement": "stage-specific"
+    },
+    {
+      "id": "graduation",
+      "title": "Graduation degree / marksheets",
+      "appliesTo": "Both",
+      "stage": "Application / verification",
+      "note": "Recognised degree and academic proof. NSD graduation file ≤1 MB (PDF/JPG/PNG). Keep original degree/provisional certificate and marksheets for verification.",
+      "sourceIds": [
+        "ftii-prospectus",
+        "nsd-notice",
+        "nsd-uploads"
+      ],
+      "requirement": "required"
+    },
+    {
+      "id": "admission-category",
+      "title": "SC/ST, OBC-NCL, EWS and disability evidence",
+      "appliesTo": "Both",
+      "stage": "Application / verification",
+      "note": "Only if claiming the category. Use prescribed competent-authority certificates. FTII OBC-NCL: Central list/format; EWS income/assets certificate; valid current-cycle documents. NSD upload fields ≤500 KB each (PDF/JPG/PNG); permissive portal validation does not waive eligibility proof.",
+      "sourceIds": [
+        "ftii-prospectus",
+        "nsd-notice",
+        "nsd-uploads"
+      ],
+      "requirement": "conditional"
+    },
+    {
+      "id": "admission-receipt",
+      "title": "Submitted application and payment record",
+      "appliesTo": "Both",
+      "stage": "After submission",
+      "note": "Keep the final application, application number and fee receipt. FTII uses a payment reference and SBI Collect transaction record.",
+      "sourceIds": [
+        "ftii-prospectus",
+        "nsd-notice"
+      ],
+      "requirement": "keep record"
+    },
+    {
+      "id": "admission-call",
+      "title": "Printed admit card / audition call letter",
+      "appliesTo": "Both",
+      "stage": "Examination / workshop",
+      "note": "FTII requires printed admit card and original photo ID; digital admit cards are not accepted. NSD dates and workshop instructions arrive by email / portal.",
+      "sourceIds": [
+        "ftii-prospectus",
+        "nsd-notice"
+      ],
+      "requirement": "stage-specific"
+    },
+    {
+      "id": "admission-medical",
+      "title": "Medical fitness evidence",
+      "appliesTo": "Both",
+      "stage": "After selection",
+      "note": "FTII arranges/informs the medical-test process. NSD requires a recognised-authority medical certificate and campus/panel fitness examination before joining. Follow the selection letter rather than obtaining an arbitrary format.",
+      "sourceIds": [
+        "ftii-prospectus",
+        "nsd-prospectus",
+        "nsd-notice"
+      ],
+      "requirement": "stage-specific"
+    },
+    {
+      "id": "admission-final-year",
+      "title": "Final-year / pending graduation proof",
+      "appliesTo": "Both",
+      "stage": "Conditional application / selection",
+      "note": "FTII passing certificate/marksheet/provisional certificate with roll/register number due by 31 July 2026, 4 pm in this cycle. NSD public portal offers a graduation undertaking ≤1 MB; its acceptance and passing-proof deadline need confirmation.",
+      "sourceIds": [
+        "ftii-prospectus",
+        "nsd-notice",
+        "nsd-uploads"
+      ],
+      "requirement": "conditional"
+    },
+    {
+      "id": "admission-recognition",
+      "title": "Degree recognition / equivalence evidence",
+      "appliesTo": "FTII",
+      "stage": "Application",
+      "note": "Recognition valid for the university, course and study period (UGC/AIU); equivalence evidence for diploma claimed equal to a bachelor’s; DEB recognition for distance/open-university qualifications.",
+      "sourceIds": [
+        "ftii-prospectus"
+      ],
+      "requirement": "conditional to qualification"
+    },
+    {
+      "id": "admission-translation",
+      "title": "Certified Hindi/English translation",
+      "appliesTo": "FTII",
+      "stage": "Document verification",
+      "note": "For certificates in another language, upload original plus duly certified, notarised Hindi/English translation as one PDF.",
+      "sourceIds": [
+        "ftii-prospectus"
+      ],
+      "requirement": "conditional"
+    },
+    {
+      "id": "admission-pending-category",
+      "title": "Pending OBC-NCL / EWS acknowledgement",
+      "appliesTo": "FTII",
+      "stage": "Conditional application",
+      "note": "Acknowledgement date no later than application submission; valid certificate due 7 May 2026, 4 pm for ET 2025–26.",
+      "sourceIds": [
+        "ftii-prospectus"
+      ],
+      "requirement": "conditional"
+    },
+    {
+      "id": "six-productions",
+      "title": "Proof of 6 different theatre productions",
+      "appliesTo": "NSD",
+      "stage": "Application / verification",
+      "note": "Attach participation certificate, brochure, leaflet or newspaper clips for each distinct production. Use the production log below to assemble proof; a tick or log entry alone is not an uploaded application.",
+      "sourceIds": [
+        "nsd-notice"
+      ],
+      "requirement": "required"
+    },
+    {
+      "id": "admission-nsd-undertaking",
+      "title": "Scholarship undertaking and repayment bond",
+      "appliesTo": "NSD",
+      "stage": "After selection",
+      "note": "Prescribed non-receipt-of-other-scholarship undertaking and ₹3,42,000 scholarship bond. Obtain current NSD forms.",
+      "sourceIds": [
+        "nsd-prospectus"
+      ],
+      "requirement": "required"
+    },
+    {
+      "id": "admission-nsd-passport",
+      "title": "Passport ready before joining",
+      "appliesTo": "NSD",
+      "stage": "After selection",
+      "note": "2026 prospectus advises selected students to get their passport ready. Foreign applicants have a separate passport upload ≤1 MB and fully paid seats.",
+      "sourceIds": [
+        "nsd-prospectus",
+        "nsd-uploads"
+      ],
+      "requirement": "advised; required for foreign identification"
+    },
+    {
+      "id": "admission-ftii-freeship",
+      "title": "Income / supporting concession documents",
+      "appliesTo": "FTII",
+      "stage": "After admission",
+      "note": "If applying for EWS freeship, provide the relevant current supporting documents and renew each semester. For external scholarships follow each scheme’s evidence requirements.",
+      "sourceIds": [
+        "ftii-prospectus",
+        "ftii-scholarships"
+      ],
+      "requirement": "conditional"
+    },
+    {
+      "id": "admission-ftii-withdrawal",
+      "title": "Withdrawal / resignation certificate",
+      "appliesTo": "FTII",
+      "stage": "Admission",
+      "note": "If already enrolled elsewhere or employed, produce a withdrawal/resignation certificate from that institution or organisation. FTII prohibits concurrent academic/professional engagement.",
+      "sourceIds": [
+        "ftii-prospectus"
+      ],
+      "requirement": "conditional"
+    },
+    {
+      "id": "admission-ftii-insurance",
+      "title": "Mediclaim policy details",
+      "appliesTo": "FTII",
+      "stage": "Admission / course",
+      "note": "Mediclaim coverage is compulsory for the complete course at the student’s expense. If already covered for the academic session, submit the existing policy details. Confirm coverage and renewal instructions at joining.",
+      "sourceIds": [
+        "ftii-prospectus"
+      ],
+      "requirement": "required at admission"
+    },
+    {
+      "id": "recommendation",
+      "title": "Expert recommendation — check current instructions",
+      "appliesTo": "NSD",
+      "stage": "Only if requested",
+      "note": "The existing tracker included this from earlier guidance. The reviewed 2026 admission notice does not list it as an essential document. Retained as optional readiness, not a confirmed compulsory 2026 requirement.",
+      "sourceIds": [
+        "nsd-notice"
+      ],
+      "requirement": "not confirmed for 2026"
+    },
+    {
+      "id": "language",
+      "title": "Working Hindi / English",
+      "appliesTo": "NSD",
+      "stage": "Eligibility",
+      "note": "An eligibility check, not a separately prescribed language certificate in the 2026 notice.",
+      "sourceIds": [
+        "nsd-notice"
+      ],
+      "requirement": "eligibility check"
+    },
+    {
+      "id": "cycle-check",
+      "title": "Age / category eligibility",
+      "appliesTo": "NSD",
+      "stage": "Before application",
+      "note": "Check the date-of-birth cut-off and applicable relaxation against the notice for the intake you apply to.",
+      "sourceIds": [
+        "nsd-notice"
+      ],
+      "requirement": "eligibility check"
+    }
+  ],
+  "movedResourceIds": [
+    "r0",
+    "r1",
+    "r13",
+    "r14",
+    "r15",
+    "r16"
+  ],
+  "gaps": [
+    "Next-cycle release dates, deadlines and fee revisions have not been verified as announced. This is a dated reference, not a live admissions feed.",
+    "FTII upload byte limits, final joining forms and photocopy counts must be checked in the active portal/call letter. Do not assume a fixed number of copies.",
+    "NSD final-year passing-proof deadline and any additional joining documents need the active call letter. Portal upload fields and optional validation do not override the official notice.",
+    "NSD’s older course webpage describes specialization from year two; the 2026 notice specifies the first three semesters integrated and the next three specialized. The sheet follows the 2026 notice."
+  ]
+}

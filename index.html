@@ -8,7 +8,7 @@
   <meta name="description" content="Offline-first FTII, NSD and Bengal acting entrance preparation tracker.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/cinema-studio.svg?v=weekly-20260928034844-1e770310" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261004-audit">
   <link rel="stylesheet" href="daily.css">
   <link rel="stylesheet" href="cinema.css?v=20260927">
   <link rel="preload" href="fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -18,6 +18,9 @@
   <link rel="stylesheet" href="deck.css?v=20260927-sort-fix">
   <link rel="stylesheet" href="weekly-theme.css?v=weekly-20260928034844-1e770310">
   <link rel="stylesheet" href="library.css?v=20260928-library">
+  <link rel="stylesheet" href="music.css?v=20261004-vinyl">
+  <link rel="stylesheet" href="bengali-plays.css?v=20261001">
+  <link rel="stylesheet" href="admissions.css?v=20261004">
 </head>
 <body data-room="today">
   <a class="skip" href="#workspace">Skip to workspace</a>
@@ -37,6 +40,8 @@
         <button class="nav-item" data-view="bucket"><span>10</span>Movie bucket list</button>
         <button class="nav-item" data-view="journal"><span>11</span>Film logbook</button>
         <button class="nav-item" data-view="study"><span>12</span>Study Material</button>
+        <button class="nav-item" data-view="music"><span>13</span>YouTube Music</button>
+        <button class="nav-item" data-view="admissions"><span>14</span>Admissions spec</button>
       </nav>
       <label class="mobile-room">Choose a room<select id="mobileView" aria-label="Choose a room">
         <option value="today">01 · Today</option><option value="daily">02 · Daily review</option>
@@ -46,6 +51,8 @@
         <option value="cinema">09 · World cinema</option><option value="bucket">10 · Movie bucket list</option>
         <option value="journal">11 · Film logbook</option>
         <option value="study">12 · Study Material</option>
+        <option value="music">13 · YouTube Music</option>
+        <option value="admissions">14 · Admissions spec</option>
       </select></label>
       <div class="sidebar-foot">
         <button id="cloudAccount" class="quiet" type="button">Sign in to sync</button>
@@ -182,7 +189,7 @@
       </section>
 
       <section class="view" id="view-resources">
-        <div class="panel intro-panel"><p class="eyebrow">EXAM DESK / NOT THE READING LIBRARY</p><h2>Papers, prospectuses & official guidance</h2><p>Admission documents and research evidence stay here. Books, play texts and learning material have their own Study Material library.</p><button class="quiet" type="button" data-go="study">Open Study Material library ↗</button></div>
+        <div class="panel intro-panel"><p class="eyebrow">EXAM DESK</p><h2>Papers & research references</h2><p>Past papers and research references are here. Fees, curricula, scholarships, deadlines and application documents are together in Admissions spec.</p><button class="quiet" type="button" data-go="admissions">Open Admissions spec ↗</button><button class="quiet" type="button" data-go="study">Open Study Material library ↗</button></div>
         <div class="resource-shelves" aria-label="Resource shelves"><button type="button" data-resource-shelf="exam" aria-pressed="true">Papers & official guidance</button><button type="button" data-resource-shelf="research" aria-pressed="false">Research & institutional references</button></div>
         <div class="filter-row"><label>Track<select id="resourceTrack"><option value="all">All tracks</option><option>FTII</option><option>NSD</option><option>Bengal</option><option>Shared</option><option>International</option></select></label><label>Search<input id="resourceSearch" type="search" placeholder="Paper, play, institution"></label><label>Access<select id="resourceAccess"><option value="all">All access</option><option value="open">Open</option><option value="portal">Portal</option><option value="reference">Reference</option><option value="unstable">Unstable</option></select></label></div>
         <div id="resourceCount" class="summary-line"></div>
@@ -190,17 +197,41 @@
       </section>
 
       <section class="view" id="view-study" aria-label="Study Material library">
-        <div class="panel study-intro"><p class="eyebrow">THE LEARNING LIBRARY / BOOKS & PLAY TEXTS</p><h2>A shelf to learn from.</h2><p>No question papers, prospectuses or admission guidelines mixed into this library. Those are in Resources.</p><p>Start here = compact foundations · Add next = companions · Extended = deeper exploration · Prescribed play = NSD 2026 discussion-list text, cycle-specific. Relevance to exam questions or a curriculum does not make every book officially prescribed.</p><button class="quiet" type="button" data-go="resources">Open papers & official guidance ↗</button><p>Opening a text never marks it read or earns a learning streak. Modern books stay on publisher, library or Archive preview/borrow pages. The six historical PDFs can be read offline after opening them online once.</p></div>
+        <div class="panel study-intro"><p class="eyebrow">THE LEARNING LIBRARY / BOOKS & PLAY TEXTS</p><h2>A shelf to learn from.</h2><p>Question papers are in Resources. Prospectuses and admission guidelines are in Admissions spec.</p><p>Start here = compact foundations · Add next = companions · Extended = deeper exploration · Prescribed play = NSD 2026 discussion-list text, cycle-specific. Relevance to exam questions or a curriculum does not make every book officially prescribed.</p><button class="quiet" type="button" data-go="resources">Open papers & research references ↗</button><button class="quiet" type="button" data-go="admissions">Open Admissions spec ↗</button><p>Opening a text never marks it read or earns a learning streak. Modern books stay on publisher, library or Archive preview/borrow pages. The seven historical/open-access PDFs can be read offline after opening them online once.</p></div>
+        <section class="bengali-plays" aria-labelledby="bengaliPlaysTitle">
+          <div class="bengali-plays-heading"><div><p class="eyebrow">BENGAL THEATRE / PLAYWRIGHTS & PLAYS</p><h2 id="bengaliPlaysTitle">Find the play. Know the source.</h2></div><p>Checked 1 October 2026. “Site-listed” means a title appears in Boier Thikana’s catalogue; it does not mean a PDF is held here or that redistribution is cleared. NSD labels refer only to the 2026 discussion list.</p></div>
+          <div class="bengali-plays-key" aria-label="Reading access key"><span>Local PDF · in this library</span><span>Read online · external text or historical scan</span><span>Catalogue · locate an edition</span></div>
+          <div class="bengali-plays-grid">
+            <article class="bengali-play-card"><p class="eyebrow">EARLY SOCIAL THEATRE</p><h3>Dinabandhu Mitra</h3><ul><li><strong>Nil Darpan</strong> <small>Read online · Bengali Wikisource, historical editions</small></li><li><strong>Leelabati</strong> <small>Site-listed · locate an edition</small></li></ul><a href="https://bn.wikisource.org/wiki/%E0%A6%B0%E0%A6%9A%E0%A6%A8%E0%A6%BE:%E0%A6%A8%E0%A7%80%E0%A6%B2%E0%A6%A6%E0%A6%B0%E0%A7%8D%E0%A6%AA%E0%A6%A3" target="_blank" rel="noopener noreferrer">Read Nil Darpan ↗</a></article>
+            <article class="bengali-play-card"><p class="eyebrow">SATIRE & FARCE</p><h3>Michael Madhusudan Dutt</h3><ul><li><strong>Ekei Ki Bole Sabhyata?</strong> <small>Read online · Bengali Wikisource</small></li><li><strong>Buro Shaliker Ghare Ron</strong> <small>Site-listed · locate an edition</small></li></ul><a href="https://bn.wikisource.org/wiki/%E0%A6%8F%E0%A6%95%E0%A7%87%E0%A6%87_%E0%A6%95%E0%A6%BF_%E0%A6%AC%E0%A6%B2%E0%A7%87_%E0%A6%B8%E0%A6%AD%E0%A7%8D%E0%A6%AF%E0%A6%A4%E0%A6%BE%3F" target="_blank" rel="noopener noreferrer">Read Ekei Ki Bole Sabhyata? ↗</a></article>
+            <article class="bengali-play-card"><p class="eyebrow">HISTORICAL STAGE</p><h3>Girish Chandra Ghosh</h3><ul><li><strong>Siraj-ud-Daulah</strong> <small>Read online · Bengali Wikisource author record</small></li><li><strong>Shasti Ki Shanti · Ravan Badh</strong> <small>Site-listed · locate editions</small></li><li><strong>Macbeth</strong> <small>His Bengali adaptation · site-listed</small></li></ul><a href="https://bn.wikisource.org/wiki/%E0%A6%B2%E0%A7%87%E0%A6%96%E0%A6%95:%E0%A6%97%E0%A6%BF%E0%A6%B0%E0%A6%BF%E0%A6%B6%E0%A6%9A%E0%A6%A8%E0%A7%8D%E0%A6%A6%E0%A7%8D%E0%A6%B0_%E0%A6%98%E0%A7%8B%E0%A6%B7" target="_blank" rel="noopener noreferrer">Find Siraj-ud-Daulah ↗</a></article>
+            <article class="bengali-play-card"><p class="eyebrow">NSD 2026 · BENGAL</p><h3>Rabindranath Tagore</h3><ul><li><strong>Dak Ghar</strong> <small>Local PDF · English translation; Bengali text online</small></li><li><strong>Raktakarabi</strong> <small>Study-list play · locate a Bengali edition</small></li><li><strong>Prakritir Pratishodh</strong> <small>Site-listed · further discovery</small></li></ul><a href="study-material/open-texts/Tagore_The_Post_Office_1914.pdf" target="_blank" rel="noopener noreferrer">Open Dak Ghar PDF · English ↗</a><a href="https://bn.wikisource.org/wiki/%E0%A6%A1%E0%A6%BE%E0%A6%95%E0%A6%98%E0%A6%B0" target="_blank" rel="noopener noreferrer">Read Dak Ghar · Bengali ↗</a></article>
+            <article class="bengali-play-card"><p class="eyebrow">NSD 2026 · ENSEMBLE</p><h3>Bijon Bhattacharya</h3><ul><li><strong>Nabanna</strong> <small>Prescribed-list title · no local PDF</small></li><li><strong>Abarodh</strong> <small>Site-listed · locate an edition</small></li></ul><p class="bengali-play-note">The site’s theatre shelf did not identify a standalone Nabanna text. Check a library or authorised edition.</p></article>
+            <article class="bengali-play-card"><p class="eyebrow">POLITICAL THEATRE</p><h3>Utpal Dutt</h3><ul><li><strong>Tiner Talowar · Ferari Fauj</strong> <small>Site-listed · locate editions</small></li><li><strong>Kallol · Titumir · Kuthar</strong> <small>Site-listed selected collection</small></li></ul><a href="https://boierhaat.com/product/utpal-dutta-natak-samagra-vol-1-to-10" target="_blank" rel="noopener noreferrer">Find published collection ↗</a></article>
+            <article class="bengali-play-card"><p class="eyebrow">NSD 2026 · THIRD THEATRE</p><h3>Badal Sircar</h3><ul><li><strong>Baaki Itihaas</strong> <small>Prescribed-list title · no local PDF</small></li><li><strong>Evam Indrajit · Michhil</strong> <small>Bengal study-list plays</small></li><li><strong>Natak Samagra</strong> <small>Volumes 1–3 site-listed; contents not fully checked</small></li></ul><a href="https://www.parabaas.com/book.php?id=497" target="_blank" rel="noopener noreferrer">Find published collection ↗</a></article>
+            <article class="bengali-play-card"><p class="eyebrow">CONTEMPORARY BENGAL</p><h3>Manoj Mitra</h3><ul><li><strong>Jagannath</strong> <small>Bengal study-list play</small></li><li><strong>Sajano Bagan · Ashtadhatu</strong> <small>Site-listed plays</small></li><li><strong>Galpa Hekim Saheb · Narak Gulzar · Dash Ekanka</strong> <small>Site-listed works</small></li></ul><a href="https://www.readbengalibooks.com/mgnatmmset.html" target="_blank" rel="noopener noreferrer">Find published collection ↗</a></article>
+            <article class="bengali-play-card"><p class="eyebrow">FURTHER DISCOVERY · HISTORICAL DRAMA</p><h3>Dwijendralal Ray</h3><ul><li><strong>Tarabai · Nurjahan · Bhishma</strong> <small>Site-listed plays; supplementary Bengal study</small></li></ul><a href="https://bn.wikisource.org/wiki/%E0%A6%B2%E0%A7%87%E0%A6%96%E0%A6%95:%E0%A6%A6%E0%A7%8D%E0%A6%AC%E0%A6%BF%E0%A6%9C%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%A6%E0%A7%8D%E0%A6%B0%E0%A6%B2%E0%A6%BE%E0%A6%B2_%E0%A6%B0%E0%A6%BE%E0%A6%AF%E0%A6%BC" target="_blank" rel="noopener noreferrer">Explore historical texts ↗</a></article>
+            <article class="bengali-play-card"><p class="eyebrow">FURTHER DISCOVERY · DRAMATIC WRITING</p><h3>Kazi Nazrul Islam</h3><ul><li><strong>Collected dramatic works</strong> <small>Site author collection indexes plays and playlets; individual titles not yet checked</small></li></ul><a href="https://bn.wikisource.org/wiki/%E0%A6%B2%E0%A7%87%E0%A6%96%E0%A6%95:%E0%A6%95%E0%A6%BE%E0%A6%9C%E0%A7%80_%E0%A6%A8%E0%A6%9C%E0%A6%B0%E0%A7%81%E0%A6%B2_%E0%A6%87%E0%A6%B8%E0%A6%B2%E0%A6%BE%E0%A6%AE" target="_blank" rel="noopener noreferrer">Explore author record ↗</a></article>
+          </div>
+          <p class="bengali-plays-sources">Discovery source: <a href="https://www.boierthikana.com/" target="_blank" rel="noopener noreferrer">Boier Thikana theatre shelf ↗</a> · <a href="https://www.boierthikana.com/%E0%A6%86%E0%A6%AE%E0%A6%BE%E0%A6%A6%E0%A7%87%E0%A6%B0-%E0%A6%95%E0%A6%A5%E0%A6%BE/" target="_blank" rel="noopener noreferrer">site rights statement ↗</a>. Its modern collection PDFs are discovery leads; the site says it does not own their copyright. No modern play scans are hosted here. Binodini Dasi’s <em>Amar Katha</em> is related actor memoir, not a play collection.</p>
+        </section>
         <div class="study-filters"><label>Priority<select id="studyPriority" aria-label="Priority"><option value="all">All priorities</option><option value="start_here">Start here</option><option value="add_next">Add next</option><option value="extended">Extended</option><option value="prescribed_play">Prescribed plays · NSD 2026</option></select></label><label>Language<select id="studyLanguage" aria-label="Language"><option value="all">All languages</option></select></label><label>Topic<select id="studyTopic" aria-label="Topic"><option value="all">All topics</option></select></label><label>Track<select id="studyTrack" aria-label="Track"><option value="all">All tracks</option><option>FTII</option><option>NSD</option><option>Bengal</option></select></label><label>Access<select id="studyAccess" aria-label="Access"><option value="all">All access</option><option value="local_pdf">Local public-domain PDF</option></select></label><label>Search the library<input id="studySearch" type="search" placeholder="Book, author, concept…"></label></div>
         <p id="studyCount" class="summary-line" role="status" aria-live="polite"></p><div id="studyCards" class="study-grid"></div>
         <details class="panel"><summary>Further reading & archive references</summary><p>Original learning links, preserved separately from exam documents. The filters above apply to the book catalogue.</p><div id="studyFurtherReading" class="resource-list"></div></details>
       </section>
 
       <section class="view" id="view-evidence">
-        <div class="panel intro-panel"><p class="eyebrow">NSD ELIGIBILITY</p><h2>Make six productions easy to verify</h2><p>Log evidence now. The current official notice remains authoritative for age, category, documents and format.</p></div>
-        <div id="evidenceChecklist" class="evidence-grid"></div>
+        <div class="panel intro-panel"><p class="eyebrow">NSD PRODUCTION RECORDS</p><h2>Make six productions easy to verify</h2><p>Keep your production titles, roles and proof here. The application checklist and official requirements are in Admissions spec.</p><button class="quiet" type="button" data-go="admissions">Open admissions checklist ↗</button></div>
         <form id="productionForm" class="panel inline-form"><label>Production<input name="title" required placeholder="Play title"></label><label>Role / function<input name="role" required placeholder="Actor, assistant, design…"></label><label>Proof<select name="proof"><option>Certificate</option><option>Brochure / leaflet</option><option>Press clipping</option><option>Photograph + letter</option><option>Pending</option></select></label><button class="primary" type="submit">Add production</button></form>
         <div id="productionList" class="production-list"></div>
+      </section>
+
+      <section class="view" id="view-admissions" aria-label="FTII and NSD admissions specification">
+        <article class="panel admission-intro"><p class="eyebrow">ADMISSIONS SPEC / FTII PUNE + NSD NEW DELHI</p><h2>Your admissions cheat sheet.</h2><p>Course fees, curriculum, financial support, application dates and one combined document checklist.</p><p class="admission-note"><strong>Checked 3 October 2026.</strong> FTII ET 2025–26 and NSD 2026–2029 are dated references. Their 2026 application windows have passed. Next-cycle release dates and deadlines are not verified as announced.</p><div class="admission-actions"><a href="ADMISSIONS_CHEAT_SHEET.md" download>Download cheat sheet</a><button class="quiet" id="admissionsPrint" type="button">Print comparison</button><button class="quiet" type="button" data-go="evidence">Open production records ↗</button></div></article>
+        <div id="admissionsComparison"></div>
+        <section class="panel admission-section"><h2>Combined document checklist</h2><p>Shared documents appear once. Each item says who needs it and when. Ticks record your readiness; they do not submit an application. Original certificates and the active selection letter remain necessary.</p><div id="evidenceChecklist" class="evidence-grid"></div></section>
+        <details class="panel admission-section"><summary>Items to confirm for the active intake</summary><ul id="admissionsGaps"></ul></details>
+        <details class="panel admission-section"><summary>Official sources & archived audition guidance</summary><div id="admissionsSources"></div></details>
       </section>
 
       <section class="view" id="view-cinema" aria-label="International cinema course">
@@ -278,6 +309,32 @@
         </details>
         <section class="panel cinema-directory"><p class="eyebrow">ONLY IF YOU WANTED TO KEEP ONE</p><h2>My movie memories</h2><div id="bucketMemories" class="history-list"></div></section>
       </section>
+      <section class="view" id="view-music" aria-label="YouTube Music listening room">
+        <div class="music-room-header"><div><p class="music-kicker">THE LISTENING ROOM / 01</p><h2>Drop the needle.</h2></div><a href="#musicBrowse" class="music-browse-link">Explore your music ↓</a></div>
+        <div class="music-deck">
+          <div class="music-turntable" aria-hidden="true"><div class="music-record"><div class="music-record-label"><img id="musicCover" alt="" hidden><span>ACTING<br>STUDIO<br><small>33⅓ / SIDE A</small></span></div></div><div class="music-tonearm"><i></i></div><span class="music-deck-brand">STUDIO / SOUND</span><span class="music-deck-led"></span></div>
+          <div class="music-now"><p class="music-kicker">ON THE TURNTABLE</p><h3 id="musicTitle">Choose your first record</h3><p id="musicArtist">A little space for whatever you feel like hearing.</p>
+            <div class="music-timeline"><input id="musicSeek" type="range" min="0" max="1" value="0" step="1" aria-label="Seek position" disabled><div><span id="musicElapsed">0:00</span><span id="musicDuration">0:00</span></div></div>
+            <div class="music-controls"><button id="musicShuffle" type="button" aria-label="Shuffle" aria-pressed="false" disabled>⇄</button><button id="musicPrevious" type="button" aria-label="Previous track" disabled>❮❮</button><button id="musicToggle" type="button" aria-label="Play" disabled>▶</button><button id="musicNext" type="button" aria-label="Next track" disabled>❯❯</button><button id="musicRepeat" type="button" aria-label="Repeat: off" aria-pressed="false" disabled>↻</button></div>
+            <div class="music-volume"><label for="musicVolume">Volume</label><input id="musicVolume" type="range" min="0" max="100" value="100" disabled><button id="musicStop" type="button">Clear</button></div>
+            <p id="musicPlayerStatus" role="status">Pick a song below or bring a link.</p>
+            <div id="musicVideoAnchor"><div id="musicVideoDock"><div class="music-video-caption"><span>PLAYBACK BY YOUTUBE</span><button id="musicReturn" type="button">Back to record ↑</button></div><div id="musicPlayerHost"><p>Your video appears here when a record is loaded.</p></div></div></div>
+            <a id="musicOpen" href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer">Open on YouTube Music ↗</a>
+          </div>
+        </div>
+        <form id="musicPlayerForm" class="music-link-form"><label for="musicLink">Bring your own record</label><div><input id="musicLink" type="url" required placeholder="Paste a YouTube Music song or playlist link"><button type="submit">Load record ↗</button></div></form>
+        <div id="musicBrowse" class="music-browse">
+          <div class="music-section-head"><div><p class="music-kicker">FIND YOUR NEXT SOUND</p><h3>What are you in the mood for?</h3></div><button id="musicConnect" type="button">Connect Google account</button><button id="musicDisconnect" type="button" hidden>Disconnect</button></div>
+          <form id="musicSearchForm" class="music-search"><label class="sr-only" for="musicSearch">Search songs and artists</label><input id="musicSearch" type="search" maxlength="300" required placeholder="Search a song, artist or a feeling…"><button type="submit">Search ↗</button></form>
+          <div class="music-moods"><button type="button" data-music-query="acoustic music">Acoustic afternoon</button><button type="button" data-music-query="jazz music">A little jazz</button><button type="button" data-music-query="Bengali songs">Bengali favourites</button><button type="button" data-music-query="ambient instrumental music">Quiet company</button></div>
+          <p id="musicSearchStatus" role="status">Connect Google to search here. Song links work without connecting.</p><div id="musicResults" class="music-track-grid"></div><button id="musicSearchMore" type="button" hidden>Next results</button>
+          <div class="music-section-head"><div><p class="music-kicker">FROM YOUR ACCOUNT</p><h3>Your playlists</h3></div><button id="musicMore" type="button" hidden>More playlists</button></div>
+          <p id="musicAccountStatus" role="status">Connect to browse your account-owned YouTube playlists with read-only access.</p><div id="musicPlaylists" class="music-playlist-grid"></div><h4 id="musicPlaylistTitle"></h4><div id="musicPlaylistTracks" class="music-track-grid"></div>
+          <div class="music-section-head"><div><p class="music-kicker">UP NEXT</p><h3>The listening queue</h3></div><span id="musicQueueCount">0 tracks · this visit</span></div><div id="musicQueue" class="music-queue"></div>
+          <p class="music-fine">Your room, YouTube playback. Internet required. Some tracks or private playlists must open on YouTube Music. Saved Music albums and personalised recommendations are not available through this connection. Listening adds no study minutes.</p>
+          <details><summary>Connection details &amp; full library</summary><p><a href="https://music.youtube.com/library" target="_blank" rel="noopener noreferrer">Full YouTube Music library ↗</a> · <a href="YOUTUBE_MUSIC_SETUP.md" target="_blank" rel="noopener">Connection help</a></p><label for="musicClientId">Google web OAuth client ID (advanced)</label><input id="musicClientId" type="text" placeholder="…apps.googleusercontent.com"><button id="musicSaveClient" type="button">Save connection setting on this device</button></details>
+        </div>
+      </section>
       <footer class="studio-footer"><span>A personal acting &amp; cinema journal · made for practice and pleasure.</span><a href="DESIGN_NOTES.md" target="_blank" rel="noopener">Design inspiration &amp; font credits ↗</a></footer>
     </main>
   </div>
@@ -316,10 +373,21 @@
   </script>
   <script src="journal-core.js?v=20260927-film-sort"></script>
   <script src="letterboxd-core.js?v=20260927-daily-inbox"></script>
-  <script src="library-core.js?v=20260928-library"></script>
-  <script src="study-material-data.js?v=20260928-library-preview"></script>
-  <script src="app.js?v=20260928-library"></script>
-  <script src="study-material-ui.js?v=20260928-library-preview"></script>
+  <script src="library-core.js?v=20260929-bengali-scans"></script>
+  <script src="study-material-data.js?v=20260929-bengali-scans"></script>
+  <script>
+    // Personal scan paths never load on the public website or a hosted preview.
+    if (location.protocol === "file:") {
+      document.write('<script src="study-material-local.js"><\/script>');
+    }
+  </script>
+  <script src="admissions-data.js?v=20261004"></script>
+  <script src="app.js?v=20261004-admissions"></script>
+  <script src="admissions-ui.js?v=20261004"></script>
+  <script src="music-core.js?v=20261004-vinyl"></script>
+  <script src="music-player.js?v=20261004-vinyl-audit"></script>
+  <script src="music-account.js?v=20261004-vinyl"></script>
+  <script src="study-material-ui.js?v=20260929-bengali-scans"></script>
   <script src="journal-ui.js?v=20260927-sort-fix"></script>
   <script src="pwa.js"></script>
   <script>

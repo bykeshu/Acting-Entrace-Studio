@@ -131,7 +131,7 @@
     const value=type=>parts.find(p=>p.type===type).value;
     return `${value('year')}-${value('month')}-${value('day')}`;
   };
-  const viewNames = {today:"Today’s rehearsal room",daily:"Daily assessment ledger",roadmap:"Your 24-week route",syllabus:"Syllabus studio",practice:"Practice log",tests:"Test and error lab",resources:"Papers & official guidance",study:"Study Material library",evidence:"NSD evidence file",cinema:"World cinema studio",bucket:"My movie bucket list",journal:"My life in films"};
+  const viewNames = {today:"Today’s rehearsal room",daily:"Daily assessment ledger",roadmap:"Your 24-week route",syllabus:"Syllabus studio",practice:"Practice log",tests:"Test and error lab",resources:"Papers & research references",study:"Study Material library",music:"YouTube Music listening room",evidence:"NSD production evidence",admissions:"Admissions spec",cinema:"World cinema studio",bucket:"My movie bucket list",journal:"My life in films"};
 
   function switchView(id){
     if(!viewNames[id])return;
@@ -140,7 +140,7 @@
     $("#viewTitle").textContent=viewNames[id];
     $("#mobileView").value=id;
     document.body.dataset.room=id;
-    if(id==="daily") renderDaily(); if(id==="resources") renderResources(); if(id==="syllabus") renderSyllabus(); if(id==="practice") renderSessions(); if(id==="tests") renderTests(); if(id==="evidence") renderEvidence();
+    if(id==="daily") renderDaily(); if(id==="resources") renderResources(); if(id==="syllabus") renderSyllabus(); if(id==="practice") renderSessions(); if(id==="tests") renderTests(); if(id==="evidence"||id==="admissions") renderEvidence();
     if(id==="cinema") renderCinema();
     if(id==="bucket") renderBucket();
     if(id==="journal") window.ACTING_LOGBOOK?.render();
@@ -220,8 +220,9 @@
   let resourceShelf='exam';
   function renderResources(){
     const track=$("#resourceTrack").value, access=$("#resourceAccess").value, q=$("#resourceSearch").value.trim().toLowerCase();
-    const rows=seed.resources.filter(r=>window.ACTING_LIBRARY.shelf(r)===resourceShelf&&(track==='all'||r.track.includes(track))&&(access==='all'||r.access===access)&&(!q||`${r.title} ${r.category} ${r.publisher}`.toLowerCase().includes(q)));
-    $("#resourceCount").textContent=`${rows.length} ${resourceShelf==='exam'?'papers & official documents':'research references'} · books and learning texts are in Study Material · check dates shown per source`;
+    const moved=new Set(window.ACTING_ADMISSIONS?.movedResourceIds||['r0','r1','r13','r14','r15','r16']);
+    const rows=seed.resources.filter(r=>!moved.has(r.id)&&window.ACTING_LIBRARY.shelf(r)===resourceShelf&&(track==='all'||r.track.includes(track))&&(access==='all'||r.access===access)&&(!q||`${r.title} ${r.category} ${r.publisher}`.toLowerCase().includes(q)));
+    $("#resourceCount").textContent=`${rows.length} ${resourceShelf==='exam'?'papers & official documents':'research references'} · admissions documents are in Admissions spec · books and learning texts are in Study Material · check dates shown per source`;
     $("#resourceList").innerHTML=rows.map(r=>`<article class="resource"><div><h3>${esc(r.title)}</h3><p>${esc(r.publisher)} · ${esc(r.category)} · checked ${esc(r.verifiedOn)}</p></div><span class="status">${esc(r.track)} · ${esc(r.access)}</span><a href="${esc(r.url)}" target="_blank" rel="noopener">Open ↗</a></article>`).join('')||`<p class="empty">No resources match.</p>`;
   }
   $("#resourceTrack").onchange=renderResources; $("#resourceAccess").onchange=renderResources; $("#resourceSearch").oninput=renderResources;
@@ -334,7 +335,8 @@
   });
 
   function renderEvidence(){
-    $("#evidenceChecklist").innerHTML=seed.evidence.map(x=>`<article class="evidence-card"><label><input type="checkbox" data-evidence="${x.id}" ${state.evidence[x.id]?'checked':''}><span>${esc(x.title)}</span></label><p>${esc(x.note)}</p></article>`).join('');
+    const documents=window.ACTING_ADMISSIONS?.documents||seed.evidence;
+    $("#evidenceChecklist").innerHTML=documents.map(x=>`<article class="evidence-card"><label><input type="checkbox" data-evidence="${esc(x.id)}" ${state.evidence[x.id]?'checked':''}><span>${esc(x.title)}</span></label>${x.appliesTo?`<small>${esc(x.appliesTo)} · ${esc(x.stage)} · ${esc(x.requirement)}</small>`:''}<p>${esc(x.note)}</p>${x.sourceIds?`<small>${x.sourceIds.map(id=>{const s=window.ACTING_ADMISSIONS.sources.find(s=>s.sourceId===id);return `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a>`}).join(' · ')} · checked ${esc(window.ACTING_ADMISSIONS.verifiedOn)}</small>`:''}</article>`).join('');
     $("#productionList").innerHTML=state.productions.length?state.productions.map((p,i)=>`<article class="production"><h3>${i+1}. ${esc(p.title)}</h3><p>${esc(p.role)}</p><p>Proof: ${esc(p.proof)}</p><button class="text-btn" data-delete-production="${p.id}">Remove</button></article>`).join(''):`<p class="empty">Add your first production and its proof.</p>`;
   }
   $("#evidenceChecklist").addEventListener("change",e=>{if(e.target.dataset.evidence){state.evidence[e.target.dataset.evidence]=e.target.checked;save()}});

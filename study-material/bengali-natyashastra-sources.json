@@ -1,0 +1,126 @@
+{
+  "verifiedOn": "2026-09-29",
+  "title": "Bengali Bharata Natyashastra: matching Archive scans",
+  "editor": "Sureshchandra Bandyopadhyay",
+  "publisher": "Nabapatra Prakashan",
+  "volumes": [
+    {
+      "volume": 1,
+      "label": "ভরত নাট্যশাস্ত্র — খণ্ড ১",
+      "volumeStatus": "verified_catalogue",
+      "archiveUrl": "https://archive.org/details/dli.bengal.10689.12281",
+      "pdfUrl": "https://archive.org/download/dli.bengal.10689.12281/10689.12281.pdf",
+      "ocrPdfUrl": "https://archive.org/download/dli.bengal.10689.12281/10689.12281_text.pdf",
+      "pdfBytes": 20961160,
+      "pdfValidation": {
+        "pages": 388,
+        "encrypted": false,
+        "sha256": "31f504d85dac7f5932211d60e5a6ea66b474a57dbf9ebf9e7b2ce976d309ef1e",
+        "renderedPages": [
+          4,
+          10,
+          100
+        ],
+        "checkedOn": "2026-09-29"
+      },
+      "cataloguePages": 388,
+      "sourceLibrary": "Uttarpara Jaykrishna Public Library, Hooghly; West Bengal Public Library Network",
+      "duplicateArchiveUrl": "https://archive.org/details/in.ernet.dli.2015.356037",
+      "sourceRightsStatement": "The duplicate Digital Library of India record states dc.rights: In Public Domain. This is the source's statement, not an independently established copyright determination.",
+      "access": "archive_download_listed",
+      "verifiedOn": "2026-09-29"
+    },
+    {
+      "volume": 2,
+      "label": "ভরত নাট্যশাস্ত্র — খণ্ড ২",
+      "volumeStatus": "verified_catalogue_and_front_matter",
+      "archiveUrl": "https://archive.org/details/dli.bengal.10689.12284",
+      "pdfUrl": "https://archive.org/download/dli.bengal.10689.12284/10689.12284.pdf",
+      "ocrPdfUrl": "https://archive.org/download/dli.bengal.10689.12284/10689.12284_text.pdf",
+      "pdfBytes": 21869869,
+      "pdfValidation": {
+        "pages": 376,
+        "encrypted": false,
+        "sha256": "b4603cbcbddd145bc22af75140e77bc070d732f65afc8e532334dc8128c1ff29",
+        "renderedPages": [
+          10,
+          100
+        ],
+        "checkedOn": "2026-09-29"
+      },
+      "cataloguePages": 376,
+      "sourceLibrary": "Uttarpara Jaykrishna Public Library, Hooghly; West Bengal Public Library Network",
+      "duplicateArchiveUrl": "https://archive.org/details/in.ernet.dli.2015.356040",
+      "creditsInFrontMatter": "Editor: Sureshchandra Bandyopadhyay. Bengali translation: Sureshchandra Bandyopadhyay and Chhanda Chakraborty.",
+      "sourceRightsStatement": "The duplicate Digital Library of India record states dc.rights: In Public Domain. This is the source's statement, not an independently established copyright determination.",
+      "access": "archive_download_listed",
+      "verifiedOn": "2026-09-29"
+    },
+    {
+      "volume": 3,
+      "label": "ভরত নাট্যশাস্ত্র — সম্ভবত খণ্ড ৩ (অধ্যায় ১৯–২৭)",
+      "volumeStatus": "probable_from_contents_not_explicitly_numbered",
+      "archiveUrl": "https://archive.org/details/in.ernet.dli.2015.300017",
+      "pdfUrl": "https://archive.org/download/in.ernet.dli.2015.300017/2015.300017.Bharat-Natyashastra.pdf",
+      "ocrPdfUrl": "https://archive.org/download/in.ernet.dli.2015.300017/2015.300017.Bharat-Natyashastra_text.pdf",
+      "pdfBytes": 17490867,
+      "cataloguePages": 360,
+      "sourceLibrary": "Birchandra State Central Library, Tripura; Digital Library of India",
+      "whyProbable": "Same editor and publisher. Contents run from chapter 19 through chapter 27, the expected third segment of a four-volume edition. The inspected first scan leaf is an imprint page; no numbered title page was found in the inspected front matter, and the Archive title omits a volume number.",
+      "ocrVerification": {
+        "sourceUrl": "https://archive.org/download/in.ernet.dli.2015.300017/2015.300017.Bharat-Natyashastra_djvu.txt",
+        "method": "Inspected Archive-supplied Bengali OCR front matter and contents; searched the whole OCR for ordinal/volume and khanda combinations in Bengali and English, then distinguished unrelated in-text references.",
+        "publisherPlan": "The publisher's note says the complete work will be issued in four volumes.",
+        "chapterRange": [
+          19,
+          27
+        ],
+        "explicitVolumeNumberFound": false,
+        "conclusion": "Strongly supported third-volume identification, not explicit title-page confirmation.",
+        "checkedOn": "2026-09-29"
+      },
+      "contents": [
+        "Kaku and vocal expression",
+        "Dramatic forms",
+        "Plot junctions",
+        "Vritti",
+        "Aharya abhinaya",
+        "Samanya abhinaya",
+        "Chitrabhinaya",
+        "Performance success"
+      ],
+      "access": "archive_download_listed",
+      "verifiedOn": "2026-09-29"
+    },
+    {
+      "volume": 4,
+      "label": "ভরত নাট্যশাস্ত্র — খণ্ড ৪",
+      "volumeStatus": "no_matching_archive_scan_found",
+      "editionUrl": "https://deybooks.com/products/bharat-natyashastra-volume-4",
+      "access": "retail_edition_record",
+      "note": "The editor/publisher match is verified in the retail listing. A matching Bengali Archive PDF was not found in this search; Sanskrit, Hindi and Gujarati volume-four results are different editions.",
+      "renewedSearch": {
+        "checkedOn": "2026-09-29",
+        "coverage": [
+          "Bengali ordinal and digit 4 title searches",
+          "English fourth/IV/4 title variants without a language filter",
+          "Bengali language catalogue search",
+          "Suresh/Sureshchandra creator variants",
+          "Nabapatra publisher and West Bengal collection filters"
+        ],
+        "result": "No matching Bengali fourth-volume scan found. Bengali language title search yielded the two confirmed volumes and unnumbered chapters 19-27 scan; fourth-volume candidates were different-language editions."
+      },
+      "verifiedOn": "2026-09-29"
+    }
+  ],
+  "searchCoverage": [
+    "Exact BHARAT NATYASHASTRA title",
+    "Bengali নাট্যশাস্ত্র title",
+    "Natyashastra/Natyasastra spelling variants",
+    "Bengali language filter",
+    "Bandhopadhyay/Bandyopadhyay creator variants",
+    "Digital Library of India collection",
+    "Web searches for Bengali volumes 3 and 4"
+  ],
+  "metadataNote": "Archive catalogue dates are reproduced inconsistently and are not used to infer volume number. No ISBN from a modern retail reprint should be assigned to these scans without checking its title page. The volume 3 identification is an inference and must remain visibly qualified."
+}

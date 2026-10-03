@@ -1,5 +1,7 @@
 # The daily coach writes personal assessment records here. Never publish it.
 daily-log.js
+study-material-local.js
+study-material/archive-scans/
 
 # Private exports and local development artifacts.
 acting-entrance-backup-*.json
@@ -8,4 +10,5 @@ acting-entrance-backup-*.json
 node_modules/
 tools/
 _design-checks/
+_audit-*-output.txt
 _site/

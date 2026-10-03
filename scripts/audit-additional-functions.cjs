@@ -1,0 +1,58 @@
+// Additional workflows in the runner's disposable, signed-out browser context.
+const assert=require('node:assert/strict');
+async function auditAdditional(page){
+ const checks=[],ok=(name,value)=>{assert.ok(value,name);checks.push(name);console.log(`Function pass: ${name}`);};
+ const go=room=>page.locator(`.nav-item[data-view="${room}"]`).click();
+ const state=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('acting-entrance-studio-v1')));
+ await go('cinema');
+ ok('Optional performance study starts collapsed',!await page.locator('#cinemaStudy').evaluate(e=>e.open));
+ await page.locator('#cinemaPath').selectOption('all');
+ ok('World cinema whole library shows 30 films',await page.locator('#cinemaFilms .cinema-film').count()===30);
+ await page.locator('#cinemaSearch').fill('Supplementary missing title');
+ ok('World cinema empty search',await page.locator('#cinemaFilms .cinema-film').count()===0);
+ await page.locator('#cinemaStarter').click();
+ ok('Starter button resets filters to twelve films',await page.locator('#cinemaFilms .cinema-film').count()===12);
+ const film=page.locator('#cinemaFilms .cinema-film').first();await film.locator('details summary').click();
+ const plan=film.locator('[data-film-plan]'),filmId=await plan.getAttribute('data-film-plan');
+ await plan.click();
+ ok('Explicit optional cinema task is created once',(await state()).tasks.filter(t=>t.id==='cinema-task-'+filmId).length===1&&await page.locator(`[data-film-plan="${filmId}"]`).isDisabled());
+ // Rendering after task creation collapses the optional ideas again.
+ await film.locator('details summary').click();await film.locator('[data-film-reflect]').click();
+ const before=await state();await page.locator('#cinemaReviewForm button[type="submit"]').click();
+ ok('Empty optional cinema reflection writes nothing',(await state()).sessions.length===before.sessions.length);
+ await page.locator('#cinemaReviewForm textarea[name="observation"]').fill('Synthetic visible pause <script>throw 1</script>');
+ await page.locator('#cinemaReviewForm input[name="minutes"]').fill('12');
+ await page.locator('#cinemaReviewForm button[type="submit"]').click();
+ const reflected=await state();
+ ok('Explicit performance reflection logs its chosen minutes',reflected.sessions.some(s=>s.filmId===filmId&&s.mode==='Film-performance analysis'&&s.minutes===12));
+ ok('Performance reflection never marks film watched or scores a review',JSON.stringify(reflected.completedTopics)===JSON.stringify(before.completedTopics)&&JSON.stringify(reflected.dailyReviews)===JSON.stringify(before.dailyReviews));
+ ok('Performance reflection escapes displayed markup',await page.locator('#cinemaReviews script').count()===0);
+ await go('bucket');await page.locator('#bucketSearch').fill('');
+ await page.locator('#bucketCollection').selectOption('all');await page.locator('#bucketProgress').selectOption('all');
+ ok('Personal catalogue exposes all 59 labels',await page.locator('#bucketFilms .cinema-film').count()===59);
+ await page.locator('[data-bucket-memory]').first().click();const memoryBefore=await state();
+ await page.locator('#bucketMemoryForm button[type="submit"]').click();
+ ok('Empty optional memory writes nothing',(await state()).sessions.length===memoryBefore.sessions.length);
+ await page.locator('#bucketMemoryForm textarea[name="feeling"]').fill('Synthetic feeling <img src=x onerror=alert(1)>');
+ await page.locator('#bucketMemoryForm button[type="submit"]').click();
+ const remembered=await state(),memory=remembered.sessions.find(s=>s.mode==='Film memory'&&s.note.includes('Synthetic feeling'));
+ ok('Optional memory saves with zero minutes and no rating',memory&&memory.minutes===0&&memory.rating===null);
+ ok('Optional memory never creates mastery or assessment',JSON.stringify(remembered.completedTopics)===JSON.stringify(memoryBefore.completedTopics)&&JSON.stringify(remembered.dailyReviews)===JSON.stringify(memoryBefore.dailyReviews));
+ ok('Memory displays safe text',await page.locator('#bucketMemories img').count()===0);
+ page.once('dialog',dialog=>dialog.accept());await page.locator(`[data-memory-remove="${memory.id}"]`).click();
+ ok('Removing a synthetic memory preserves other records',(await state()).sessions.length===memoryBefore.sessions.length);
+ await go('music');const musicBefore=JSON.stringify(await state());
+ ok('Music controls remain disabled until player is ready',!await page.locator('#musicToggle').isEnabled()&&!await page.locator('#musicSeek').isEnabled());
+ await page.locator('#musicSearch').fill('Synthetic search');await page.locator('#musicSearchForm button').click();
+ ok('Signed-out music search prompts connection without results',/Connect/.test(await page.locator('#musicSearchStatus').textContent())&&await page.locator('#musicResults button').count()===0);
+ await page.locator('[data-music-query="jazz music"]').click();
+ ok('Music mood button fills its query',await page.locator('#musicSearch').inputValue()==='jazz music');
+ await page.locator('#musicLink').fill('https://youtube.com.example.invalid/watch?v=M7lc1UVf-VE');
+ await page.locator('#musicPlayerForm button').click();
+ ok('Music rejects lookalike YouTube hosts',/Use an HTTPS YouTube/.test(await page.locator('#musicPlayerStatus').textContent())&&await page.locator('#musicPlayerHost iframe').count()===0);
+ await page.locator('#musicStop').click();
+ ok('Music clear resets controls and in-memory queue',/Playback cleared/.test(await page.locator('#musicPlayerStatus').textContent())&&await page.locator('#musicQueueCount').textContent()==='0 tracks · this visit');
+ ok('Music browsing and clear never modify tracker records',JSON.stringify(await state())===musicBefore);
+ return checks;
+}
+module.exports={auditAdditional};

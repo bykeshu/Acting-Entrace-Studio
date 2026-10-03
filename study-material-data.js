@@ -1,6 +1,6 @@
 // Public catalogue snapshot from ../data/study-material.json; no personal progress.
 window.ACTING_STUDY = {
-  "version": "2026-09-28",
+  "version": "2026-09-29",
   "verifiedOn": "2026-09-28",
   "scope": "English- and Bengali-language study material for FTII Screen Acting, NSD Dramatics, and the Bengal theatre curriculum layer.",
   "languagePolicy": {
@@ -95,7 +95,7 @@ window.ACTING_STUDY = {
         "Abhinaya",
         "Indian theatre"
       ],
-      "access": "buy_or_borrow",
+      "access": "external_scan",
       "accessUrl": "https://deybooks.com/products/bharat-natyashastra-volume-1",
       "publisher": "Nabapatra Prakashan",
       "isbn": "81-8065-048-0",
@@ -107,7 +107,134 @@ window.ACTING_STUDY = {
         "rbu-drama-cbcs",
         "visva-bharati-bpa-2025"
       ],
-      "availabilityNote": "Retail listings were verified for Volumes 1, 2 and 4. Volume 3 was not verified; confirm credits on the title page."
+      "availabilityNote": "External Archive scan listed for Volume 1. Retail listings exist for Volumes 1, 2 and 4; confirm the edition and stock. An unnumbered scan is only probable Volume 3, not a confirmed volume.",
+      "archiveScan": {
+        "url": "https://archive.org/details/dli.bengal.10689.12281",
+        "pdfUrl": "https://archive.org/download/dli.bengal.10689.12281/10689.12281.pdf",
+        "volumeStatus": "verified_catalogue",
+        "sourceLibrary": "Uttarpara Jaykrishna Public Library, Hooghly; West Bengal Public Library Network",
+        "listedPages": 388,
+        "verifiedOn": "2026-09-29",
+        "note": "Volume 1 identified by catalogue. Source: Uttarpara Jaykrishna Public Library, Hooghly; West Bengal Public Library Network. Personal local copy validated: 388 pages, unencrypted; representative pages rendered legibly. Some outer scan leaves are blank. Not publicly rehosted. Redistribution permission has not been independently confirmed.",
+        "rightsStatement": "The duplicate Digital Library of India record states dc.rights: In Public Domain. This is the source's statement, not an independently established copyright determination."
+      },
+      "verifiedOn": "2026-09-29"
+    },
+    {
+      "author": "Bharata; edited by Sureshchandra Bandyopadhyay; Bengali translation credited to Sureshchandra Bandyopadhyay and Chhanda Chakraborty",
+      "language": "Bengali",
+      "priority": "add_next",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Natyashastra",
+        "Rasa-bhava",
+        "Abhinaya",
+        "Indian theatre"
+      ],
+      "publisher": "Nabapatra Prakashan",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "ftii-paper-2022-23",
+        "ftii-paper-2021",
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ],
+      "verifiedOn": "2026-09-29",
+      "id": "bharata-natyashastra-bn-v2",
+      "title": "ভরত নাট্যশাস্ত্র — খণ্ড ২",
+      "romanTitle": "Bharata Natyashastra, Volume 2",
+      "access": "external_scan",
+      "accessUrl": "https://archive.org/details/dli.bengal.10689.12284",
+      "why": "Companion Bengali volume for deeper Natyashastra reading after Volume 1.",
+      "availabilityNote": "Catalogue and front matter confirm Volume 2; no modern reprint ISBN is assigned to the scan.",
+      "archiveScan": {
+        "url": "https://archive.org/details/dli.bengal.10689.12284",
+        "pdfUrl": "https://archive.org/download/dli.bengal.10689.12284/10689.12284.pdf",
+        "volumeStatus": "verified_catalogue_and_front_matter",
+        "sourceLibrary": "Uttarpara Jaykrishna Public Library, Hooghly; West Bengal Public Library Network",
+        "listedPages": 376,
+        "verifiedOn": "2026-09-29",
+        "note": "Volume 2 identified by catalogue and inspected front matter. Source: Uttarpara Jaykrishna Public Library, Hooghly; West Bengal Public Library Network. Personal local copy validated: 376 pages, unencrypted; representative pages rendered legibly. Some outer scan leaves are blank. Not publicly rehosted. Redistribution permission has not been independently confirmed.",
+        "rightsStatement": "The duplicate Digital Library of India record states dc.rights: In Public Domain. This is the source's statement, not an independently established copyright determination."
+      }
+    },
+    {
+      "author": "Bharata; edited by Sureshchandra Bandyopadhyay; Bengali translation credited to Sureshchandra Bandyopadhyay and Chhanda Chakraborty",
+      "language": "Bengali",
+      "priority": "add_next",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Natyashastra",
+        "Rasa-bhava",
+        "Abhinaya",
+        "Indian theatre"
+      ],
+      "publisher": "Nabapatra Prakashan",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "ftii-paper-2022-23",
+        "ftii-paper-2021",
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ],
+      "verifiedOn": "2026-09-29",
+      "id": "bharata-natyashastra-bn-unnumbered",
+      "title": "ভরত নাট্যশাস্ত্র — সম্ভবত খণ্ড ৩ (অধ্যায় ১৯–২৭)",
+      "romanTitle": "Bharata Natyashastra — unnumbered Bengali scan (probable Volume 3)",
+      "access": "external_scan",
+      "accessUrl": "https://archive.org/details/in.ernet.dli.2015.300017",
+      "why": "An additional matching Bengali scan covering chapters 19–27, useful for dramatic forms and abhinaya. Its volume number is inferred, not confirmed.",
+      "availabilityNote": "Probable/unconfirmed volume number, not verified Volume 3. No modern reprint ISBN is assigned to the scan.",
+      "archiveScan": {
+        "url": "https://archive.org/details/in.ernet.dli.2015.300017",
+        "pdfUrl": "https://archive.org/download/in.ernet.dli.2015.300017/2015.300017.Bharat-Natyashastra.pdf",
+        "volumeStatus": "probable_from_contents_not_explicitly_numbered",
+        "sourceLibrary": "Birchandra State Central Library, Tripura; Digital Library of India",
+        "listedPages": 360,
+        "verifiedOn": "2026-09-29",
+        "note": "Probable Volume 3 — unnumbered scan; the volume number is NOT confirmed. Same editor and publisher. Contents run from chapter 19 through chapter 27, the expected third segment of a four-volume edition. The inspected first scan leaf is an imprint page; no numbered title page was found in the inspected front matter, and the Archive title omits a volume number.Source: Birchandra State Central Library, Tripura; Digital Library of India. Full PDF not downloaded or structurally validated in this follow-up. Redistribution permission has not been independently confirmed.",
+        "rightsStatement": "Redistribution permission has not been independently confirmed."
+      }
+    },
+    {
+      "author": "Bharata; edited by Sureshchandra Bandyopadhyay; Bengali translation credited to Sureshchandra Bandyopadhyay and Chhanda Chakraborty",
+      "language": "Bengali",
+      "priority": "add_next",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Natyashastra",
+        "Rasa-bhava",
+        "Abhinaya",
+        "Indian theatre"
+      ],
+      "publisher": "Nabapatra Prakashan",
+      "evidenceSourceIds": [
+        "ftii-paper-2024-25",
+        "ftii-paper-2022-23",
+        "ftii-paper-2021",
+        "rbu-drama-cbcs",
+        "visva-bharati-bpa-2025"
+      ],
+      "verifiedOn": "2026-09-29",
+      "id": "bharata-natyashastra-bn-v4",
+      "title": "ভরত নাট্যশাস্ত্র — খণ্ড ৪",
+      "romanTitle": "Bharata Natyashastra, Volume 4",
+      "access": "buy_or_borrow",
+      "accessUrl": "https://deybooks.com/products/bharat-natyashastra-volume-4",
+      "why": "Companion Bengali volume for deeper Natyashastra reading after Volume 1.",
+      "availabilityNote": "The editor/publisher match is verified in the retail listing. A matching Bengali Archive PDF was not found in this search; Sanskrit, Hindi and Gujarati volume-four results are different editions."
     },
     {
       "id": "bharata-natyasastra-vatsyayan",
@@ -959,12 +1086,15 @@ window.ACTING_STUDY = {
         "Greek tragedy"
       ],
       "access": "open_text",
-      "accessUrl": "https://www.gutenberg.org/cache/epub/31/pg31-images.html",
+      "accessUrl": "https://openlibrary-repo.ecampusontario.ca/jspui/bitstream/123456789/1311/4/Oedipus-Rex-1645644236.pdf",
+      "localPdf": "study-material/open-texts/Oedipus_Rex_Storr_eCampusOntario.pdf",
+      "localPdfNote": "Complete 74-page English translation (Francis Storr); eCampusOntario marks this edition public domain and open access.",
       "why": "Official NSD 2026 list play and a practical companion to Aristotle's tragedy concepts.",
       "evidenceSourceIds": [
         "nsd-guideline-2026",
         "ftii-paper-2022-23"
-      ]
+      ],
+      "verifiedOn": "2026-10-01"
     },
     {
       "id": "nsd-shakuntala",
@@ -1048,5 +1178,6 @@ window.ACTING_STUDY = {
         "rbu-drama-cbcs"
       ]
     }
-  ]
+  ],
+  "scanUpdateOn": "2026-09-29"
 };

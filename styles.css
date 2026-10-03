@@ -26,3 +26,7 @@ dialog{position:fixed;inset:0;margin:auto;max-width:calc(100vw - 24px);max-heigh
   .save-state{flex-basis:auto;text-align:left;align-self:center}
   .update-notice{left:12px;right:12px;bottom:12px;justify-content:space-between}
 }
+/* Keep phone room selection usable when a later weekly theme styles desktop navigation. */
+@media(max-width:760px){
+  .sidebar nav{display:none!important}
+}
