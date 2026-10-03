@@ -1,11 +1,11 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310-bengali-plays-20261001-music-20261004-vinyl-admissions-20261004-audit-20261004";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310-bengali-plays-20261001-music-20261004-vinyl-admissions-20261004-audit-20261004-moods";
 const PDF_CACHE = "acting-entrance-studio-library-pdf-v1";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css?v=20261004-audit",
   "./library.css?v=20260928-library",
-  "./music.css?v=20261004-vinyl",
+  "./music.css?v=20261004-moods",
   "./bengali-plays.css?v=20261001",
   "./library-core.js?v=20260929-bengali-scans",
   "./study-material-data.js?v=20260929-bengali-scans",
@@ -46,9 +46,9 @@ const APP_SHELL = [
   "./ADMISSIONS_CHEAT_SHEET.md",
   "./admissions-spec.json",
   "./app.js?v=20261004-admissions",
-  "./music-core.js?v=20261004-vinyl",
-  "./music-player.js?v=20261004-vinyl-audit",
-  "./music-account.js?v=20261004-vinyl",
+  "./music-core.js?v=20261004-moods",
+  "./music-player.js?v=20261004-moods",
+  "./music-account.js?v=20261004-moods",
   "./YOUTUBE_MUSIC_SETUP.md",
   "./journal-ui.js?v=20260927-sort-fix",
   "./cloud.bundle.js",

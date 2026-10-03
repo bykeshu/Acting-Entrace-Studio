@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="deck.css?v=20260927-sort-fix">
   <link rel="stylesheet" href="weekly-theme.css?v=weekly-20260928034844-1e770310">
   <link rel="stylesheet" href="library.css?v=20260928-library">
-  <link rel="stylesheet" href="music.css?v=20261004-vinyl">
+  <link rel="stylesheet" href="music.css?v=20261004-moods">
   <link rel="stylesheet" href="bengali-plays.css?v=20261001">
   <link rel="stylesheet" href="admissions.css?v=20261004">
 </head>
@@ -310,6 +310,8 @@
         <section class="panel cinema-directory"><p class="eyebrow">ONLY IF YOU WANTED TO KEEP ONE</p><h2>My movie memories</h2><div id="bucketMemories" class="history-list"></div></section>
       </section>
       <section class="view" id="view-music" aria-label="YouTube Music listening room">
+        <div id="musicMoods" class="music-moods" role="group" aria-label="Choose a listening mood"></div>
+        <p class="music-mood-intro">Choose a mood, pick your first track, and let the queue follow.</p>
         <div class="music-room-header"><div><p class="music-kicker">THE LISTENING ROOM / 01</p><h2>Drop the needle.</h2></div><a href="#musicBrowse" class="music-browse-link">Explore your music ↓</a></div>
         <div class="music-deck">
           <div class="music-turntable" aria-hidden="true"><div class="music-record"><div class="music-record-label"><img id="musicCover" alt="" hidden><span>ACTING<br>STUDIO<br><small>33⅓ / SIDE A</small></span></div></div><div class="music-tonearm"><i></i></div><span class="music-deck-brand">STUDIO / SOUND</span><span class="music-deck-led"></span></div>
@@ -326,12 +328,12 @@
         <div id="musicBrowse" class="music-browse">
           <div class="music-section-head"><div><p class="music-kicker">FIND YOUR NEXT SOUND</p><h3>What are you in the mood for?</h3></div><button id="musicConnect" type="button">Connect Google account</button><button id="musicDisconnect" type="button" hidden>Disconnect</button></div>
           <form id="musicSearchForm" class="music-search"><label class="sr-only" for="musicSearch">Search songs and artists</label><input id="musicSearch" type="search" maxlength="300" required placeholder="Search a song, artist or a feeling…"><button type="submit">Search ↗</button></form>
-          <div class="music-moods"><button type="button" data-music-query="acoustic music">Acoustic afternoon</button><button type="button" data-music-query="jazz music">A little jazz</button><button type="button" data-music-query="Bengali songs">Bengali favourites</button><button type="button" data-music-query="ambient instrumental music">Quiet company</button></div>
+          <div class="music-section-head"><div><p class="music-kicker">CHOOSE YOUR FIRST TRACK</p><h3 id="musicMixTitle">Find a starting point</h3></div><a id="musicMoodOpen" href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer">Explore on YouTube Music ↗</a></div>
           <p id="musicSearchStatus" role="status">Connect Google to search here. Song links work without connecting.</p><div id="musicResults" class="music-track-grid"></div><button id="musicSearchMore" type="button" hidden>Next results</button>
           <div class="music-section-head"><div><p class="music-kicker">FROM YOUR ACCOUNT</p><h3>Your playlists</h3></div><button id="musicMore" type="button" hidden>More playlists</button></div>
           <p id="musicAccountStatus" role="status">Connect to browse your account-owned YouTube playlists with read-only access.</p><div id="musicPlaylists" class="music-playlist-grid"></div><h4 id="musicPlaylistTitle"></h4><div id="musicPlaylistTracks" class="music-track-grid"></div>
           <div class="music-section-head"><div><p class="music-kicker">UP NEXT</p><h3>The listening queue</h3></div><span id="musicQueueCount">0 tracks · this visit</span></div><div id="musicQueue" class="music-queue"></div>
-          <p class="music-fine">Your room, YouTube playback. Internet required. Some tracks or private playlists must open on YouTube Music. Saved Music albums and personalised recommendations are not available through this connection. Listening adds no study minutes.</p>
+          <p class="music-fine">Mood mixes use matching YouTube search results and keep adding tracks while results are available. These are not YouTube Music’s personalised recommendations. Internet and Google connection required for mixes; song links work without connecting. Some tracks or private playlists must open on YouTube Music. Listening adds no study minutes.</p>
           <details><summary>Connection details &amp; full library</summary><p><a href="https://music.youtube.com/library" target="_blank" rel="noopener noreferrer">Full YouTube Music library ↗</a> · <a href="YOUTUBE_MUSIC_SETUP.md" target="_blank" rel="noopener">Connection help</a></p><label for="musicClientId">Google web OAuth client ID (advanced)</label><input id="musicClientId" type="text" placeholder="…apps.googleusercontent.com"><button id="musicSaveClient" type="button">Save connection setting on this device</button></details>
         </div>
       </section>
@@ -384,9 +386,9 @@
   <script src="admissions-data.js?v=20261004"></script>
   <script src="app.js?v=20261004-admissions"></script>
   <script src="admissions-ui.js?v=20261004"></script>
-  <script src="music-core.js?v=20261004-vinyl"></script>
-  <script src="music-player.js?v=20261004-vinyl-audit"></script>
-  <script src="music-account.js?v=20261004-vinyl"></script>
+  <script src="music-core.js?v=20261004-moods"></script>
+  <script src="music-player.js?v=20261004-moods"></script>
+  <script src="music-account.js?v=20261004-moods"></script>
   <script src="study-material-ui.js?v=20260929-bengali-scans"></script>
   <script src="journal-ui.js?v=20260927-sort-fix"></script>
   <script src="pwa.js"></script>

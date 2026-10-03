@@ -6,9 +6,9 @@ const vm = require('node:vm');
 const M=require('../music-core.js');
 
 function accountHarness({stored,blockedStorage=false,fetchResponse}={}) {
-  const elements = new Map(), writes = [], requests = [], revoked = [];
+  const elements = new Map(), writes = [], requests = [], revoked = [], loads = [];
   let now = 1000, oauth;
-  const element = () => ({value:'',textContent:'',hidden:false,disabled:false,children:[],listeners:{},
+  const element = () => ({value:'',textContent:'',hidden:false,disabled:false,children:[],listeners:{},classList:{toggle(){}},
     addEventListener(type,fn){this.listeners[type]=fn;},
     append(...items){this.children.push(...items);},replaceChildren(){this.children=[];},
     get childElementCount(){return this.children.length;},
@@ -16,12 +16,12 @@ function accountHarness({stored,blockedStorage=false,fetchResponse}={}) {
   const get = selector => {if(!elements.has(selector))elements.set(selector,element());return elements.get(selector);};
   const google = {accounts:{oauth2:{initTokenClient(config){oauth=config;return {requestAccessToken(params){requests.push(params);}};},
     hasGrantedAllScopes(response,scope){return response.scope === scope;},revoke(token,cb){revoked.push(token);cb({successful:true});}}}};
-  const context = {window:{google,ACTING_MUSIC:M,ACTING_MUSIC_PLAYER:{stop(){get('#musicStop').clicked=true;}}},google,document:{getElementById:id=>get('#'+id),querySelector:get,querySelectorAll:()=>[],createElement:element,createTextNode:text=>({textContent:text})},
+  const context = {window:{google,ACTING_MUSIC:M,ACTING_MUSIC_PLAYER:{loadTracks(...args){loads.push(args);},stop(){get('#musicStop').clicked=true;}}},google,document:{getElementById:id=>get('#'+id),querySelector:get,querySelectorAll:()=>[],createElement:element,createTextNode:text=>({textContent:text})},
     localStorage:{getItem(){if(blockedStorage)throw Error('blocked');return stored;},setItem(key,value){writes.push([key,value]);}},
     location:{protocol:'https:'},Date:{now:()=>now},URL,URLSearchParams,
     fetch:async(url,options)=>{requests.push({url:String(url),options});return fetchResponse ? fetchResponse() : {ok:true,status:200,json:async()=>({items:[{id:'PL_example',snippet:{title:'<img onerror=alert(1)>'}}]})};}};
   vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../music-account.js'),'utf8'),context);
-  return {get,writes,requests,revoked,oauth:()=>oauth,advance(ms){now+=ms;},
+  return {get,writes,requests,revoked,loads,oauth:()=>oauth,advance(ms){now+=ms;},
     connect:()=>get('#musicConnect').listeners.click(),flush:()=>new Promise(resolve=>setImmediate(resolve))};
 }
 const scope = 'https://www.googleapis.com/auth/youtube.readonly';
@@ -101,3 +101,42 @@ test('Custom controls cue safely, play/pause, advance tracks, seek and pause on 
 test('Clear before asynchronous startup prevents stale playback',async()=>{const h=playerHarness();h.win.ACTING_MUSIC_PLAYER.loadTracks([{id:'abcdefghijk',title:'A',artist:'B'}]);h.win.ACTING_MUSIC_PLAYER.stop();await h.flush();assert.equal(h.calls.length,0);assert.equal(h.get('musicTitle').textContent,'Choose your first record');});
 
 test('Jumping to shelves floats the visible video; clearing removes the dock',async()=>{const h=playerHarness();h.win.ACTING_MUSIC_PLAYER.loadTracks([{id:'abcdefghijk',title:'A',artist:'B'}]);await h.flush();h.ready();h.scrollAbove();assert.equal(h.get('musicVideoDock').classList['music-floating'],true);h.leaveRoom();assert.equal(h.get('musicVideoDock').classList['music-floating'],false);});
+
+test('Mood mix starts at the selected track without repeats, and appending preserves played history',()=>{
+ const a={id:'a'},b={id:'b'},c={id:'c'};
+ assert.deepEqual(M.mixTracks([a,b,c,a],1),[b,c,a]);
+ const q=new M.Queue();q.load([a,b]);q.next();q.append([b,c,c]);
+ assert.equal(q.current(),b);assert.deepEqual(q.tracks,[a,b,c]);assert.equal(q.next(),c);assert.equal(q.previous(),b);
+ q.shuffle=true;q.resetShuffle();q.next(false,()=>0);const remaining=q.remaining.slice();q.append([{id:'d'}]);assert.deepEqual(q.remaining,[...remaining,3]);
+});
+
+test('Choosing a mood creates cover choices; the selected seed starts a paginated mix with read-only search',async()=>{
+ const results=[{id:{videoId:'abcdefghijk'},snippet:{title:'First'}},{id:{videoId:'lmnopqrstuv'},snippet:{title:'Second'}}];
+ const h=accountHarness({fetchResponse:()=>({ok:true,status:200,json:async()=>h.requests.at(-1).url.includes('/search?')?{items:results,nextPageToken:'page2'}:{items:[]}})});
+ await h.connect();h.oauth().callback({access_token:'synthetic-token',scope});await h.flush();
+ const relax=h.get('#musicMoods').children.find(b=>b.textContent==='Relax');relax.listeners.click();await h.flush();
+ assert.match(h.get('#musicSearch').value,/relaxing/);assert.equal(h.get('#musicResults').childElementCount,2);
+ h.get('#musicResults').children[1].children.at(-1).listeners.click();
+ const [tracks,index,options]=h.loads[0];assert.equal(tracks[0].id,'lmnopqrstuv');assert.equal(index,0);assert.equal(options.auto,true);
+ const extra=await options.more();assert.equal(extra.length,0);
+ assert.ok(h.requests.some(r=>r.url&&new URL(r.url).searchParams.get('pageToken')==='page2'));
+ h.get('#musicDisconnect').listeners.click();await assert.rejects(options.more(),/Connect/);
+ assert.equal(h.writes.length,0);
+});
+
+test('Podcasts do not use the music-only category; a mood without consent makes no API request',async()=>{
+ const h=accountHarness();const podcasts=h.get('#musicMoods').children.find(b=>b.textContent==='Podcasts');
+ podcasts.listeners.click();await h.flush();assert.equal(h.requests.length,0);
+ await h.connect();h.oauth().callback({access_token:'synthetic-token',scope});await h.flush();
+ const search=h.requests.find(r=>r.url?.includes('/search?'));assert.ok(search);
+ assert.equal(new URL(search.url).searchParams.has('videoCategoryId'),false);
+});
+
+test('A mix refills at its end and ignores a late refill after clearing',async()=>{
+ const h=playerHarness();let resolve;
+ h.win.ACTING_MUSIC_PLAYER.loadTracks([{id:'abcdefghijk',title:'A',artist:'B'}],0,{more:()=>new Promise(r=>{resolve=r;})});await h.flush();h.ready();h.event(1);h.event(0);await h.flush();
+ resolve([{id:'lmnopqrstuv',title:'Next',artist:'B'}]);await h.flush();
+ assert.equal(h.get('musicTitle').textContent,'Next');assert.equal(h.calls.at(-1)[0],'loadVideoById');
+ h.event(0);await h.flush();h.win.ACTING_MUSIC_PLAYER.stop();const count=h.calls.length;
+ resolve([{id:'12345678901',title:'Stale',artist:'B'}]);await h.flush();assert.equal(h.calls.length,count);assert.equal(h.get('musicTitle').textContent,'Choose your first record');
+});
