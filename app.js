@@ -131,7 +131,7 @@
     const value=type=>parts.find(p=>p.type===type).value;
     return `${value('year')}-${value('month')}-${value('day')}`;
   };
-  const viewNames = {today:"Today’s rehearsal room",daily:"Daily assessment ledger",roadmap:"Your 24-week route",syllabus:"Syllabus studio",practice:"Practice log",tests:"Test and error lab",resources:"Papers & official guidance",study:"Study Material library",evidence:"NSD evidence file",cinema:"World cinema studio",bucket:"My movie bucket list",journal:"My life in films"};
+  const viewNames = {today:"Today’s rehearsal room",daily:"Daily assessment ledger",roadmap:"Your 24-week route",syllabus:"Syllabus studio",practice:"Practice log",tests:"Test and error lab",resources:"Papers & official guidance",study:"Study Material library",music:"YouTube Music listening room",evidence:"NSD evidence file",cinema:"World cinema studio",bucket:"My movie bucket list",journal:"My life in films"};
 
   function switchView(id){
     if(!viewNames[id])return;
