@@ -29,7 +29,7 @@ async function main(){
   await page.goto(`http://127.0.0.1:${server.address().port}`,{waitUntil:'load'});
   await page.locator('.nav-item').last().waitFor({state:'visible'});
   await page.evaluate(()=>document.fonts.ready);
-  const rooms=['today','daily','roadmap','syllabus','practice','tests','resources','evidence','cinema','bucket','journal','study'],checks=[];
+  const rooms=['today','daily','roadmap','syllabus','practice','tests','resources','evidence','cinema','bucket','journal','study','music'],checks=[];
   const candidates=[{id:'release',css:null},...require('../design/presets.json').presets.map(p=>({id:p.id,css:renderCss(p.tokens)}))];
   for(const candidate of candidates){
   candidateCss=candidate.css;

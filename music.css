@@ -1,0 +1,11 @@
+#view-music input { display:block; width:100%; min-width:0; min-height:44px; padding:12px; margin:8px 0 16px; border:1px solid var(--ink); color:var(--ink); background:var(--panel); }
+#view-music label { display:block; margin-top:18px; font-weight:700; }
+#view-music .dialog-actions { flex-wrap:wrap; justify-content:flex-start; margin:14px 0; }
+#view-music .dialog-actions > * { max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+#view-music details { margin:16px 0; padding:12px 0; border-block:1px solid var(--line); }
+#view-music summary { cursor:pointer; font-weight:700; }
+#view-music [role="status"], #musicPlaylists { overflow-wrap:anywhere; }
+#musicPlayerHost { width:100%; min-width:0; }
+#musicPlaylists .panel { margin:14px 0; }
+#musicPlaylists button { margin:0 10px 10px 0; }
+@media(max-width:460px) { #view-music .dialog-actions > * { width:100%; text-align:center; } }

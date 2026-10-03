@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="deck.css?v=20260927-sort-fix">
   <link rel="stylesheet" href="weekly-theme.css?v=weekly-20260928034844-1e770310">
   <link rel="stylesheet" href="library.css?v=20260928-library">
+  <link rel="stylesheet" href="music.css?v=20261003">
   <link rel="stylesheet" href="bengali-plays.css?v=20261001">
 </head>
 <body data-room="today">
@@ -38,6 +39,7 @@
         <button class="nav-item" data-view="bucket"><span>10</span>Movie bucket list</button>
         <button class="nav-item" data-view="journal"><span>11</span>Film logbook</button>
         <button class="nav-item" data-view="study"><span>12</span>Study Material</button>
+        <button class="nav-item" data-view="music"><span>13</span>YouTube Music</button>
       </nav>
       <label class="mobile-room">Choose a room<select id="mobileView" aria-label="Choose a room">
         <option value="today">01 · Today</option><option value="daily">02 · Daily review</option>
@@ -47,6 +49,7 @@
         <option value="cinema">09 · World cinema</option><option value="bucket">10 · Movie bucket list</option>
         <option value="journal">11 · Film logbook</option>
         <option value="study">12 · Study Material</option>
+        <option value="music">13 · YouTube Music</option>
       </select></label>
       <div class="sidebar-foot">
         <button id="cloudAccount" class="quiet" type="button">Sign in to sync</button>
@@ -296,6 +299,33 @@
         </details>
         <section class="panel cinema-directory"><p class="eyebrow">ONLY IF YOU WANTED TO KEEP ONE</p><h2>My movie memories</h2><div id="bucketMemories" class="history-list"></div></section>
       </section>
+      <section class="view" id="view-music" aria-label="YouTube Music">
+        <section class="panel">
+          <p class="eyebrow">YOUR LISTENING ROOM</p><h2>Music for the moment</h2>
+          <p>Paste a YouTube Music or YouTube song or playlist link, then press play. Listening adds no study minutes or learning streaks.</p>
+          <div class="dialog-actions"><button class="primary" id="musicConnect" type="button">Connect Google account</button><button class="quiet" id="musicDisconnect" type="button" hidden>Disconnect</button><button class="quiet" id="musicMore" type="button" hidden>More playlists</button></div>
+          <p id="musicAccountStatus" role="status">Connect to browse your YouTube account playlists. Read-only access; your study sign-in stays separate.</p>
+          <details><summary>Connection details</summary><p>Google connection is configured for this app. Choose Connect Google account above to sign in. <a href="YOUTUBE_MUSIC_SETUP.md" target="_blank" rel="noopener">Connection help</a></p><label for="musicClientId">Google web OAuth client ID (advanced)</label><input id="musicClientId" type="text" placeholder="…apps.googleusercontent.com"><button id="musicSaveClient" type="button" class="quiet">Save advanced connection setting on this device</button></details>
+          <div id="musicPlaylists" class="history-list"></div>
+          <form id="musicPlayerForm">
+            <label for="musicLink">Song or playlist link</label>
+            <input id="musicLink" type="url" required placeholder="https://music.youtube.com/watch?v=…">
+            <div class="dialog-actions"><button class="primary" type="submit">Load player</button><button class="quiet" id="musicStop" type="button">Stop / clear</button></div>
+          </form>
+          <p id="musicPlayerStatus" role="status">Choose a song or playlist to begin.</p>
+          <div id="musicPlayerHost"></div>
+          <div class="dialog-actions">
+            <a class="primary" href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer">Open YouTube Music ↗</a>
+            <a class="quiet" href="https://music.youtube.com/library" target="_blank" rel="noopener noreferrer">My music library ↗</a>
+          </div>
+          <form action="https://music.youtube.com/search" method="get" target="_blank" rel="noopener noreferrer">
+            <label for="musicSearch">Find a song, artist, album or playlist</label>
+            <input id="musicSearch" name="q" type="search" maxlength="300" required placeholder="What do you feel like hearing?">
+            <button class="primary" type="submit">Search YouTube Music ↗</button>
+          </form>
+          <p class="cloud-note">The live player uses YouTube playback. Some songs or private playlists cannot be embedded; use Open YouTube Music for those. Internet is required. Keep this room visible while playing. Links are not saved to your study account.</p>
+        </section>
+      </section>
       <footer class="studio-footer"><span>A personal acting &amp; cinema journal · made for practice and pleasure.</span><a href="DESIGN_NOTES.md" target="_blank" rel="noopener">Design inspiration &amp; font credits ↗</a></footer>
     </main>
   </div>
@@ -336,7 +366,9 @@
   <script src="letterboxd-core.js?v=20260927-daily-inbox"></script>
   <script src="library-core.js?v=20260928-library"></script>
   <script src="study-material-data.js?v=20260928-library-preview"></script>
-  <script src="app.js?v=20260928-library"></script>
+  <script src="app.js?v=20261003-music"></script>
+  <script src="music-player.js?v=20261003-account"></script>
+  <script src="music-account.js?v=20261003-configured"></script>
   <script src="study-material-ui.js?v=20260928-library-preview"></script>
   <script src="journal-ui.js?v=20260927-sort-fix"></script>
   <script src="pwa.js"></script>
