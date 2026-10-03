@@ -1,0 +1,59 @@
+name: Daily website and app maintenance
+on:
+  schedule:
+    - cron: '30 3 * * *' # Daily 09:00 Asia/Kolkata; GitHub schedules can be delayed.
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/daily-maintenance.yml'
+      - 'scripts/check-live-maintenance.cjs'
+permissions:
+  contents: read
+concurrency:
+  group: daily-website-app-maintenance
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install isolated, pinned test tools
+        run: npm install --prefix "$RUNNER_TEMP/maintenance-runtime" --no-save --package-lock=false sax@1.4.4 playwright-core@1.63.0
+      - name: Unit and data-preservation tests
+        env:
+          NODE_PATH: ${{ runner.temp }}/maintenance-runtime/node_modules
+        run: node --test tests/*.test.cjs
+      - name: Local desktop, mobile, functional and offline regression checks
+        if: ${{ !cancelled() }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/maintenance-runtime/node_modules
+        run: node scripts/check-design-layout.cjs
+      - name: Live website and installed-PWA shell checks
+        if: ${{ !cancelled() }}
+        env:
+          NODE_PATH: ${{ runner.temp }}/maintenance-runtime/node_modules
+        run: node scripts/check-live-maintenance.cjs
+      - name: Save synthetic layout evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: maintenance-layout-checks
+          path: _design-checks
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Record maintenance outcome
+        if: ${{ always() }}
+        env:
+          OUTCOME: ${{ job.status }}
+        run: |
+          echo "## Daily website and app maintenance: $OUTCOME" >> "$GITHUB_STEP_SUMMARY"
+          echo "Checks: unit tests; synthetic functional flows; desktop/mobile layouts; local and live offline PWA; live assets and manifest." >> "$GITHUB_STEP_SUMMARY"
+          echo "No private account, diary, backup or credentials accessed. No deployment or AI API usage. Real Android and two-device sync require separate testing." >> "$GITHUB_STEP_SUMMARY"
+          echo "See failed step logs for actionable failures. GitHub Actions notification preferences control delivery." >> "$GITHUB_STEP_SUMMARY"
