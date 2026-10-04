@@ -45,8 +45,9 @@ async function auditAdditional(page){
  ok('Music controls remain disabled until player is ready',!await page.locator('#musicToggle').isEnabled()&&!await page.locator('#musicSeek').isEnabled());
  await page.locator('#musicSearch').fill('Synthetic search');await page.locator('#musicSearchForm button').click();
  ok('Signed-out music search prompts connection without results',/Connect/.test(await page.locator('#musicSearchStatus').textContent())&&await page.locator('#musicResults button').count()===0);
- await page.locator('[data-music-query="jazz music"]').click();
- ok('Music mood button fills its query',await page.locator('#musicSearch').inputValue()==='jazz music');
+ const mood=await page.evaluate(()=>window.ACTING_MUSIC.moods[0]);
+ await page.locator('#musicMoods').getByRole('button',{name:mood.label,exact:true}).click();
+ ok('Music mood button fills its query without account access',await page.locator('#musicSearch').inputValue()===mood.query&&await page.locator('#musicResults button').count()===0);
  await page.locator('#musicLink').fill('https://youtube.com.example.invalid/watch?v=M7lc1UVf-VE');
  await page.locator('#musicPlayerForm button').click();
  ok('Music rejects lookalike YouTube hosts',/Use an HTTPS YouTube/.test(await page.locator('#musicPlayerStatus').textContent())&&await page.locator('#musicPlayerHost iframe').count()===0);

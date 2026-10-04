@@ -11,10 +11,10 @@
     return r[key]===value;
   }));}
   function action(r){
-    if(r.localPdf)return {url:r.localPdf,label:'Open PDF',accessType:'public_domain_download'};
+    if(r.localPdf)return {url:r.localPdf,label:'Open PDF',accessType:r.pdfLicense?'open_licensed_download':'public_domain_download'};
     if(r.archiveScan)return {url:r.archiveScan.url,label:'Read scan',accessType:'external_archive_scan'};
     if(r.internetArchive)return {...r.internetArchive,label:r.internetArchive.accessType==='view_record_rights_unverified'?'View record':r.internetArchive.label};
-    return {url:r.accessUrl,label:r.access==='open_text'?'Read text':'Edition / Buy / Locate',accessType:r.access};
+    return {url:r.accessUrl,label:r.access==='pdf_lead'?'Check PDF source':r.access==='open_text'?'Read text':'Edition / Buy / Locate',accessType:r.access};
   }
   function personalAction(r,local,protocol){
     if(protocol!=='file:')return null;

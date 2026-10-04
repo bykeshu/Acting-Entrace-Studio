@@ -1,4 +1,4 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310-bengali-plays-20261001-music-20261004-vinyl-admissions-20261004-audit-20261004-moods-dock";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310-bengali-plays-20261001-music-20261004-vinyl-admissions-20261004-audit-20261004-moods-dock-free-pdfs";
 const PDF_CACHE = "acting-entrance-studio-library-pdf-v1";
 const APP_SHELL = [
   "./",
@@ -7,9 +7,9 @@ const APP_SHELL = [
   "./library.css?v=20260928-library",
   "./music.css?v=20261004-dock",
   "./bengali-plays.css?v=20261001",
-  "./library-core.js?v=20260929-bengali-scans",
-  "./study-material-data.js?v=20260929-bengali-scans",
-  "./study-material-ui.js?v=20260929-bengali-scans",
+  "./library-core.js?v=20261004-free-pdfs",
+  "./study-material-data.js?v=20261004-free-pdfs",
+  "./study-material-ui.js?v=20261004-free-pdfs",
   "./daily.css",
   "./cinema.css?v=20260927",
   "./poster-theme.css?v=20260927-cinema",
@@ -82,7 +82,7 @@ self.addEventListener("fetch", event => {
   if (request.method !== "GET" || url.origin !== self.location.origin || !url.href.startsWith(self.registration.scope)) return;
   event.respondWith((async () => {
     const isLibraryPdf=url.pathname.includes('/study-material/open-texts/')&&url.pathname.endsWith('.pdf');
-    // These fixed historical editions are cached in full on first opening, independently of weekly themes.
+    // These fixed historical and open-licensed editions are cached in full on first opening, independently of weekly themes.
     const pdfCache=isLibraryPdf?await caches.open(PDF_CACHE):null;
     if(pdfCache){const saved=await pdfCache.match(url.href);if(saved)return saved;}
     try {

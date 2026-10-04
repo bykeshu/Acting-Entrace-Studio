@@ -1,6 +1,6 @@
 // Public catalogue snapshot from ../data/study-material.json; no personal progress.
 window.ACTING_STUDY = {
-  "version": "2026-09-29",
+  "version": "2026-10-04-free-pdfs",
   "verifiedOn": "2026-09-28",
   "scope": "English- and Bengali-language study material for FTII Screen Acting, NSD Dramatics, and the Bengal theatre curriculum layer.",
   "languagePolicy": {
@@ -74,6 +74,162 @@ window.ACTING_STUDY = {
       "examCycle": "2025 curriculum",
       "access": "open",
       "verifiedOn": "2026-09-28"
+    },
+    {
+      "sourceId": "theatrical-worlds-2014",
+      "title": "Theatrical Worlds (Beta Version)",
+      "url": "https://ufdc.ufl.edu/AA00021870/00001",
+      "publisher": "University Press of Florida / University of Florida",
+      "sourceType": "supplementary_open_study_material",
+      "examCycle": "Supplementary study; not an admission cycle",
+      "access": "open",
+      "verificationStatus": "verified",
+      "verifiedOn": "2026-10-04",
+      "license": "Modified CC BY-NC-ND 3.0: electronic sharing permitted with attribution; printing rights reserved by publisher."
+    },
+    {
+      "sourceId": "exploring-movie-construction-2017",
+      "title": "Exploring Movie Construction and Production: What's so exciting about movies?",
+      "url": "https://openlibrary-repo.ecampusontario.ca/jspui/handle/123456789/429",
+      "publisher": "Open SUNY Textbooks; eCampusOntario repository",
+      "sourceType": "supplementary_open_study_material",
+      "examCycle": "Supplementary study; not an admission cycle",
+      "access": "open",
+      "verificationStatus": "verified",
+      "verifiedOn": "2026-10-04",
+      "license": "CC BY-NC-SA 4.0, except where otherwise noted."
+    },
+    {
+      "sourceId": "actors-art-performance-2016",
+      "title": "Actors and the Art of Performance: Under Exposure",
+      "url": "https://link.springer.com/book/10.1057/9781137596345",
+      "publisher": "Palgrave Macmillan; downloaded from Sikkim University repository",
+      "sourceType": "supplementary_open_study_material",
+      "examCycle": "Supplementary study; not an admission cycle",
+      "access": "open",
+      "verificationStatus": "verified",
+      "verifiedOn": "2026-10-04",
+      "license": "CC BY 4.0, except where otherwise noted."
+    },
+    {
+      "sourceId": "ignou-theatre-games-2021",
+      "title": "Theatre Games (BTHL-002 Practical Manual)",
+      "url": "https://www.ignou.ac.in/schools/programme/DTH",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "sourceType": "supplementary_open_study_material",
+      "examCycle": "Supplementary study; not an admission cycle",
+      "access": "unstable",
+      "verificationStatus": "indexed_not_download_verified",
+      "verifiedOn": "2026-10-04",
+      "license": "Official-hosted course material; no open reuse licence established. Link to institution; do not republish as app assets."
+    },
+    {
+      "sourceId": "ignou-drama-introduction-2021",
+      "title": "Understanding Drama (BTH-001), Block 1: Drama - An Introduction",
+      "url": "https://www.egyankosh.ac.in/bitstream/123456789/74421/1/Block-1.pdf",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "sourceType": "supplementary_open_study_material",
+      "examCycle": "Supplementary study; not an admission cycle",
+      "access": "unstable",
+      "verificationStatus": "indexed_not_download_verified",
+      "verifiedOn": "2026-10-04",
+      "license": "Official-hosted course material; no open reuse licence established. Link to institution; do not republish as app assets."
+    },
+    {
+      "sourceId": "ignou-macbeth-study-2021",
+      "title": "Understanding Drama (BTH-001), Block 2: Macbeth",
+      "url": "https://www.egyankosh.ac.in/bitstream/123456789/74427/1/Block-2.pdf",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "sourceType": "supplementary_open_study_material",
+      "examCycle": "Supplementary study; not an admission cycle",
+      "access": "unstable",
+      "verificationStatus": "indexed_not_download_verified",
+      "verifiedOn": "2026-10-04",
+      "license": "Official-hosted course material; no open reuse licence established. Link to institution; do not republish as app assets."
+    },
+    {
+      "sourceId": "ignou-halfway-house-2021",
+      "title": "Block 3: Mohan Rakesh - Halfway House",
+      "url": "https://www.egyankosh.ac.in/handle/123456789/81186",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "sourceType": "supplementary_open_study_material",
+      "examCycle": "Supplementary study; not an admission cycle",
+      "access": "unstable",
+      "verificationStatus": "indexed_not_download_verified",
+      "verifiedOn": "2026-10-04",
+      "license": "Official-hosted course material; no open reuse licence established. Link to institution; do not republish as app assets."
+    },
+    {
+      "sourceId": "ignou-bharata-rasa-2017",
+      "title": "Unit 1: Bharata on Rasa",
+      "url": "https://egyankosh.ac.in/handle/123456789/35508",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "sourceType": "supplementary_open_study_material",
+      "examCycle": "Supplementary study; not an admission cycle",
+      "access": "unstable",
+      "verificationStatus": "indexed_not_download_verified",
+      "verifiedOn": "2026-10-04",
+      "license": "Official-hosted course material; no open reuse licence established. Link to institution; do not republish as app assets."
+    },
+    {
+      "sourceId": "ignou-indian-drama",
+      "title": "Unit 2: Indian Drama (Inclusive of Dance)",
+      "url": "https://egyankosh.ac.in/bitstream/123456789/47321/1/Unit-2.pdf",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "sourceType": "supplementary_open_study_material",
+      "examCycle": "Supplementary study; not an admission cycle",
+      "access": "unstable",
+      "verificationStatus": "indexed_not_download_verified",
+      "verifiedOn": "2026-10-04",
+      "license": "Official-hosted course material; no open reuse licence established. Link to institution; do not republish as app assets."
+    },
+    {
+      "sourceId": "ignou-indian-cinema",
+      "title": "Unit 12: Indian Cinema",
+      "url": "https://egyankosh.ac.in/bitstream/123456789/116555/1/Unit-12.pdf",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "sourceType": "supplementary_open_study_material",
+      "examCycle": "Supplementary study; not an admission cycle",
+      "access": "unstable",
+      "verificationStatus": "indexed_not_download_verified",
+      "verifiedOn": "2026-10-04",
+      "license": "Official-hosted course material; no open reuse licence established. Link to institution; do not republish as app assets."
+    },
+    {
+      "sourceId": "technical-theatre-sanders-2018",
+      "title": "An Introduction to Technical Theatre",
+      "url": "https://commons.pacificu.edu/works/publication-book/61qg8-geh81",
+      "publisher": "Pacific University Press",
+      "sourceType": "supplementary_open_study_material",
+      "examCycle": "Supplementary study; not an admission cycle",
+      "access": "reference",
+      "verificationStatus": "publisher_advertises_full_pdf_not_download_verified",
+      "verifiedOn": "2026-10-04",
+      "license": "Open Textbook Library labels CC BY-NC."
+    },
+    {
+      "sourceId": "moving-pictures-sharman-2020",
+      "title": "Moving Pictures: An Introduction to Cinema",
+      "url": "https://uark.pressbooks.pub/movingpictures/",
+      "publisher": "University of Arkansas Libraries",
+      "sourceType": "supplementary_open_study_material",
+      "examCycle": "Supplementary study; not an admission cycle",
+      "access": "unstable",
+      "verificationStatus": "publisher_advertises_full_pdf_not_download_verified",
+      "verifiedOn": "2026-10-04",
+      "license": "CC BY-NC-SA 4.0, except where otherwise noted."
+    },
+    {
+      "sourceId": "theatrical-roles-cima",
+      "title": "Theatrical Roles: An Introduction to Theatre",
+      "url": "https://huskiecommons.lib.niu.edu/allfacultyother-bookschapters/29/",
+      "publisher": "Northern Illinois University",
+      "sourceType": "supplementary_open_study_material",
+      "examCycle": "Supplementary study; not an admission cycle",
+      "access": "unstable",
+      "verificationStatus": "publisher_advertises_full_pdf_not_download_verified",
+      "verifiedOn": "2026-10-04",
+      "license": "NIU labels CC BY 4.0."
     }
   ],
   "materials": [
@@ -1177,7 +1333,369 @@ window.ACTING_STUDY = {
         "nsd-guideline-2026",
         "rbu-drama-cbcs"
       ]
+    },
+    {
+      "id": "theatrical-worlds-2014",
+      "title": "Theatrical Worlds (Beta Version)",
+      "author": "Charlie Mitchell, editor",
+      "publisher": "University Press of Florida / University of Florida",
+      "language": "English",
+      "priority": "add_next",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Acting",
+        "Directing",
+        "Stage design",
+        "Shakespeare",
+        "World theatre"
+      ],
+      "access": "open_pdf",
+      "accessUrl": "https://ufdcimages.uflib.ufl.edu/AA/00/02/18/70/00001/Theatrical_Worlds.pdf",
+      "why": "Previously identified on 1 October but transfer failed then; first successful local download on 4 October. Acting starts at printed p.49 (PDF page 56). Mainly Western-oriented.",
+      "availabilityNote": "Verified full PDF · 277 pages · supplementary study material.",
+      "evidenceSourceIds": [
+        "theatrical-worlds-2014"
+      ],
+      "verifiedOn": "2026-10-04",
+      "verificationStatus": "verified",
+      "localPdf": "study-material/open-texts/Theatrical_Worlds_Mitchell_2014.pdf",
+      "localPdfNote": "Modified CC BY-NC-ND 3.0: electronic sharing permitted with attribution; printing rights reserved by publisher.",
+      "pdfLicense": "Modified CC BY-NC-ND 3.0: electronic sharing permitted with attribution; printing rights reserved by publisher.",
+      "pages": 277,
+      "sha256": "dc6af1431b4f397b4608c53ec9f3f59ddd4928bbe9ff02c44f417dd0a226a79b",
+      "sourceUrl": "https://ufdc.ufl.edu/AA00021870/00001"
+    },
+    {
+      "id": "exploring-movie-construction-2017",
+      "title": "Exploring Movie Construction and Production: What's so exciting about movies?",
+      "author": "John Reich",
+      "publisher": "Open SUNY Textbooks; eCampusOntario repository",
+      "language": "English",
+      "priority": "add_next",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Film vocabulary",
+        "Character portrayal",
+        "Narrative",
+        "Directing",
+        "Cinematography",
+        "Editing",
+        "Sound"
+      ],
+      "access": "open_pdf",
+      "accessUrl": "https://openlibrary-repo.ecampusontario.ca/jspui/bitstream/123456789/429/1/Exploring-Movie-Construction-and-Production-1499438054.pdf",
+      "why": "Introductory overview, not a comprehensive Indian/world cinema history or camera-acting manual. Embedded videos require the web edition; no compulsory viewing tasks added.",
+      "availabilityNote": "Verified full PDF · 94 pages · supplementary study material.",
+      "evidenceSourceIds": [
+        "exploring-movie-construction-2017"
+      ],
+      "verifiedOn": "2026-10-04",
+      "verificationStatus": "verified",
+      "localPdf": "study-material/open-texts/Exploring_Movie_Construction_Reich_2017.pdf",
+      "localPdfNote": "CC BY-NC-SA 4.0, except where otherwise noted.",
+      "pdfLicense": "CC BY-NC-SA 4.0, except where otherwise noted.",
+      "pages": 94,
+      "sha256": "789d951902d630beafbb81ec77253cfb2c52111595066eae97715c9e6983a258",
+      "sourceUrl": "https://openlibrary-repo.ecampusontario.ca/jspui/handle/123456789/429"
+    },
+    {
+      "id": "actors-art-performance-2016",
+      "title": "Actors and the Art of Performance: Under Exposure",
+      "author": "Susanne Valerie (Susanne Valerie Granzer); translated by Laura Radosh with Alice Lagaay",
+      "publisher": "Palgrave Macmillan; downloaded from Sikkim University repository",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Acting",
+        "Body",
+        "Speech",
+        "Repetition",
+        "Performance philosophy"
+      ],
+      "access": "open_pdf",
+      "accessUrl": "https://link.springer.com/content/pdf/10.1057/9781137596345.pdf",
+      "why": "Publisher independently confirms open access and full 131-page PDF. Reflective/philosophical reading, best treated as optional advanced material rather than a practical beginner manual.",
+      "availabilityNote": "Verified full PDF · 131 pages · supplementary study material.",
+      "evidenceSourceIds": [
+        "actors-art-performance-2016"
+      ],
+      "verifiedOn": "2026-10-04",
+      "verificationStatus": "verified",
+      "localPdf": "study-material/open-texts/Actors_Art_Performance_Granzer_2016.pdf",
+      "localPdfNote": "CC BY 4.0, except where otherwise noted.",
+      "pdfLicense": "CC BY 4.0, except where otherwise noted.",
+      "pages": 131,
+      "sha256": "c9ba17d4b1aa6e4824ffdaef9462078453b62151c4cf2c5ca7472e4d8396c6e6",
+      "sourceUrl": "https://link.springer.com/book/10.1057/9781137596345"
+    },
+    {
+      "id": "ignou-theatre-games-2021",
+      "title": "Theatre Games (BTHL-002 Practical Manual)",
+      "author": "IGNOU course preparation team",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Improvisation",
+        "Acting",
+        "Ensemble"
+      ],
+      "access": "pdf_lead",
+      "accessUrl": "https://www.egyankosh.ac.in/bitstream/123456789/74417/1/BTHL-002%20Parctical%20Manual%20on%20Theatre%20Games.pdf",
+      "why": "Improvisation, ensemble, concentration and theatre games. Search indexes the manual itself; do not confuse it with the 2026-27 assignment PDF.",
+      "availabilityNote": "External PDF lead · download not verified on 4 October 2026. No copy is hosted in the app. IGNOU download requests closed or timed out during this check.",
+      "evidenceSourceIds": [
+        "ignou-theatre-games-2021"
+      ],
+      "verifiedOn": "2026-10-04",
+      "verificationStatus": "indexed_not_download_verified"
+    },
+    {
+      "id": "ignou-drama-introduction-2021",
+      "title": "Understanding Drama (BTH-001), Block 1: Drama - An Introduction",
+      "author": "IGNOU course preparation team",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Theatre history",
+        "Drama theory"
+      ],
+      "access": "pdf_lead",
+      "accessUrl": "https://www.egyankosh.ac.in/bitstream/123456789/74421/1/Block-1.pdf",
+      "why": "Drama/theatre, aspects of drama, dramatic types and twentieth-century developments.",
+      "availabilityNote": "External PDF lead · download not verified on 4 October 2026. No copy is hosted in the app. IGNOU download requests closed or timed out during this check.",
+      "evidenceSourceIds": [
+        "ignou-drama-introduction-2021"
+      ],
+      "verifiedOn": "2026-10-04",
+      "verificationStatus": "indexed_not_download_verified"
+    },
+    {
+      "id": "ignou-macbeth-study-2021",
+      "title": "Understanding Drama (BTH-001), Block 2: Macbeth",
+      "author": "IGNOU course preparation team",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Play analysis",
+        "Shakespeare"
+      ],
+      "access": "pdf_lead",
+      "accessUrl": "https://www.egyankosh.ac.in/bitstream/123456789/74427/1/Block-2.pdf",
+      "why": "Scene discussions, tragedy, characterization and dramatic techniques. Study guide, not a replacement for the complete play.",
+      "availabilityNote": "External PDF lead · download not verified on 4 October 2026. No copy is hosted in the app. IGNOU download requests closed or timed out during this check.",
+      "evidenceSourceIds": [
+        "ignou-macbeth-study-2021"
+      ],
+      "verifiedOn": "2026-10-04",
+      "verificationStatus": "indexed_not_download_verified"
+    },
+    {
+      "id": "ignou-halfway-house-2021",
+      "title": "Block 3: Mohan Rakesh - Halfway House",
+      "author": "IGNOU course preparation team",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Play analysis",
+        "Modern Indian drama"
+      ],
+      "access": "pdf_lead",
+      "accessUrl": "https://www.egyankosh.ac.in/handle/123456789/81186",
+      "why": "Repository lists Block-3.pdf (1.79 MB); study guide to Aadhe Adhure/Halfway House, not the full copyrighted play script. File transfer not verified.",
+      "availabilityNote": "External PDF lead · download not verified on 4 October 2026. No copy is hosted in the app. IGNOU download requests closed or timed out during this check.",
+      "evidenceSourceIds": [
+        "ignou-halfway-house-2021"
+      ],
+      "verifiedOn": "2026-10-04",
+      "verificationStatus": "indexed_not_download_verified"
+    },
+    {
+      "id": "ignou-bharata-rasa-2017",
+      "title": "Unit 1: Bharata on Rasa",
+      "author": "Sudhir Baweja",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Natyashastra",
+        "Rasa-bhava"
+      ],
+      "access": "pdf_lead",
+      "accessUrl": "https://egyankosh.ac.in/bitstream/123456789/35508/1/Unit-1.pdf",
+      "why": "Sudhir Baweja; Bharata's rasa theory and rasa/bhava terminology. Short course unit, not the complete Natyashastra.",
+      "availabilityNote": "External PDF lead · download not verified on 4 October 2026. No copy is hosted in the app. IGNOU download requests closed or timed out during this check.",
+      "evidenceSourceIds": [
+        "ignou-bharata-rasa-2017"
+      ],
+      "verifiedOn": "2026-10-04",
+      "verificationStatus": "indexed_not_download_verified"
+    },
+    {
+      "id": "ignou-indian-drama",
+      "title": "Unit 2: Indian Drama (Inclusive of Dance)",
+      "author": "IGNOU course preparation team",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD",
+        "Bengal"
+      ],
+      "topics": [
+        "Indian theatre",
+        "Natyashastra"
+      ],
+      "access": "pdf_lead",
+      "accessUrl": "https://egyankosh.ac.in/bitstream/123456789/47321/1/Unit-2.pdf",
+      "why": "Natyashastra and components of natya. Indexed full-text excerpts; direct download not verified in this sweep.",
+      "availabilityNote": "External PDF lead · download not verified on 4 October 2026. No copy is hosted in the app. IGNOU download requests closed or timed out during this check.",
+      "evidenceSourceIds": [
+        "ignou-indian-drama"
+      ],
+      "verifiedOn": "2026-10-04",
+      "verificationStatus": "indexed_not_download_verified"
+    },
+    {
+      "id": "ignou-indian-cinema",
+      "title": "Unit 12: Indian Cinema",
+      "author": "IGNOU course preparation team",
+      "publisher": "Indira Gandhi National Open University (eGyanKosh)",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Indian cinema",
+        "Cinema history"
+      ],
+      "access": "pdf_lead",
+      "accessUrl": "https://egyankosh.ac.in/bitstream/123456789/116555/1/Unit-12.pdf",
+      "why": "Silent films, pre-/post-independence cinema, industry and representation. Historical learning material; statistics are not current affairs.",
+      "availabilityNote": "External PDF lead · download not verified on 4 October 2026. No copy is hosted in the app. IGNOU download requests closed or timed out during this check.",
+      "evidenceSourceIds": [
+        "ignou-indian-cinema"
+      ],
+      "verifiedOn": "2026-10-04",
+      "verificationStatus": "indexed_not_download_verified"
+    },
+    {
+      "id": "technical-theatre-sanders-2018",
+      "title": "An Introduction to Technical Theatre",
+      "author": "Tal Sanders",
+      "publisher": "Pacific University Press",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Stage design",
+        "Stage management",
+        "Theatre spaces"
+      ],
+      "access": "pdf_lead",
+      "accessUrl": "https://commons.pacificu.edu/works/publication-book/61qg8-geh81",
+      "why": "Publisher says View additional files, then Main File, for full book. Covers stage spaces, scenery, props, costumes, lighting, sound and stage management.",
+      "availabilityNote": "External PDF lead · download not verified on 4 October 2026. No copy is hosted in the app. The publisher advertises a full PDF; use its download controls if available.",
+      "evidenceSourceIds": [
+        "technical-theatre-sanders-2018"
+      ],
+      "verifiedOn": "2026-10-04",
+      "verificationStatus": "publisher_advertises_full_pdf_not_download_verified"
+    },
+    {
+      "id": "moving-pictures-sharman-2020",
+      "title": "Moving Pictures: An Introduction to Cinema",
+      "author": "Russell Leigh Sharman",
+      "publisher": "University of Arkansas Libraries",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Cinema",
+        "Screen acting",
+        "Film vocabulary"
+      ],
+      "access": "pdf_lead",
+      "accessUrl": "https://uark.pressbooks.pub/movingpictures/",
+      "why": "Retained lead from 1 October. Publisher PDF still returns 403; a Hanoi University repository PDF timed out. Free web edition remains available. No local PDF saved.",
+      "availabilityNote": "External PDF lead · download not verified on 4 October 2026. No copy is hosted in the app. The publisher advertises a full PDF; use its download controls if available.",
+      "evidenceSourceIds": [
+        "moving-pictures-sharman-2020"
+      ],
+      "verifiedOn": "2026-10-04",
+      "verificationStatus": "publisher_advertises_full_pdf_not_download_verified"
+    },
+    {
+      "id": "theatrical-roles-cima",
+      "title": "Theatrical Roles: An Introduction to Theatre",
+      "author": "Gibson A. Cima",
+      "publisher": "Northern Illinois University",
+      "language": "English",
+      "priority": "extended",
+      "tracks": [
+        "FTII",
+        "NSD"
+      ],
+      "topics": [
+        "Acting",
+        "Directing",
+        "Stage design"
+      ],
+      "access": "pdf_lead",
+      "accessUrl": "https://huskiecommons.lib.niu.edu/allfacultyother-bookschapters/29/",
+      "why": "Retained lead from 1 October. Official full-text download (1.7 MB) still returns 403. Not counted as saved.",
+      "availabilityNote": "External PDF lead · download not verified on 4 October 2026. No copy is hosted in the app. The publisher advertises a full PDF; use its download controls if available.",
+      "evidenceSourceIds": [
+        "theatrical-roles-cima"
+      ],
+      "verifiedOn": "2026-10-04",
+      "verificationStatus": "publisher_advertises_full_pdf_not_download_verified"
     }
   ],
-  "scanUpdateOn": "2026-09-29"
+  "scanUpdateOn": "2026-09-29",
+  "resourceUpdateOn": "2026-10-04"
 };

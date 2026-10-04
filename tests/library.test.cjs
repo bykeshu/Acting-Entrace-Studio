@@ -6,19 +6,19 @@ test('Every original resource belongs to exactly one shelf, with no exam documen
  assert.equal(seed.resources.length,47);assert.ok(seed.resources.some(r=>core.shelf(r)==='library'));
  for(const r of seed.resources){assert.ok(['library','exam','research'].includes(core.shelf(r)));if(/past paper|official|audition/.test(r.category))assert.notEqual(core.shelf(r),'library');if(/text|book|edition|history|practitioner/.test(r.category))assert.equal(core.shelf(r),'library');}
 });
-test('37 learning cards have stable IDs, scoped evidence, seven PDFs and safe external links',()=>{
- assert.equal(data.materials.length,37);assert.equal(new Set(data.materials.map(r=>r.id)).size,37);
+test('50 learning cards have stable IDs, scoped evidence, ten PDFs and safe external links',()=>{
+ assert.equal(data.materials.length,50);assert.equal(new Set(data.materials.map(r=>r.id)).size,50);
  const ids=new Set(data.sources.map(r=>r.sourceId));
  for(const r of data.materials){assert.ok(r.title&&r.author&&r.why&&r.language);assert.ok(core.priorities[r.priority]);assert.ok(r.evidenceSourceIds.every(id=>ids.has(id)));for(const url of [r.accessUrl,r.internetArchive?.url].filter(Boolean)){const u=new URL(url);assert.equal(u.protocol,'https:');assert.ok(!u.username&&!u.password&&!u.port);}assert.ok(!/prospectus|question paper|guideline/i.test(r.title));}
- assert.equal(data.materials.filter(r=>r.localPdf).length,7);
+ assert.equal(data.materials.filter(r=>r.localPdf).length,10);
  for(const r of data.materials.filter(r=>r.localPdf)){assert.match(r.localPdf,/^study-material\/open-texts\/[A-Za-z0-9_]+\.pdf$/);const buffer=fs.readFileSync(path.join(root,r.localPdf));assert.equal(buffer.toString('ascii',0,5),'%PDF-');assert.ok(source('STUDY_LIBRARY.md').includes(crypto.createHash('sha256').update(buffer).digest('hex').toUpperCase()));}
 });
 test('Library filters combine priority, language, topic, track, access and search without changing records',()=>{
  const before=JSON.stringify(data);
  assert.equal(core.filter(data.materials,{priority:'start_here'}).length,6);
  assert.ok(core.filter(data.materials,{language:'Bengali',track:'Bengal'}).every(r=>r.language==='Bengali'&&r.tracks.includes('Bengal')));
- assert.equal(core.filter(data.materials,{access:'local_pdf'}).length,7);
- assert.equal(core.filter(data.materials,{topic:'Natyashastra',search:'Bharata'}).length,5);
+ assert.equal(core.filter(data.materials,{access:'local_pdf'}).length,10);
+ assert.equal(core.filter(data.materials,{topic:'Natyashastra',search:'Bharata'}).length,6);
  assert.equal(core.filter(data.materials,{search:'CI nothing matches'}).length,0);
  assert.equal(JSON.stringify(data),before);
 });
@@ -30,7 +30,7 @@ test('Action precedence preserves PDF, Archive borrowing/preview, rights-unverif
 });
 test('Library shell is offline, separately navigable and has no progress/storage writes',()=>{
  const html=source('index.html'),sw=source('sw.js'),ui=source('study-material-ui.js');
- for(const f of ['library-core.js','library.css','study-material-data.js','study-material-ui.js']){const v=f==='library.css'?'20260928-library':'20260929-bengali-scans';assert.ok(html.includes(f+'?v='+v));assert.ok(sw.includes('./'+f+'?v='+v));}
+ for(const f of ['library-core.js','library.css','study-material-data.js','study-material-ui.js']){const v=f==='library.css'?'20260928-library':'20261004-free-pdfs';assert.ok(html.includes(f+'?v='+v));assert.ok(sw.includes('./'+f+'?v='+v));}
  assert.match(html,/data-view="study"/);assert.match(html,/value="study">12 · Study Material/);assert.match(html,/data-view="resources"/);
  assert.ok(!/localStorage|store\.put|completedTopics|\.mark\(|fetch\(/.test(ui));assert.ok(html.indexOf('src="library-core.js')<html.indexOf('src="app.js'));
 });
@@ -41,7 +41,7 @@ test('Bengali scans preserve volume uncertainty, external-only access, source ri
  const unknown=data.materials.find(r=>r.id==='bharata-natyashastra-bn-unnumbered');assert.match(unknown.romanTitle,/probable Volume 3/);assert.match(unknown.archiveScan.note,/NOT confirmed/);assert.ok(!unknown.isbn);
  const v4=data.materials.find(r=>r.id==='bharata-natyashastra-bn-v4');assert.ok(!v4.archiveScan&&!v4.localPdf);assert.match(v4.availabilityNote,/not found/);
  const pack=JSON.parse(source('study-material/bengali-natyashastra-sources.json'));assert.match(pack.volumes[0].sourceRightsStatement,/not an independently established/);
- assert.equal(fs.readdirSync(path.join(root,'study-material/open-texts')).length,7);
+ assert.equal(fs.readdirSync(path.join(root,'study-material/open-texts')).length,10);
 });
 
 test('Personal scan actions are file-only and reject unsafe paths without changing public actions',()=>{
@@ -75,4 +75,21 @@ test('An Actor’s Work preview remains a clearly labelled external excerpt, not
  const r=data.materials.find(r=>r.id==='stanislavski-actors-work'),p=r.publisherPreview;
  assert.equal(p.label,'Publisher preview (77 pages)');assert.equal(p.pages,77);assert.equal(p.accessType,'publisher_excerpt');assert.match(p.note,/not the full book/);assert.equal(new URL(p.url).hostname,'api.pageplace.de');assert.equal(core.action(r).url,r.internetArchive.url);assert.ok(!r.localPdf);
  assert.ok(!fs.existsSync(path.join(root,'study-material/publisher-previews')));assert.ok(!source('sw.js').includes('api.pageplace.de'));assert.ok(!source('study-material-data.js').includes('082176.pdf'));assert.match(source('study-material-ui.js'),/publisherPreview\.label/);
+});
+
+test('Free resources distinguish verified licensed PDFs from unresolved external downloads',()=>{
+ const books=data.materials.filter(r=>r.access==='open_pdf'),leads=data.materials.filter(r=>r.access==='pdf_lead');
+ assert.equal(books.length,3);assert.equal(leads.length,10);
+ for(const r of books){assert.ok(r.pdfLicense&&r.sourceUrl&&r.pages>90);assert.equal(r.verificationStatus,'verified');assert.equal(core.action(r).accessType,'open_licensed_download');assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root,r.localPdf))).digest('hex'),r.sha256);}
+ for(const r of leads){assert.ok(!r.localPdf);assert.notEqual(r.verificationStatus,'verified');assert.equal(core.action(r).label,'Check PDF source');assert.match(r.availabilityNote,/download.*not verified/i);}
+ const nodes=new Map(),node=s=>{if(!nodes.has(s))nodes.set(s,{value:'all',innerHTML:'',textContent:'',insertAdjacentHTML(){},addEventListener(){}});return nodes.get(s);};node('#studySearch').value='';
+ const ctx={window:{ACTING_STUDY:data,ACTING_LIBRARY:core,ACTING_SEED:seed},document:{querySelector:node},location:{protocol:'https:'}};
+ vm.createContext(ctx);vm.runInContext(source('study-material-ui.js'),ctx);
+ node('#studyAccess').value='open_pdf';ctx.window.ACTING_STUDY_UI.render();
+ assert.equal((node('#studyCards').innerHTML.match(/class="study-book"/g)||[]).length,3);
+ assert.match(node('#studyCards').innerHTML,/Open-licensed PDF/);assert.ok(!node('#studyCards').innerHTML.includes('Historical public-domain PDF'));
+ node('#studyAccess').value='pdf_lead';ctx.window.ACTING_STUDY_UI.render();
+ assert.equal((node('#studyCards').innerHTML.match(/class="study-book"/g)||[]).length,10);
+ assert.match(node('#studyCards').innerHTML,/download not verified/);assert.ok(!node('#studyCards').innerHTML.includes('available offline after opening online'));
+ assert.match(node('#studyCount').textContent,/free resources checked 2026-10-04/);
 });

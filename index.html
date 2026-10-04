@@ -197,7 +197,7 @@
       </section>
 
       <section class="view" id="view-study" aria-label="Study Material library">
-        <div class="panel study-intro"><p class="eyebrow">THE LEARNING LIBRARY / BOOKS & PLAY TEXTS</p><h2>A shelf to learn from.</h2><p>Question papers are in Resources. Prospectuses and admission guidelines are in Admissions spec.</p><p>Start here = compact foundations · Add next = companions · Extended = deeper exploration · Prescribed play = NSD 2026 discussion-list text, cycle-specific. Relevance to exam questions or a curriculum does not make every book officially prescribed.</p><button class="quiet" type="button" data-go="resources">Open papers & research references ↗</button><button class="quiet" type="button" data-go="admissions">Open Admissions spec ↗</button><p>Opening a text never marks it read or earns a learning streak. Modern books stay on publisher, library or Archive preview/borrow pages. The seven historical/open-access PDFs can be read offline after opening them online once.</p></div>
+        <div class="panel study-intro"><p class="eyebrow">THE LEARNING LIBRARY / BOOKS & PLAY TEXTS</p><h2>A shelf to learn from.</h2><p>Question papers are in Resources. Prospectuses and admission guidelines are in Admissions spec.</p><p>Start here = compact foundations · Add next = companions · Extended = deeper exploration · Prescribed play = NSD 2026 discussion-list text, cycle-specific. Relevance to exam questions or a curriculum does not make every book officially prescribed.</p><button class="quiet" type="button" data-go="resources">Open papers & research references ↗</button><button class="quiet" type="button" data-go="admissions">Open Admissions spec ↗</button><p>Opening a text never marks it read or earns a learning streak. Historical and openly licensed PDFs in the app can be read offline after opening them online once. Other books use publisher, library or Archive links.</p><p>Free-resource update · 4 October 2026: three full books added. Choose “Free open-licensed book” under Access to find them. “External PDF lead (unverified)” shows sources whose downloads could not be checked.</p></div>
         <section class="bengali-plays" aria-labelledby="bengaliPlaysTitle">
           <div class="bengali-plays-heading"><div><p class="eyebrow">BENGAL THEATRE / PLAYWRIGHTS & PLAYS</p><h2 id="bengaliPlaysTitle">Find the play. Know the source.</h2></div><p>Checked 1 October 2026. “Site-listed” means a title appears in Boier Thikana’s catalogue; it does not mean a PDF is held here or that redistribution is cleared. NSD labels refer only to the 2026 discussion list.</p></div>
           <div class="bengali-plays-key" aria-label="Reading access key"><span>Local PDF · in this library</span><span>Read online · external text or historical scan</span><span>Catalogue · locate an edition</span></div>
@@ -215,7 +215,7 @@
           </div>
           <p class="bengali-plays-sources">Discovery source: <a href="https://www.boierthikana.com/" target="_blank" rel="noopener noreferrer">Boier Thikana theatre shelf ↗</a> · <a href="https://www.boierthikana.com/%E0%A6%86%E0%A6%AE%E0%A6%BE%E0%A6%A6%E0%A7%87%E0%A6%B0-%E0%A6%95%E0%A6%A5%E0%A6%BE/" target="_blank" rel="noopener noreferrer">site rights statement ↗</a>. Its modern collection PDFs are discovery leads; the site says it does not own their copyright. No modern play scans are hosted here. Binodini Dasi’s <em>Amar Katha</em> is related actor memoir, not a play collection.</p>
         </section>
-        <div class="study-filters"><label>Priority<select id="studyPriority" aria-label="Priority"><option value="all">All priorities</option><option value="start_here">Start here</option><option value="add_next">Add next</option><option value="extended">Extended</option><option value="prescribed_play">Prescribed plays · NSD 2026</option></select></label><label>Language<select id="studyLanguage" aria-label="Language"><option value="all">All languages</option></select></label><label>Topic<select id="studyTopic" aria-label="Topic"><option value="all">All topics</option></select></label><label>Track<select id="studyTrack" aria-label="Track"><option value="all">All tracks</option><option>FTII</option><option>NSD</option><option>Bengal</option></select></label><label>Access<select id="studyAccess" aria-label="Access"><option value="all">All access</option><option value="local_pdf">Local public-domain PDF</option></select></label><label>Search the library<input id="studySearch" type="search" placeholder="Book, author, concept…"></label></div>
+        <div class="study-filters"><label>Priority<select id="studyPriority" aria-label="Priority"><option value="all">All priorities</option><option value="start_here">Start here</option><option value="add_next">Add next</option><option value="extended">Extended</option><option value="prescribed_play">Prescribed plays · NSD 2026</option></select></label><label>Language<select id="studyLanguage" aria-label="Language"><option value="all">All languages</option></select></label><label>Topic<select id="studyTopic" aria-label="Topic"><option value="all">All topics</option></select></label><label>Track<select id="studyTrack" aria-label="Track"><option value="all">All tracks</option><option>FTII</option><option>NSD</option><option>Bengal</option></select></label><label>Access<select id="studyAccess" aria-label="Access"><option value="all">All access</option><option value="local_pdf">PDF in app (offline after opening)</option></select></label><label>Search the library<input id="studySearch" type="search" placeholder="Book, author, concept…"></label></div>
         <p id="studyCount" class="summary-line" role="status" aria-live="polite"></p><div id="studyCards" class="study-grid"></div>
         <details class="panel"><summary>Further reading & archive references</summary><p>Original learning links, preserved separately from exam documents. The filters above apply to the book catalogue.</p><div id="studyFurtherReading" class="resource-list"></div></details>
       </section>
@@ -377,8 +377,8 @@
   </script>
   <script src="journal-core.js?v=20260927-film-sort"></script>
   <script src="letterboxd-core.js?v=20260927-daily-inbox"></script>
-  <script src="library-core.js?v=20260929-bengali-scans"></script>
-  <script src="study-material-data.js?v=20260929-bengali-scans"></script>
+  <script src="library-core.js?v=20261004-free-pdfs"></script>
+  <script src="study-material-data.js?v=20261004-free-pdfs"></script>
   <script>
     // Personal scan paths never load on the public website or a hosted preview.
     if (location.protocol === "file:") {
@@ -391,7 +391,7 @@
   <script src="music-core.js?v=20261004-moods"></script>
   <script src="music-player.js?v=20261004-dock"></script>
   <script src="music-account.js?v=20261004-moods"></script>
-  <script src="study-material-ui.js?v=20260929-bengali-scans"></script>
+  <script src="study-material-ui.js?v=20261004-free-pdfs"></script>
   <script src="journal-ui.js?v=20260927-sort-fix"></script>
   <script src="pwa.js"></script>
   <script>

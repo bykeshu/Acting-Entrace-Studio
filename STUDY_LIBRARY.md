@@ -39,3 +39,17 @@ SHA-256 of the seven copies (also verified against originals):
 | Oedipus_Rex_Storr_eCampusOntario.pdf | 8DACCC584F6601BBDAF538B415902E46E239913CAB099317162B001A61215CC4 |
 | Shakespeare_Macbeth_1900.pdf | AB8EC95158589BE538BB5E52AABE3C59B2CCFAA22F28BFA7E57F2B37228CAF93 |
 | Tagore_The_Post_Office_1914.pdf | 93B955EF41E4DE57638DE73DA159EA1F2A579944288BF9E6ED43D8E28CA6CA56 |
+
+## Free-resource update - 4 October 2026
+
+The catalogue now has 50 cards: the previous 37 plus 13 supplementary resources. Three complete open-licensed PDFs are hosted in the app, bringing its PDF shelf to ten files. Seven IGNOU course-material leads and three publisher/OER leads are labelled External PDF lead (unverified); none is represented as a working download or app-hosted file. Opening links does not write progress.
+
+The new PDFs are cached on first opening, independently of the shell update. No new PDF is precached at installation. The catalogue preserves the original verification dates and adds a separate free-resource date.
+
+| New PDF | Pages | Licence | SHA-256 |
+| --- | --- | --- | --- |
+| Theatrical Worlds (Beta Version) | 277 | Modified CC BY-NC-ND 3.0: electronic sharing permitted with attribution; printing rights reserved by publisher. | DC6AF1431B4F397B4608C53EC9F3F59DDD4928BBE9FF02C44F417DD0A226A79B |
+| Exploring Movie Construction and Production: What's so exciting about movies? | 94 | CC BY-NC-SA 4.0, except where otherwise noted. | 789D951902D630BEAFBB81EC77253CFB2C52111595066EAE97715C9E6983A258 |
+| Actors and the Art of Performance: Under Exposure | 131 | CC BY 4.0, except where otherwise noted. | C9BA17D4B1AA6E4824FFDAEF9462078453B62151C4CF2C5CA7472E4D8396C6E6 |
+
+Theatrical Worlds reserves printing rights to University Press of Florida; its permission for electronic sharing allows the unmodified app copy. Reich is CC BY-NC-SA 4.0 and Granzer CC BY 4.0, except for separately credited content. Licence notices remain inside each original PDF, and source/licence links are visible on the cards.
