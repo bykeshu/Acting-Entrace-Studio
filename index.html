@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="deck.css?v=20260927-sort-fix">
   <link rel="stylesheet" href="weekly-theme.css?v=weekly-20260928034844-1e770310">
   <link rel="stylesheet" href="library.css?v=20260928-library">
-  <link rel="stylesheet" href="music.css?v=20261005-studio">
+  <link rel="stylesheet" href="music.css?v=20261005-inline">
   <link rel="stylesheet" href="bengali-plays.css?v=20261001">
   <link rel="stylesheet" href="admissions.css?v=20261004">
 </head>
@@ -335,9 +335,9 @@
             <div class="music-controls"><button id="musicShuffle" type="button" aria-label="Shuffle" aria-pressed="false" disabled>⇄</button><button id="musicPrevious" type="button" aria-label="Previous track" disabled>❮❮</button><button id="musicToggle" type="button" aria-label="Play" disabled>▶</button><button id="musicNext" type="button" aria-label="Next track" disabled>❯❯</button><button id="musicRepeat" type="button" aria-label="Repeat: off" aria-pressed="false" disabled>↻</button></div>
             <div class="music-volume"><label for="musicVolume">Volume</label><input id="musicVolume" type="range" min="0" max="100" value="100" disabled><button id="musicStop" type="button">Clear</button></div>
             <p id="musicPlayerStatus" role="status">Pick a song below or bring a link.</p>
-            <div id="musicVideoAnchor"><p>Your video appears here when a record is loaded.</p></div>
+            <div id="musicVideoAnchor"><p>Your video appears here when a record is loaded.</p><div id="musicVideoDock" hidden aria-label="YouTube video player"><div class="music-video-caption"><span>PLAYBACK BY YOUTUBE</span><button id="musicDockToggle" type="button" disabled>Play</button></div><div id="musicPlayerHost"></div><a id="musicDockOpen" href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer">Listen in background ↗</a></div></div>
             <a id="musicOpen" href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer">Continue in YouTube Music ↗</a>
-            <p class="music-fine">Music keeps playing as you browse other rooms with the mini player visible. For listening while this app is minimized or your screen is off, continue in the YouTube Music app. Background music there requires Premium.</p>
+            <p class="music-fine">The video stays in this panel. To keep listening while using other apps or with your screen off, open the track in YouTube Music and press Play there with your Premium account.</p>
           </div>
         </div>
         </div>
@@ -368,7 +368,6 @@
   </dialog>
 
   <dialog id="journalPosterDialog" aria-labelledby="journalPosterHeading"><button id="journalPosterClose" type="button" aria-label="Close poster viewer">Close ×</button><h2 id="journalPosterHeading"></h2><img id="journalFullPoster" alt="" referrerpolicy="no-referrer"><p id="journalFullPosterCredit"></p><p id="journalFullPosterStatus" role="status"></p></dialog>
-  <div id="musicVideoDock" hidden aria-label="YouTube mini player"><div class="music-video-caption"><span>PLAYBACK BY YOUTUBE</span><button id="musicDockToggle" type="button" disabled>Play</button><button id="musicReturn" type="button">Music room ↑</button></div><div id="musicPlayerHost"></div><a id="musicDockOpen" href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer">Continue in YouTube Music ↗</a></div>
   <div id="updateNotice" class="update-notice" role="status" hidden><span>A new app version is ready.</span><button id="refreshApp" class="primary" type="button">Update</button></div>
 
   <script src="seed-data.js?v=20260927"></script>
@@ -393,7 +392,7 @@
   <script src="app.js?v=20261004-admissions"></script>
   <script src="admissions-ui.js?v=20261004"></script>
   <script src="music-core.js?v=20261004-moods"></script>
-  <script src="music-player.js?v=20261005-studio"></script>
+  <script src="music-player.js?v=20261005-inline"></script>
   <script src="music-account.js?v=20261004-moods"></script>
   <script src="study-material-ui.js?v=20261004-free-pdfs"></script>
   <script src="journal-ui.js?v=20260927-sort-fix"></script>
