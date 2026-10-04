@@ -1,5 +1,11 @@
 # The cinema-poster studio — design research and font matches
 
+## Music studio — 5 October 2026
+
+The user's supplied record-player dashboard image informs an original compact music studio: mood chips, a browse/search column, a framed record deck and now-playing controls. No reference screenshot, album examples, logos or artist identities are bundled. Existing Google account search, real playlist/queue results and the visible cross-room video dock are preserved.
+
+`music.css` inherits `--stage`, `--acid`, `--paper`, `--panel`, `--ink`, `--line`, `--weekly-mark` and `--weekly-soft` from the website. The existing weekly refresh therefore recolors the room and mini player together with the site. Artwork appears on the record label but no longer changes the palette. This is an explicitly requested feature/design change, not a new recurring automation.
+
 Updated 27 September 2026 for the laptop website and Android PWA. The cinema-poster edition supersedes the earlier pastel journal, retaining its offline tracker and enjoyment-first films.
 
 ## The two supplied references

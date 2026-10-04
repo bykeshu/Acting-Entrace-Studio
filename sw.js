@@ -1,11 +1,11 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310-bengali-plays-20261001-music-20261004-vinyl-admissions-20261004-audit-20261004-moods-dock-free-pdfs";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20260928034844-1e770310-bengali-plays-20261001-music-20261004-vinyl-admissions-20261004-audit-20261004-moods-dock-free-pdfs-studio-20261005";
 const PDF_CACHE = "acting-entrance-studio-library-pdf-v1";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css?v=20261004-audit",
   "./library.css?v=20260928-library",
-  "./music.css?v=20261004-dock",
+  "./music.css?v=20261005-studio",
   "./bengali-plays.css?v=20261001",
   "./library-core.js?v=20261004-free-pdfs",
   "./study-material-data.js?v=20261004-free-pdfs",
@@ -47,7 +47,7 @@ const APP_SHELL = [
   "./admissions-spec.json",
   "./app.js?v=20261004-admissions",
   "./music-core.js?v=20261004-moods",
-  "./music-player.js?v=20261004-dock",
+  "./music-player.js?v=20261005-studio",
   "./music-account.js?v=20261004-moods",
   "./YOUTUBE_MUSIC_SETUP.md",
   "./journal-ui.js?v=20260927-sort-fix",
