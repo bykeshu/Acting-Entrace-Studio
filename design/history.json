@@ -312,5 +312,37 @@
     "designAuthor": "chatgpt-cloud",
     "originalComposition": true,
     "compositionSha256": "91133a3c5c04d514795ca1532586d2f59951081185980ab22db22fb7df79e6a7"
+  },
+  {
+    "revision": "weekly-20261012035019-8fb44f02",
+    "createdAt": "2026-10-12T03:50:19.503Z",
+    "runner": "github-actions",
+    "presetId": "red-pencil",
+    "name": "Red Pencil / annotated frames",
+    "pinUrl": "https://in.pinterest.com/pin/649292471323038596/",
+    "boardUrl": "https://in.pinterest.com/maddyman296/graphic-design/",
+    "sourceObservedOn": "2026-09-27",
+    "eligiblePoolSize": 1,
+    "mode": "fresh-ai",
+    "rationale": "Original projection proof-sheet interpretation of the Red Pencil saved pin in the verified 2026-09-27 snapshot. The board was inaccessible on 2026-10-12; no new observation is claimed. Charcoal-teal stage, projector-cream type and crimson annotation rules organize a horizontal numbered navigation wall, full-width framed hero, separate metric slips, three-column roadmap, paired resource sheets and film cards, and a spacious serif logbook. All graphics are original CSS and existing SVG; no reference artwork or logos are copied.",
+    "tokens": {
+      "stage": "#213139",
+      "accent": "#f9ebd0",
+      "paper": "#f3eee4",
+      "panel": "#fffaf1",
+      "ink": "#20303a",
+      "line": "#bbc4c6",
+      "mark": "#a92f3b",
+      "soft": "#e1e8e7",
+      "display": "archivo",
+      "layout": "editorial"
+    },
+    "compositionVersion": 2,
+    "iconMotif": "editorial",
+    "paidApiUsed": false,
+    "proposalId": "red-pencil-proofsheet-20261012-e73a94c2",
+    "designAuthor": "chatgpt-cloud",
+    "originalComposition": true,
+    "compositionSha256": "2bc35c29dec53f1e54926df80d3301a005ecd0590937d208f5a7ed857e69df8c"
   }
 ]
