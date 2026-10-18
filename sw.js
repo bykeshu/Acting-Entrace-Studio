@@ -1,4 +1,4 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20261018182250-4e8728a4";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20261018182250-4e8728a4-scrollbars";
 const PDF_CACHE = "acting-entrance-studio-library-pdf-v1";
 const APP_SHELL = [
   "./",
@@ -13,7 +13,7 @@ const APP_SHELL = [
   "./daily.css",
   "./cinema.css?v=20260927",
   "./poster-theme.css?v=20260927-cinema",
-  "./deck.css?v=20260927-sort-fix",
+  "./deck.css?v=20261018-scrollbars",
   "./weekly-theme.css?v=weekly-20261018182250-4e8728a4",
   "./design/active.json",
   "./fonts/anton-latin.woff2",

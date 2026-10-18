@@ -71,3 +71,12 @@ main{min-width:0;padding:0 3vw 80px;width:100%}.shell{grid-template-columns:200p
 #view-journal #journalApplySort{flex:none;min-height:44px;padding:8px 10px;border:1px solid var(--ink);border-radius:0;background:var(--ink);color:var(--panel);font:400 12px/1.4 var(--body);cursor:pointer}
 #view-journal #journalApplySort:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 #view-journal #journalSortStatus{grid-column:1/-1;margin:0;font:400 11px/1.5 var(--body);color:var(--ink)}
+
+/* Scrollbars follow the active cinema palette, including nested scroll areas. */
+html,*{scrollbar-width:thin;scrollbar-color:var(--weekly-mark,var(--ink)) var(--stage,var(--paper))}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--stage,var(--paper))}
+::-webkit-scrollbar-thumb{background:var(--weekly-mark,var(--ink));border:3px solid var(--stage,var(--paper));border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:var(--acid,var(--ink))}
+::-webkit-scrollbar-corner{background:var(--stage,var(--paper))}
+@media(forced-colors:active){html,*{scrollbar-color:auto;scrollbar-width:auto}}
