@@ -1,7 +1,7 @@
 {
   "id": "./index.html",
-  "name": "Acting Entrance Studio",
-  "short_name": "Acting Studio",
+  "name": "MyPrep",
+  "short_name": "MyPrep",
   "description": "FTII, NSD and Bengal acting entrance preparation tracker",
   "start_url": "./index.html",
   "scope": "./",

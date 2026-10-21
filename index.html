@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#19234b">
-  <title>Acting Entrance Studio — FTII · NSD · Bengal</title>
+  <title>MyPrep — FTII · NSD · Bengal</title>
   <meta name="description" content="Offline-first FTII, NSD and Bengal acting entrance preparation tracker.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/cinema-studio.svg?v=weekly-20261019040445-0ebc2dde" type="image/svg+xml">
@@ -21,28 +21,14 @@
   <link rel="stylesheet" href="music.css?v=20261005-inline">
   <link rel="stylesheet" href="bengali-plays.css?v=20261001">
   <link rel="stylesheet" href="admissions.css?v=20261004">
+  <link rel="stylesheet" href="myprep.css?v=20261021-layout">
 </head>
 <body data-room="today">
   <a class="skip" href="#workspace">Skip to workspace</a>
   <div class="shell">
     <aside class="sidebar" aria-label="Primary navigation">
-      <div class="brand"><span class="brand-mark"><img src="icons/cinema-studio.svg?v=weekly-20261019040445-0ebc2dde" alt="" width="48" height="48"></span><div><strong>Acting Entrance</strong><small>Studio / a life in frames</small></div></div>
-      <nav id="nav">
-        <button class="nav-item active" data-view="today" aria-current="page"><span>01</span>Today</button>
-        <button class="nav-item" data-view="daily"><span>02</span>Daily review</button>
-        <button class="nav-item" data-view="roadmap"><span>03</span>Roadmap</button>
-        <button class="nav-item" data-view="syllabus"><span>04</span>Syllabus</button>
-        <button class="nav-item" data-view="practice"><span>05</span>Practice log</button>
-        <button class="nav-item" data-view="tests"><span>06</span>Tests</button>
-        <button class="nav-item" data-view="resources"><span>07</span>Resources</button>
-        <button class="nav-item" data-view="evidence"><span>08</span>NSD evidence</button>
-        <button class="nav-item" data-view="cinema"><span>09</span>World cinema</button>
-        <button class="nav-item" data-view="bucket"><span>10</span>Movie bucket list</button>
-        <button class="nav-item" data-view="journal"><span>11</span>Film logbook</button>
-        <button class="nav-item" data-view="study"><span>12</span>Study Material</button>
-        <button class="nav-item" data-view="music"><span>13</span>YouTube Music</button>
-        <button class="nav-item" data-view="admissions"><span>14</span>Admissions spec</button>
-      </nav>
+      <div class="brand"><span class="brand-mark"><img src="icons/cinema-studio.svg?v=weekly-20261019040445-0ebc2dde" alt="" width="48" height="48"></span><div><strong>MyPrep</strong><small>FTII · NSD · Bengal</small></div></div>
+      <nav id="nav" aria-label="Studio sections"><span class="prep-nav-label">MY PREPARATION</span><button class="nav-item active" data-view="today" aria-current="page"><span>01</span>Today</button><button class="nav-item" data-view="roadmap"><span>03</span>Roadmap</button><button class="nav-item" data-view="syllabus"><span>04</span>Syllabus</button><button class="nav-item" data-view="admissions"><span>14</span>Admissions spec</button><span class="prep-nav-label">PRACTICE & PROGRESS</span><button class="nav-item" data-view="practice"><span>05</span>Practice log</button><button class="nav-item" data-view="tests"><span>06</span>Tests</button><button class="nav-item" data-view="daily"><span>02</span>Daily review</button><button class="nav-item" data-view="evidence"><span>08</span>NSD evidence</button><span class="prep-nav-label">MY LIBRARY</span><button class="nav-item" data-view="study"><span>12</span>Study Material</button><button class="nav-item" data-view="resources"><span>07</span>Resources</button><button class="nav-item" data-view="cinema"><span>09</span>World cinema</button><button class="nav-item" data-view="bucket"><span>10</span>Movie bucket list</button><button class="nav-item" data-view="journal"><span>11</span>Film logbook</button><button class="nav-item" data-view="music"><span>13</span>YouTube Music</button></nav>
       <label class="mobile-room">Choose a room<select id="mobileView" aria-label="Choose a room">
         <option value="today">01 · Today</option><option value="daily">02 · Daily review</option>
         <option value="roadmap">03 · Roadmap</option><option value="syllabus">04 · Syllabus</option>
@@ -65,13 +51,13 @@
     <main id="workspace" tabindex="-1">
       <header class="topbar">
         <div><p class="eyebrow">FTII · NSD · BENGAL</p><h1 id="viewTitle">Today’s rehearsal room</h1></div>
-        <div class="top-actions"><span id="saveState" class="save-state">Saved locally</span><button id="installApp" class="quiet install-btn" type="button" hidden>Install app</button><button id="addTaskTop" class="primary">+ Add task</button></div>
+        <div class="top-actions"><button class="quiet" id="prepSections" type="button" aria-haspopup="dialog">All sections</button><span id="saveState" class="save-state">Saved locally</span><button id="installApp" class="quiet install-btn" type="button" hidden>Install app</button><button id="addTaskTop" class="primary">+ Add task</button></div>
       </header>
 
       <section class="view active" id="view-today">
         <div class="hero-grid">
           <article class="focus-card poster-focus">
-            <p class="eyebrow">ACTING ENTRANCE STUDIO PRESENTS</p>
+            <p class="eyebrow">MYPREP PRESENTS</p>
             <p class="hero-script">Watch. Feel. Become.</p>
             <h2 id="focusTitle">A LIFE<span>IN FRAMES.</span></h2>
             <p id="focusCopy">Show up for your craft. Make room for films, feelings and moments that stay. Your practice and your pleasure belong here.</p>
@@ -370,6 +356,8 @@
   <dialog id="journalPosterDialog" aria-labelledby="journalPosterHeading"><button id="journalPosterClose" type="button" aria-label="Close poster viewer">Close ×</button><h2 id="journalPosterHeading"></h2><img id="journalFullPoster" alt="" referrerpolicy="no-referrer"><p id="journalFullPosterCredit"></p><p id="journalFullPosterStatus" role="status"></p></dialog>
   <div id="updateNotice" class="update-notice" role="status" hidden><span>A new app version is ready.</span><button id="refreshApp" class="primary" type="button">Update</button></div>
 
+<nav class="prep-dock" aria-label="Quick navigation"><button type="button" data-go="today" aria-current="page">Home</button><button type="button" data-go="syllabus">Syllabus</button><button type="button" data-go="practice">Practice</button><button type="button" data-go="journal">My films</button><button type="button" id="prepMore" aria-haspopup="dialog">More</button></nav>
+  <dialog id="prepNavigate" class="prep-nav-dialog" aria-labelledby="prepNavTitle"><div class="dialog-head"><h2 id="prepNavTitle">MyPrep / All sections</h2><button id="prepNavClose" type="button" class="quiet" aria-label="Close sections">×</button></div><div class="prep-nav-grid"><p class="prep-nav-label">MY PREPARATION</p><button type="button" class="quiet" data-go="today">Today</button><button type="button" class="quiet" data-go="roadmap">Roadmap</button><button type="button" class="quiet" data-go="syllabus">Syllabus</button><button type="button" class="quiet" data-go="admissions">Admissions spec</button><p class="prep-nav-label">PRACTICE & PROGRESS</p><button type="button" class="quiet" data-go="practice">Practice log</button><button type="button" class="quiet" data-go="tests">Tests</button><button type="button" class="quiet" data-go="daily">Daily review</button><button type="button" class="quiet" data-go="evidence">NSD evidence</button><p class="prep-nav-label">MY LIBRARY</p><button type="button" class="quiet" data-go="study">Study Material</button><button type="button" class="quiet" data-go="resources">Resources</button><button type="button" class="quiet" data-go="cinema">World cinema</button><button type="button" class="quiet" data-go="bucket">Movie bucket list</button><button type="button" class="quiet" data-go="journal">Film logbook</button><button type="button" class="quiet" data-go="music">YouTube Music</button></div><div class="prep-backup-actions"><button type="button" id="prepAccount" class="quiet">Account &amp; sync</button><button type="button" id="prepExport" class="quiet">Export backup</button><label class="quiet file-label" tabindex="0" role="button" id="prepImportLabel">Import backup<input id="prepImport" type="file" accept="application/json" aria-label="Import MyPrep backup"></label></div></dialog>
   <script src="seed-data.js?v=20260927"></script>
   <script src="cinema-data.js?v=20260927"></script>
   <script src="bucket-data.js?v=20260927-van-gogh"></script>
@@ -396,6 +384,7 @@
   <script src="music-account.js?v=20261004-moods"></script>
   <script src="study-material-ui.js?v=20261004-free-pdfs"></script>
   <script src="journal-ui.js?v=20260927-sort-fix"></script>
+  <script src="myprep.js?v=20261021-layout"></script>
   <script src="pwa.js"></script>
   <script>
     if (location.protocol === "https:" || ["localhost", "127.0.0.1"].includes(location.hostname)) {
