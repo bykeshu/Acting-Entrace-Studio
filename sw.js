@@ -1,9 +1,9 @@
-const CACHE_NAME = "acting-entrance-studio-shell-weekly-20261021041843-650a84b5";
+const CACHE_NAME = "acting-entrance-studio-shell-weekly-20261021041843-650a84b5-readability-20261021";
 const PDF_CACHE = "acting-entrance-studio-library-pdf-v1";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./myprep.css?v=20261021-layout",
+  "./myprep.css?v=20261021-readability",
   "./myprep.js?v=20261021-layout",
   "./styles.css?v=20261004-audit",
   "./library.css?v=20260928-library",

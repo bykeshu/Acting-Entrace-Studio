@@ -1,5 +1,8 @@
-/* Layout only. All palette, typography, artwork and weekly Pinterest composition
-   remain owned by the existing theme system. */
+/* Layout and readability. Palette, typography, artwork and weekly Pinterest
+   composition remain owned by the existing theme system. */
+/* Pulse cards must use one theme surface/text pair, including in dark editions. */
+.pulse-grid .pulse{background:var(--panel);color:var(--ink);border-color:var(--line)}
+.pulse-grid .pulse strong,.pulse-grid .pulse small{color:inherit}
 .prep-nav-label{display:block;font:600 9px/1.6 var(--body);letter-spacing:1.5px;padding:18px 10px 7px;margin:0;color:inherit;opacity:.8}
 .prep-nav-label:first-child{padding-top:0}
 .prep-dock{display:none}

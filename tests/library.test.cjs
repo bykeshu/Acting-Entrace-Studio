@@ -31,7 +31,7 @@ test('Action precedence preserves PDF, Archive borrowing/preview, rights-unverif
 test('Library shell is offline, separately navigable and has no progress/storage writes',()=>{
  const html=source('index.html'),sw=source('sw.js'),ui=source('study-material-ui.js');
  for(const f of ['library-core.js','library.css','study-material-data.js','study-material-ui.js']){const v=f==='library.css'?'20260928-library':'20261004-free-pdfs';assert.ok(html.includes(f+'?v='+v));assert.ok(sw.includes('./'+f+'?v='+v));}
- assert.match(html,/data-view="study"/);assert.match(html,/value="study">12 · Study Material/);assert.match(html,/data-view="resources"/);
+ assert.match(html,/data-view="study"/);assert.match(html,/value="study">09 · Study Material/);assert.match(html,/data-view="resources"/);
  assert.ok(!/localStorage|store\.put|completedTopics|\.mark\(|fetch\(/.test(ui));assert.ok(html.indexOf('src="library-core.js')<html.indexOf('src="app.js'));
 });
 test('Bengali scans preserve volume uncertainty, external-only access, source rights caveats and retail-only Volume 4',()=>{
