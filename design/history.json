@@ -468,5 +468,37 @@
     "designAuthor": "chatgpt-cloud",
     "originalComposition": true,
     "compositionSha256": "40f5b93f8af0594e3c198a1883b3fe2e392466f0d579c0c08b8082bc5c8c7f4d"
+  },
+  {
+    "revision": "weekly-20261026035037-765acdd4",
+    "createdAt": "2026-10-26T03:50:37.158Z",
+    "runner": "github-actions",
+    "presetId": "blue-note",
+    "name": "Blue Note / cut-paper cinema",
+    "pinUrl": "https://in.pinterest.com/pin/649292471323038604/",
+    "boardUrl": "https://in.pinterest.com/maddyman296/graphic-design/",
+    "sourceObservedOn": "2026-09-27",
+    "eligiblePoolSize": 1,
+    "mode": "fresh-ai",
+    "rationale": "Original Indigo Screening Room interpretation of the Blue Note saved pin's indigo paper, warm starburst and pasted hierarchy in the verified 2026-09-27 snapshot. Pinterest was inaccessible on 2026-10-26, so no new observation is claimed. Midnight blue surfaces and warm gold details frame compact ticket navigation, a split hero with a vertical metric rail, numbered horizontal roadmap chapters, paired resource cards, three-column film shelves and an upright serif-accented logbook. Existing licensed fonts and original CSS/SVG only; palette-driven scrollbars and private film-poster palettes are preserved. No reference artwork or logos copied.",
+    "tokens": {
+      "stage": "#0d1422",
+      "accent": "#f9e7ae",
+      "paper": "#151c2a",
+      "panel": "#202a3c",
+      "ink": "#f4f0e7",
+      "line": "#63728b",
+      "mark": "#edc47e",
+      "soft": "#303e55",
+      "display": "archivo",
+      "layout": "collage"
+    },
+    "compositionVersion": 2,
+    "iconMotif": "collage",
+    "paidApiUsed": false,
+    "proposalId": "indigo-screening-room-20261026-b94e27a1",
+    "designAuthor": "chatgpt-cloud",
+    "originalComposition": true,
+    "compositionSha256": "8422822755058942ac9be8fbceee3cf8fc250ffda9cd0f22c69c185aa324a9bb"
   }
 ]
