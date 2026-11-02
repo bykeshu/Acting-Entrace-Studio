@@ -560,5 +560,33 @@
     "designAuthor": "chatgpt-cloud",
     "originalComposition": true,
     "compositionSha256": "6498569352210bf8e1a411f58ff6b7e0a231b5cb73d50d24c7c5136ea0bab592"
+  },
+  {
+    "revision": "weekly-20261102113324-ed1d70b2",
+    "createdAt": "2026-11-02T11:33:24.315Z",
+    "runner": "github-actions",
+    "presetId": "red-pencil",
+    "name": "Red Pencil / annotated frames",
+    "pinUrl": "https://in.pinterest.com/pin/649292471323038596/",
+    "boardUrl": "https://in.pinterest.com/maddyman296/graphic-design/",
+    "sourceObservedOn": "2026-09-27",
+    "eligiblePoolSize": 1,
+    "mode": "rotation",
+    "rationale": "Monochrome portrait collage with cobalt headlines and red handwritten annotations.",
+    "tokens": {
+      "stage": "#1a2044",
+      "accent": "#f6eedb",
+      "paper": "#f5f1e8",
+      "panel": "#fffdf7",
+      "ink": "#172447",
+      "line": "#c6c8cd",
+      "mark": "#ad2925",
+      "soft": "#e7e9f2",
+      "display": "archivo",
+      "layout": "editorial"
+    },
+    "compositionVersion": 2,
+    "iconMotif": "editorial",
+    "paidApiUsed": false
   }
 ]
