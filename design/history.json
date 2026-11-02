@@ -528,5 +528,37 @@
     "compositionVersion": 2,
     "iconMotif": "ribbon",
     "paidApiUsed": false
+  },
+  {
+    "revision": "weekly-20261102034744-760fa46e",
+    "createdAt": "2026-11-02T03:47:44.690Z",
+    "runner": "github-actions",
+    "presetId": "ink-room",
+    "name": "Ink Room / type specimen",
+    "pinUrl": "https://in.pinterest.com/pin/649292471323038586/",
+    "boardUrl": "https://in.pinterest.com/maddyman296/graphic-design/",
+    "sourceObservedOn": "2026-09-27",
+    "eligiblePoolSize": 1,
+    "mode": "fresh-ai",
+    "rationale": "Original Silver Screen cinema composition inspired by the Ink Room saved pin's warm typography and dark specimen hierarchy in the verified 2026-09-27 snapshot. Pinterest was inaccessible on 2026-11-02; no new observation is claimed. Charcoal stages, ivory type and pale-blue frame rules organize compact ticket navigation, a full-width hero, horizontal metric slips, paired roadmap chapters and resource spreads, framed film shelves and a serif-led logbook. Original responsive CSS with existing licensed fonts/SVG only; themed scrollbars, private poster palettes and enjoyment-first films are preserved. No copied artwork or logos.",
+    "tokens": {
+      "stage": "#11161b",
+      "accent": "#f4e0bb",
+      "paper": "#1b2228",
+      "panel": "#252e35",
+      "ink": "#f2eee2",
+      "line": "#6d7e87",
+      "mark": "#b9d4db",
+      "soft": "#34414b",
+      "display": "archivo",
+      "layout": "specimen"
+    },
+    "compositionVersion": 2,
+    "iconMotif": "specimen",
+    "paidApiUsed": false,
+    "proposalId": "silver-screen-cinema-20261102-d72a6f31",
+    "designAuthor": "chatgpt-cloud",
+    "originalComposition": true,
+    "compositionSha256": "6498569352210bf8e1a411f58ff6b7e0a231b5cb73d50d24c7c5136ea0bab592"
   }
 ]
