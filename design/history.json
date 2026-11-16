@@ -648,5 +648,33 @@
     "compositionVersion": 2,
     "iconMotif": "collage",
     "paidApiUsed": false
+  },
+  {
+    "revision": "weekly-20261116115400-ed1d70b2",
+    "createdAt": "2026-11-16T11:54:00.403Z",
+    "runner": "github-actions",
+    "presetId": "red-pencil",
+    "name": "Red Pencil / annotated frames",
+    "pinUrl": "https://in.pinterest.com/pin/649292471323038596/",
+    "boardUrl": "https://in.pinterest.com/maddyman296/graphic-design/",
+    "sourceObservedOn": "2026-09-27",
+    "eligiblePoolSize": 2,
+    "mode": "rotation",
+    "rationale": "Monochrome portrait collage with cobalt headlines and red handwritten annotations.",
+    "tokens": {
+      "stage": "#1a2044",
+      "accent": "#f6eedb",
+      "paper": "#f5f1e8",
+      "panel": "#fffdf7",
+      "ink": "#172447",
+      "line": "#c6c8cd",
+      "mark": "#ad2925",
+      "soft": "#e7e9f2",
+      "display": "archivo",
+      "layout": "editorial"
+    },
+    "compositionVersion": 2,
+    "iconMotif": "editorial",
+    "paidApiUsed": false
   }
 ]
